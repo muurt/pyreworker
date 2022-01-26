@@ -1,0 +1,22 @@
+{
+  "name": "worker",
+  "version": "0.0.1",
+  "description": "The PYREWORKS worker bot.",
+  "main": "./out/index.js",
+  "scripts": {
+    "prebuild": "rm -rf ./out",
+    "build": "tsc",
+    "start": "node -r dotenv/config ./out/index.js"
+  },
+  "author": "PYREWORKS | Murt Awh",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^14.3.2",
+    "mongoose": "^6.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.12",
+    "typescript": "^4.5.5"
+  }
+}
