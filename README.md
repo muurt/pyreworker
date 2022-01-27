@@ -12,7 +12,9 @@ However a public version of this bot will be modified for commissioned projects 
 # LINKS
 
 Our official [Discord](https://discord.gg/RuzEMyjRuR)
+
 Music Bot  - [PyreMusic](https://github.com/bigblackfootman/pyremusic)
+
 Ticket Bot - [PyreTickets](https://github.com/bigblackfootman/pyretickets)
 
 **© Pyreworks**
