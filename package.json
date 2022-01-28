@@ -1,5 +1,6 @@
 {
   "name": "worker",
+  "private": true,
   "version": "0.0.1",
   "description": "The PYREWORKS worker bot.",
   "main": "./out/index.js",
