@@ -2,13 +2,27 @@ import { errorHandler } from "../utils/errorHandler";
 import { logHandler } from "../utils/logHandler";
 import { REST } from "@discordjs/rest";
 import { APIApplicationCommandOption, Routes } from "discord-api-types/v9";
-import { CommandList } from "../commands/_CommandList";
+import { commandList } from "../commands/_commandList";
 import { Client } from "discord.js";
+
+/*
+ * ➞ OnReady.ts
+ * The file for handling when the bot is ready & online
+ */
+
+/*
+ * ➞ onReady
+ * ➞ botInstance | The client instance to handle
+ * ➞ Return type | Promises void
+ * Creates a REST client and deploys the slash command data as JSON
+ * towards the Discord API as a guild command not a global one
+ * After that logs the info that the connection is established
+ */
 
 export const onReady = async (botInstance: Client): Promise<void> => {
   try {
-    const rest = new REST({ version: "9" }).setToken(
-      process.env.BOT_TOKEN as string
+    const restClient = new REST({ version: "9" }).setToken(
+      process.env.botToken as string
     );
 
     const commandData: {
@@ -18,7 +32,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       options?: APIApplicationCommandOption[];
     }[] = [];
 
-    CommandList.forEach((command) =>
+    commandList.forEach((command) =>
       commandData.push(
         command.data.toJSON() as {
           name: string;
@@ -28,14 +42,14 @@ export const onReady = async (botInstance: Client): Promise<void> => {
         }
       )
     );
-    await rest.put(
+    await restClient.put(
       Routes.applicationGuildCommands(
         botInstance.user?.id || "Missing token",
-        process.env.GUILD_ID as string
+        process.env.guildId as string
       ),
       { body: commandData }
     );
-    logHandler.log("info", "Bot has connected to Discord!");
+    logHandler.log("info", "Connection with Discord established!");
   } catch (err) {
     errorHandler("onReady event", err);
   }

@@ -1,9 +1,24 @@
 import { errorHandler } from "../utils/errorHandler";
-import { client } from "../database/database";
+import { prismaClient } from "../database/database";
+import { Prisma } from "@prisma/client";
 
-export const getBioData = async (id: string) => {
+/*
+ * ➞ GetBioData.ts
+ * Exports a function that searchs for a specfic entry in the database
+ */
+
+/*
+ * ➞ getBioData
+ * ➞ id | The id of the user to search for
+ * ➞ Return type | Prisma Bio Instace or undefined
+ * Tries to find a bio entry in the database by id and returns that
+ */
+
+export const getBioData = async (
+  id: string
+): Promise<Prisma.BioWhereInput | undefined> => {
   try {
-    const targetBioData = await client.bio.findUnique({
+    const targetBioData = await prismaClient.bio.findUnique({
       where: {
         discordId: id,
       },

@@ -1,52 +1,63 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { CommandInt } from "../interfaces/CommandInt";
+import { commandInt } from "../interfaces/commandInt";
 import { errorHandler } from "../utils/errorHandler";
 import { getBioData } from "../modules/getBioData";
 import { updateBioData } from "../modules/updateBioData";
 import { colors } from "../config/colors";
 
-export const editbio: CommandInt = {
+/*
+ * ➞ Editbio
+ * ➞ bio | The new bio to put on the database entry
+ * ➞ Permissions | NONE
+ * Edit your bio with a new one, requires you to have a database entry
+ ? Should there be a filter that restricts adverts and cuss words
+ */
+
+export const editbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("editbio")
     .setDescription("Edit your bio.")
     .addStringOption((option) =>
       option.setName("bio").setDescription("The new bio.").setRequired(true)
     ) as SlashCommandBuilder,
+  name: "editbio",
+  description: "Edit your bio.",
+  usage: "/editbio <bio>",
   run: async (interaction) => {
     try {
       await interaction.deferReply();
       const { user } = interaction;
-      const text = interaction.options.getString("bio");
+      const bioOption = interaction.options.getString("bio");
 
-      if (!text) {
-        const noArg = new MessageEmbed()
+      if (!bioOption) {
+        const noArgumentsEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.BLACK)
+          .setColor(colors.black)
           .setDescription("The bio arugment is required.")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [noArg],
+          embeds: [noArgumentsEmbed],
         });
         return;
       }
 
-      await getBioData(user.id).then(async (targetBioData) => {
-        if (!targetBioData) {
-          const notExists /*fuck english*/ = new MessageEmbed()
+      await getBioData(user.id).then(async (targetData) => {
+        if (!targetData) {
+          const doesntExistEmbed = new MessageEmbed()
             .setTitle("ERROR!")
             .setAuthor({
               name: `${user.username}#${user.discriminator}`,
               iconURL: user.displayAvatarURL(),
             })
-            .setColor(colors.BLACK)
+            .setColor(colors.black)
             .setDescription(
               "You don't have a database entry, please create yours using `/bio`."
             )
@@ -55,20 +66,20 @@ export const editbio: CommandInt = {
               iconURL: interaction.client.user?.displayAvatarURL(),
             });
           await interaction.editReply({
-            embeds: [notExists],
+            embeds: [doesntExistEmbed],
           });
           return;
         }
-        updateBioData(user.id, text);
+        updateBioData(user.id, bioOption);
       });
 
-      const success = new MessageEmbed()
+      const successEmbed = new MessageEmbed()
         .setTitle("SUCCESS!")
         .setAuthor({
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.ORANGE)
+        .setColor(colors.orange)
         .setDescription("You've successfully updated your bio.")
         .setFooter({
           text: "© Pyreworks",
@@ -76,7 +87,7 @@ export const editbio: CommandInt = {
         });
 
       await interaction.editReply({
-        embeds: [success],
+        embeds: [successEmbed],
       });
     } catch (err) {
       errorHandler("editbio command", err);

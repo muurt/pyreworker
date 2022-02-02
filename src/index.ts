@@ -1,16 +1,23 @@
-import * as Sentry from "@sentry/node";
+import * as sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
 import { validateEnv } from "./utils/validateEnv";
 import { Client } from "discord.js";
-import { connect } from "./database/database";
+import { connectDatabase } from "./database/database";
 import { onReady } from "./events/onReady";
 import { onInteraction } from "./events/onInteraction";
-import { IntentOptions } from "./config/IntentOptions";
+import { intentOptions } from "./config/intentOptions";
+
+/*
+ * ➞ Index.ts
+ * The main entry point of the bot
+ * This connects to sentry, validates the env variables
+ * connects the bot to discord and handles events
+ */
 
 (async () => {
   validateEnv();
 
-  Sentry.init({
+  sentry.init({
     dsn: process.env.SENTRY_DSN,
     tracesSampleRate: 1.0,
     integrations: [
@@ -20,16 +27,16 @@ import { IntentOptions } from "./config/IntentOptions";
     ],
   });
 
-  const WORKER = new Client({ intents: IntentOptions });
+  const client = new Client({ intents: intentOptions });
 
-  WORKER.on("ready", async () => await onReady(WORKER));
+  client.on("ready", async () => await onReady(client));
 
-  WORKER.on(
+  client.on(
     "interactionCreate",
     async (interaction) => await onInteraction(interaction)
   );
 
-  await connect();
+  await connectDatabase();
 
-  await WORKER.login(process.env.BOT_TOKEN as string);
+  await client.login(process.env.botToken as string);
 })();

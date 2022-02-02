@@ -1,6 +1,13 @@
 import { IntentsString } from "discord.js";
 
-export const IntentOptions: IntentsString[] = [
+/*
+ * ➞ IntentOptions.ts
+ * Exports an "IntentsString" object which is a list of intents
+ * that are defined in the Client object
+ ! This is all the possible intents
+ */
+
+export const intentOptions: IntentsString[] = [
   "GUILDS",
   "GUILD_MEMBERS",
   "GUILD_BANS",

@@ -1,3 +1,7 @@
+// ➞ Schema.prisma
+// The schema for the database
+// This is also the prisma configuration
+
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["mongoDb"]
@@ -5,11 +9,17 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("MONGO_URI")
+  url      = env("mongoUri")
 }
 
+/// Used for saving info about bio's / user descriptions
+/// This is mostly likely getting removed after alpha
 model Bio {
+  /// MongoDB ID config
   id           String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  /// Discord ID of the user, must be unique 
+  /// as it's used to identify which user this bio belongs to
   discordId    String  @unique
+  /// The bio/description of the user
   description  String
 }

@@ -1,9 +1,26 @@
 import { errorHandler } from "../utils/errorHandler";
-import { client } from "../database/database";
+import { prismaClient } from "../database/database";
+import { Prisma } from "@prisma/client";
 
-export const createBioData = async (id: string, description: string) => {
+/*
+ * ➞ CreateBioData.ts
+ * Exports a function that creates a bio entry in the database
+ */
+
+/*
+ * ➞ createBioData
+ * ➞ id | The id of the user
+ * ➞ description | The description/bio to add to the entry
+ * ➞ Return type | Prisma Bio Instace or undefined
+ * Tries to create a bio entry in the database and returns that
+ */
+
+export const createBioData = async (
+  id: string,
+  description: string
+): Promise<Prisma.BioCreateInput | undefined> => {
   try {
-    const newBioData = await client.bio.create({
+    const newBioData = await prismaClient.bio.create({
       data: {
         discordId: id,
         description: description,
@@ -12,7 +29,7 @@ export const createBioData = async (id: string, description: string) => {
 
     return newBioData;
   } catch (error) {
-    errorHandler("getBioData module", error);
-    return false;
+    errorHandler("createBioData module", error);
+    return;
   }
 };

@@ -1,6 +1,12 @@
+/*
+ * ➞ Colors.ts
+ * Exports a constant value of colors
+ * Mainly used in MessageEmbed objects
+ */
+
 export enum colors {
-  GRAY = "#444444",
-  BLACK = "#171717",
-  WHITE = "#EDEDED",
-  ORANGE = "#FF4C29",
+  gray = "#444444",
+  black = "#171717",
+  white = "#EDEDED",
+  orange = "#FF4C29",
 }

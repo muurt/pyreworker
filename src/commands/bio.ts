@@ -1,12 +1,21 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { CommandInt } from "../interfaces/CommandInt";
+import { commandInt } from "../interfaces/commandInt";
 import { getBioData } from "../modules/getBioData";
 import { createBioData } from "../modules/createBioData";
 import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
 
-export const bio: CommandInt = {
+/*
+ * ➞ Bio
+ * ➞ bio | The bio to have put on the database entry
+ * ➞ Permissions | NONE
+ * Creates a database entry with the bio you want to have
+ * The user MUST not have a database entry
+ ? Should there be a filter that restricts adverts and cuss words
+ */
+
+export const bio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("bio")
     .setDescription("Create your bio.")
@@ -16,40 +25,43 @@ export const bio: CommandInt = {
         .setDescription("The bio you want to have.")
         .setRequired(true)
     ) as SlashCommandBuilder,
+  name: "bio",
+  description: "Create your bio.",
+  usage: "/bio <bio>",
   run: async (interaction) => {
     try {
       await interaction.deferReply();
       const { user } = interaction;
-      const text = interaction.options.getString("bio");
+      const bioOption = interaction.options.getString("bio");
 
-      if (!text) {
-        const noArg = new MessageEmbed()
+      if (!bioOption) {
+        const noArgumentsEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.BLACK)
+          .setColor(colors.black)
           .setDescription("The message arugment is required.")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [noArg],
+          embeds: [noArgumentsEmbed],
         });
         return;
       }
-      const targetBio = await getBioData(user.id);
+      const targetData = await getBioData(user.id);
 
-      if (targetBio) {
-        const alrExists = new MessageEmbed()
+      if (targetData) {
+        const existsEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.BLACK)
+          .setColor(colors.black)
           .setDescription(
             "You already have a database entry, please update yours using `/editbio`."
           )
@@ -58,21 +70,21 @@ export const bio: CommandInt = {
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [alrExists],
+          embeds: [existsEmbed],
         });
         return;
       }
 
-      const newBioData = await createBioData(user.id, text);
+      const newBioData = await createBioData(user.id, bioOption);
 
       if (!newBioData) {
-        const error = new MessageEmbed()
+        const cannotCreateEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.BLACK)
+          .setColor(colors.black)
           .setDescription(
             "There is an error with the database entry creation. Please try again later."
           )
@@ -81,18 +93,18 @@ export const bio: CommandInt = {
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [error],
+          embeds: [cannotCreateEmbed],
         });
         return;
       }
 
-      const success = new MessageEmbed()
+      const successEmbed = new MessageEmbed()
         .setTitle("SUCCESS!")
         .setAuthor({
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.ORANGE)
+        .setColor(colors.orange)
         .setDescription("You've successfully created your bio.")
         .addField("Bio", newBioData.description)
         .setFooter({
@@ -101,7 +113,7 @@ export const bio: CommandInt = {
         });
 
       await interaction.editReply({
-        embeds: [success],
+        embeds: [successEmbed],
       });
     } catch (err) {
       errorHandler("bio command", err);

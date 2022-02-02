@@ -1,6 +1,11 @@
 import { createLogger, format, transports, config } from "winston";
 const { combine, timestamp, colorize, printf } = format;
 
+/*
+ * ➞ LogHandler.ts
+ * A better console.log, used for logging functions
+ */
+
 export const logHandler = createLogger({
   levels: config.npm.levels,
   level: "silly",
