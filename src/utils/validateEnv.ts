@@ -1,9 +1,8 @@
 import { logHandler } from "./logHandler";
 
 /*
- * ➞ ErrorHandler.ts
- * Handles the errors and prevents them from stopping the bot
- * Also pushes them towards sentry
+ * ➞ ValidateEnv.ts
+ * Checks on the ENV variables
  */
 
 /*
@@ -21,11 +20,6 @@ export const validateEnv = (): void => {
 
   if (!process.env.mongoUri) {
     logHandler.log("warn", "Missing environment variable | mongoUri");
-    process.exit(1);
-  }
-
-  if (!process.env.sentryDsn) {
-    logHandler.log("warn", "Missing environment variable | sentryDsn");
     process.exit(1);
   }
 };

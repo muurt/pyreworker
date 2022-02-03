@@ -10,8 +10,7 @@ This bot uses **MongoDB** and **Prisma** for the database functions.
 **Prettier** and **ESLint** for linting functions.  
 **Typescript** and **Node.js** for running functions.  
 **Discord.js** for interacting with the Discord API.  
-**Sentry** for error logging.  
-**Winston** for console logging.  
+**Winston** for console logging.
 
 # Running
 

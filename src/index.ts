@@ -1,5 +1,3 @@
-import * as sentry from "@sentry/node";
-import { RewriteFrames } from "@sentry/integrations";
 import { validateEnv } from "./utils/validateEnv";
 import { Client } from "discord.js";
 import { connectDatabase } from "./database/database";
@@ -10,22 +8,12 @@ import { intentOptions } from "./config/intentOptions";
 /*
  * ➞ Index.ts
  * The main entry point of the bot
- * This connects to sentry, validates the env variables
+ * This validates the env variables
  * connects the bot to discord and handles events
  */
 
 (async () => {
   validateEnv();
-
-  sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    tracesSampleRate: 1.0,
-    integrations: [
-      new RewriteFrames({
-        root: global.__dirname,
-      }),
-    ],
-  });
 
   const client = new Client({ intents: intentOptions });
 
