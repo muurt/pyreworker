@@ -6,12 +6,12 @@ This version is private, however; code snippets will be modified to be used in f
 
 # Dependencies
 
-This bot uses **MongoDB** and **Prisma** for the database functions.
-**Prettier** and **ESLint** for linting functions.
-**Typescript** and **Node.js** for running functions.
-**Discord.js** for interacting with the Discord API.
-**Sentry** for error logging.
-**Winston** for console logging.
+This bot uses **MongoDB** and **Prisma** for the database functions.  
+**Prettier** and **ESLint** for linting functions.  
+**Typescript** and **Node.js** for running functions.  
+**Discord.js** for interacting with the Discord API.  
+**Sentry** for error logging.  
+**Winston** for console logging.  
 
 # Running
 
@@ -43,10 +43,10 @@ To get a better view of comments, please use "**[Better Comments](https://market
 
 # Links
 
-Our official [Discord](https://discord.gg/RuzEMyjRuR)
+Our official ➞ [Discord](https://discord.gg/RuzEMyjRuR)
 
-Music Bot - [PyreMusic](https://github.com/bigblackfootman/pyremusic)
+Music Bot ➞ [PyreMusic](https://github.com/bigblackfootman/pyremusic)
 
-Ticket Bot - [PyreTickets](https://github.com/bigblackfootman/pyretickets)
+Ticket Bot ➞ [PyreTickets](https://github.com/bigblackfootman/pyretickets)
 
 **Pyreworks**
