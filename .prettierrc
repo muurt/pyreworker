@@ -1,5 +1,5 @@
 {
-  "endOfLine": "lf",
+  "endOfLine": "crlf",
   "useTabs": false,
   "singleQuote": false
 }

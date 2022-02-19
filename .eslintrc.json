@@ -15,7 +15,12 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "linebreak-style": ["error", "unix"],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "quotes": ["error", "double", { "allowTemplateLiterals": true }],
     "semi": ["error", "always"],
     "prefer-const": "error",
