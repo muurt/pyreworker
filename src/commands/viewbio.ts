@@ -5,15 +5,6 @@ import { getBioData } from "../modules/getBioData";
 import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
 
-/*
- * ➞ Viewbio
- * ➞ id | OPTIONAL - The user to show the bio of
- * ➞ Permissions | NONE
- * If an option was provided, view the respective user bio
- * If not, show the command executer bio
- ? Should there be a filter that restricts adverts and cuss words
- */
-
 export const viewbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("viewbio")

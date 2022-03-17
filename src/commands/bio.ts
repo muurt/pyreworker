@@ -6,15 +6,6 @@ import { createBioData } from "../modules/createBioData";
 import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
 
-/*
- * ➞ Bio
- * ➞ bio | The bio to have put on the database entry
- * ➞ Permissions | NONE
- * Creates a database entry with the bio you want to have
- * The user MUST not have a database entry
- ? Should there be a filter that restricts adverts and cuss words
- */
-
 export const bio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("bio")

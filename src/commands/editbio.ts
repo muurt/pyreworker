@@ -6,14 +6,6 @@ import { getBioData } from "../modules/getBioData";
 import { updateBioData } from "../modules/updateBioData";
 import { colors } from "../config/colors";
 
-/*
- * ➞ Editbio
- * ➞ bio | The new bio to put on the database entry
- * ➞ Permissions | NONE
- * Edit your bio with a new one, requires you to have a database entry
- ? Should there be a filter that restricts adverts and cuss words
- */
-
 export const editbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("editbio")

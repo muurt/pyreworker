@@ -2,19 +2,6 @@ import { errorHandler } from "../utils/errorHandler";
 import { prismaClient } from "../database/database";
 import { Prisma } from "@prisma/client";
 
-/*
- * ➞ UpdateBioData.ts
- * Exports a function that updates a bio entry in the database
- */
-
-/*
- * ➞ createBioData
- * ➞ id | The id of the user to update
- * ➞ newDescription | The description/bio to add to the entry
- * ➞ Return type | Prisma Bio Instace or undefined
- * Tries to update a bio entry in the database
- */
-
 export const updateBioData = async (
   id: string,
   newDescription: string

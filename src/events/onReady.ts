@@ -4,21 +4,6 @@ import { REST } from "@discordjs/rest";
 import { APIApplicationCommandOption, Routes } from "discord-api-types/v9";
 import { commandList } from "../commands/_commandList";
 import { Client } from "discord.js";
-
-/*
- * ➞ OnReady.ts
- * The file for handling when the bot is ready & online
- */
-
-/*
- * ➞ onReady
- * ➞ botInstance | The client instance to handle
- * ➞ Return type | Promises void
- * Creates a REST client and deploys the slash command data as JSON
- * towards the Discord API as a guild command not a global one
- * After that logs the info that the connection is established
- */
-
 export const onReady = async (botInstance: Client): Promise<void> => {
   try {
     const restClient = new REST({ version: "9" }).setToken(

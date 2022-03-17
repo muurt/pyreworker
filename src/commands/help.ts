@@ -5,15 +5,6 @@ import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
 import { commandList } from "./_commandList";
 
-/*
- * ➞ Help
- * ➞ command | OPTIONAL - The command to get info about
- * ➞ Permissions | NONE
- * If the option is given, provide info about
- * a command such as { usage, permissions, description, name }
- * If not, provide the universal help menu
- */
-
 export const help: commandInt = {
   data: new SlashCommandBuilder()
     .setName("help")

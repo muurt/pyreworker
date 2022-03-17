@@ -2,19 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { errorHandler } from "../utils/errorHandler";
 import { logHandler } from "../utils/logHandler";
 
-/*
- * ➞ Database.ts
- * Exoirts a function that tries to connect with the MongoDB Atlas
- * Exports the connected client as "prismaClient"
- */
-
 const $prismaClient = new PrismaClient();
-
-/*
- * ➞ connectDatabase
- * ➞ Return type | Promises void
- * Tries to connect to the database and logs the info
- */
 
 export const connectDatabase = async (): Promise<void> => {
   try {

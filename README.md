@@ -24,9 +24,13 @@ npm install --save-dev
 # Updating the packages
 npm update
 npm update --save-dev
+# Generating Prisma files
+npx prisma generate # IMPORTANT: Make sure to have (Microsoft Visual C++ 2015 Redistributable) for this to work
 # Linting the project (checks for linting issues)
 npm run lint
 # Building the project (changes TS to JS)
+# IMPORTANT: Before running the build command make sure to run
+mkdir out # This is so the windows commands work correctly
 npm run build
 # Starts the bot
 npm run start
