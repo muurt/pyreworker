@@ -14,6 +14,12 @@ This bot uses **MongoDB** and **Prisma** for the database functions.
 
 # Running
 
+NOTE: If you're on windows, change the "prebuild" script in package.json to
+
+```
+    "prebuild": "rmdir /s /q out",
+```
+
 To run this you need to rename "**sample.env**" to "**.env**" and add the corresponding tokens.
 You need to have Node.js installed, and then you need to run in order;
 

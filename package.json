@@ -5,7 +5,7 @@
   "description": "The PYREWORKS worker bot.",
   "main": "./out/index.js",
   "scripts": {
-    "prebuild": "rmdir /s /q out",
+    "prebuild": "rm -rf ./out",
     "build": "tsc",
     "lint": "eslint ./src",
     "start": "node -r dotenv/config ./out/index.js"
