@@ -5,6 +5,7 @@ import { errorHandler } from "../utils/errorHandler";
 import { getBioData } from "../modules/getBioData";
 import { updateBioData } from "../modules/updateBioData";
 import { colors } from "../config/colors";
+import { feedback } from "../utils/prespectiveFeedback";
 
 export const editbio: commandInt = {
   data: new SlashCommandBuilder()
@@ -37,6 +38,14 @@ export const editbio: commandInt = {
           });
         await interaction.editReply({
           embeds: [noArgumentsEmbed],
+        });
+        return;
+      }
+
+      const feedbackEmbed = await feedback(interaction, bioOption.toString());
+      if (feedbackEmbed) {
+        await interaction.editReply({
+          embeds: [feedbackEmbed],
         });
         return;
       }

@@ -5,6 +5,7 @@ import { getBioData } from "../modules/getBioData";
 import { createBioData } from "../modules/createBioData";
 import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
+import { feedback } from "../utils/prespectiveFeedback";
 
 export const bio: commandInt = {
   data: new SlashCommandBuilder()
@@ -43,6 +44,15 @@ export const bio: commandInt = {
         });
         return;
       }
+
+      const feedbackEmbed = await feedback(interaction, bioOption.toString());
+      if (feedbackEmbed) {
+        await interaction.editReply({
+          embeds: [feedbackEmbed],
+        });
+        return;
+      }
+
       const targetData = await getBioData(user.id);
 
       if (targetData) {
