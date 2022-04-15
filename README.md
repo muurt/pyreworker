@@ -1,6 +1,6 @@
 # PYREWORKER
 
-The main bot for "**PYREWORKS**", this will include commission handling, moderation, misc, etc..
+The main bot for "**PYREWORKS**", this will include commission handling and moderation for the bot cluster.
 
 This version is private, however; code snippets will be modified to be used in future commissions, this is only allowed for "**PYREWORKS**" employees.
 
