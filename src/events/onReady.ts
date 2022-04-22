@@ -34,6 +34,13 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       ),
       { body: commandData }
     );
+
+    botInstance.user?.setStatus("dnd");
+    botInstance.user?.setActivity(
+      `Alpha stage 3 | ${process.env.npm_package_version}`,
+      { type: "COMPETING" }
+    );
+
     logHandler.log("info", "Connection with Discord established!");
   } catch (err) {
     errorHandler("onReady event", err);

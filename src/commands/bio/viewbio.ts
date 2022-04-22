@@ -1,18 +1,18 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { commandInt } from "../interfaces/commandInt";
-import { getBioData } from "../modules/getBioData";
-import { errorHandler } from "../utils/errorHandler";
-import { colors } from "../config/colors";
+import { commandInt } from "../../interfaces/commandInt";
+import { getBioData } from "../../modules/getBioData";
+import { errorHandler } from "../../utils/errorHandler";
+import { colors } from "../../config/colors";
 
 export const viewbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("viewbio")
     .setDescription("Shows your bio.")
-    .addStringOption((option) =>
+    .addUserOption((option) =>
       option
-        .setName("id")
-        .setDescription("The id of the user you want to view their bio.")
+        .setName("user")
+        .setDescription("The user you want to view their bio.")
         .setRequired(false)
     ) as SlashCommandBuilder,
   name: "viewbio",
@@ -22,10 +22,10 @@ export const viewbio: commandInt = {
     try {
       await interaction.deferReply();
       const { user } = interaction;
-      const idOption = interaction.options.getString("id");
+      const userOption = interaction.options.getUser("user");
       let targetData;
-      if (idOption) {
-        targetData = await getBioData(idOption);
+      if (userOption) {
+        targetData = await getBioData(userOption.id);
       } else {
         targetData = await getBioData(user.id);
       }
@@ -39,7 +39,7 @@ export const viewbio: commandInt = {
           })
           .setColor(colors.black)
           .setDescription(
-            "There was an error with the database lookup (most likely the user doesn't exist). Please try again later."
+            "There was an error with the database lookup (most likely the user doesn't have a database entry)."
           )
           .setFooter({
             text: "© Pyreworks",
@@ -58,7 +58,12 @@ export const viewbio: commandInt = {
         })
         .setColor(colors.orange)
         .setTitle("SUCCESS")
-        .setDescription(`${targetData.description}`)
+        .setDescription(
+          `**${userOption ? userOption.username : user.username}'s bio** \n${
+            targetData.description
+          }`
+        )
+
         .setTimestamp()
         .setFooter({
           text: "© Pyreworks",

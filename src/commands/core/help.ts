@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { commandInt } from "../interfaces/commandInt";
-import { errorHandler } from "../utils/errorHandler";
-import { colors } from "../config/colors";
-import { commandList } from "./_commandList";
+import { commandInt } from "../../interfaces/commandInt";
+import { errorHandler } from "../../utils/errorHandler";
+import { colors } from "../../config/colors";
+import { commandList } from "../_commandList";
 
 export const help: commandInt = {
   data: new SlashCommandBuilder()

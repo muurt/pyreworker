@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { commandInt } from "../interfaces/commandInt";
-import { getBioData } from "../modules/getBioData";
-import { createBioData } from "../modules/createBioData";
-import { errorHandler } from "../utils/errorHandler";
-import { colors } from "../config/colors";
-import { feedback } from "../utils/prespectiveFeedback";
+import { commandInt } from "../../interfaces/commandInt";
+import { getBioData } from "../../modules/getBioData";
+import { createBioData } from "../../modules/createBioData";
+import { errorHandler } from "../../utils/errorHandler";
+import { colors } from "../../config/colors";
+import { feedback } from "../../utils/perspectiveFeedback";
 
 export const bio: commandInt = {
   data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ export const bio: commandInt = {
             iconURL: user.displayAvatarURL(),
           })
           .setColor(colors.black)
-          .setDescription("The message arugment is required.")
+          .setDescription("The message argument is required.")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),

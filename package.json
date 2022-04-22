@@ -1,7 +1,7 @@
 {
   "name": "pyreworker",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The PYREWORKS worker bot.",
   "main": "./out/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.2",
     "prisma": "^3.9.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
