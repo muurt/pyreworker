@@ -69,7 +69,15 @@ export async function analyzeText(
   const requestedAttributes = Object.fromEntries(
     attributes.map((attribute) => [attribute, {}])
   );
-  const cleanedText = text.replace(/\b(?:fuck(?:ing)?|shi+t)\b/g, "").trim();
+  const cleanedText = text
+    .replaceAll(/\b(?:fuck(?:ing)?|shi+t)\b/g, "")
+    .trim()
+    .replaceAll("$", "s")
+    .replaceAll("1", "l")
+    .replaceAll("0", "o")
+    .replaceAll("&", "and")
+    .replaceAll("!", "i")
+    .replaceAll("%", "t");
 
   const analyzeRequest = {
     comment: {
