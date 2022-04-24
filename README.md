@@ -55,8 +55,6 @@ Our official ➞ [Discord](https://discord.gg/RuzEMyjRuR)
 
 Music Bot ➞ [PyreMusic](https://github.com/bigblackfootman/pyremusic)
 
-Ticket Bot ➞ [PyreTickets](https://github.com/bigblackfootman/pyretickets)
-
 Branding Archive ➞ [PyreBranding](https://github.com/bigblackfootman/pyreworks-branding)
 
 **Pyreworks**
