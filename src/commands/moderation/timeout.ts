@@ -20,17 +20,52 @@ export const timeout: commandInt = {
         .setName("duration")
         .setDescription("The duration of the timeout.")
         .setRequired(true)
-        .addChoice("5 mins", 300000)
-        .addChoice("10 mins", 600000)
-        .addChoice("1 hour", 3600000)
-        .addChoice("6 hours", 21600000)
-        .addChoice("12 hours", 43200000)
-        .addChoice("1 day", 86400000)
-        .addChoice("3 days", 259200000)
-        .addChoice("1 week", 604800000)
-        .addChoice("2 weeks", 1210000000)
-        .addChoice("3 weeks", 1814000000)
-        .addChoice("1 month", 2628000000)
+        .addChoices(
+          {
+            name: "5 mins",
+            value: 300000,
+          },
+          {
+            name: "10 mins",
+            value: 600000,
+          },
+          {
+            name: "1 hour",
+            value: 3600000,
+          },
+          {
+            name: "6 hours",
+            value: 21600000,
+          },
+          {
+            name: "12 hours",
+            value: 43200000,
+          },
+          {
+            name: "1 day",
+            value: 86400000,
+          },
+          {
+            name: "3 days",
+            value: 259200000,
+          },
+          {
+            name: "1 week",
+            value: 604800000,
+          },
+          {
+            name: "2 weeks",
+            value: 1210000000,
+          },
+          {
+            name: "3 weeks",
+            value: 1814000000,
+          },
+          {
+            name: "1 month",
+            value: 2628000000,
+          }
+        )
     )
     .addStringOption((option) =>
       option

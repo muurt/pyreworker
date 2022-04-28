@@ -13,26 +13,26 @@
   "author": "PYREWORKS | Murt Awh",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/rest": "^0.1.0-canary.0",
-    "@prisma/client": "^3.8.1",
-    "discord-api-types": "^0.26.1",
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/rest": "^0.5.0-dev.1650672506-3617093",
+    "@prisma/client": "^3.12.0",
+    "discord-api-types": "^0.31.2",
     "discord.js": "^13.6.0",
-    "dotenv": "^14.3.2",
-    "googleapis": "^95.0.0",
-    "winston": "^3.4.0"
+    "dotenv": "^16.0.0",
+    "googleapis": "^100.0.0",
+    "winston": "^3.7.2"
   },
   "devDependencies": {
-    "@types/node": "^17.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^8.7.0",
-    "eslint-config-prettier": "^8.3.0",
+    "@types/node": "^17.0.26",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
-    "prisma": "^3.9.2",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
+    "prisma": "^3.12.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "repository": {
     "type": "git",

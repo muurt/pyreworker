@@ -7,8 +7,10 @@ import { ban } from "./moderation/ban";
 import { unban } from "./moderation/unban";
 import { kick } from "./moderation/kick";
 import { timeout } from "./moderation/timeout";
+import { ticketsetup } from "./tickets/ticketsetup";
 
 export const commandList: commandInt[] = [
+  ticketsetup,
   timeout,
   kick,
   unban,

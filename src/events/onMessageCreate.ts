@@ -1,6 +1,6 @@
 import { errorHandler } from "../utils/errorHandler";
 import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { feedback } from "../utils/prespectiveFeedback";
+import { feedback } from "../utils/perspectiveFeedback";
 import { colors } from "../config/colors";
 
 export const onMessageCreate = async (message: Message): Promise<void> => {

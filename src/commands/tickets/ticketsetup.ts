@@ -1,119 +1,74 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed, Permissions } from "discord.js";
+import {
+  MessageActionRow,
+  MessageButton,
+  MessageEmbed,
+  Permissions,
+} from "discord.js";
 import { commandInt } from "../../interfaces/commandInt";
 import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 import { logHandler } from "../../utils/logHandler";
 
-export const ban: commandInt = {
+export const ticketsetup: commandInt = {
   data: new SlashCommandBuilder()
-    .setName("ban")
-    .setDescription("Ban a user.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The the user you want to ban.")
-        .setRequired(true)
-    )
-    .addNumberOption((option) =>
-      option
-        .setName("deletedays")
-        .setDescription("Days of messages to delete.")
-        .setRequired(false)
-        .addChoices(
-          {
-            name: "1 Day",
-            value: 1,
-          },
-          {
-            name: "2 Days",
-            value: 2,
-          },
-          {
-            name: "3 Days",
-            value: 3,
-          },
-          {
-            name: "4 Days",
-            value: 4,
-          },
-          {
-            name: "5 Days",
-            value: 5,
-          },
-          {
-            name: "6 Days",
-            value: 6,
-          },
-          {
-            name: "7 Days",
-            value: 7,
-          }
-        )
-    )
-    .addStringOption((option) =>
-      option
-        .setName("reason")
-        .setDescription("The reason for the ban.")
-        .setRequired(false)
-    ) as SlashCommandBuilder,
-  name: "ban",
-  description: "Ban a user.",
-  usage: "/ban <user> <reason?> <deletedays?>",
-  permissions: ["BAN_MEMBERS"],
+    .setName("ticketsetup")
+    .setDescription("Administrative purposes.") as SlashCommandBuilder,
+  name: "ticketsetup",
+  description: "Administrative purposes.",
+  usage: "/ticketsetup",
+  permissions: ["ADMINISTRATOR"],
   run: async (interaction) => {
     try {
       await interaction.deferReply();
 
+      const ticketsChannel =
+        interaction.client.channels.cache.get("840144613477580822");
       const { user } = interaction;
-      const reasonOption =
-        interaction.options.getString("reason") || "No reason provided.";
-      const userOption = interaction.options.getUser("user");
-      const numberOption = interaction.options.getNumber("deletedays") || 0;
 
-      if (
-        !interaction.guild?.me?.permissions.has(Permissions.FLAGS.BAN_MEMBERS)
-      ) {
-        const noBotPermsEmbed = new MessageEmbed()
+      if (!ticketsChannel) {
+        const noChannelEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
           .setColor(colors.black)
-          .setDescription("The bot doesn't have permissions to ban.")
+          .setDescription("Tickets channel doesn't exist (or ID is wrong).")
+          .addField("Channel ID", "840144613477580822")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [noBotPermsEmbed],
+          embeds: [noChannelEmbed],
         });
         return;
       }
 
-      if (!userOption) {
-        const noArgumentsEmbed = new MessageEmbed()
+      if (ticketsChannel.type !== "GUILD_TEXT") {
+        const wrongTypeEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
           .setColor(colors.black)
-          .setDescription("The message argument is required.")
+          .setDescription("Tickets channel isn't a text channel.")
+          .addField("Channel ID", "840144613477580822")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
         await interaction.editReply({
-          embeds: [noArgumentsEmbed],
+          embeds: [wrongTypeEmbed],
         });
         return;
       }
 
       /* eslint-disable  @typescript-eslint/no-explicit-any */
       const memberPermissions: any = interaction.member?.permissions;
-      if (!memberPermissions.has(Permissions.FLAGS.BAN_MEMBERS)) {
+      if (!memberPermissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
         const noPermissionsEmbed = new MessageEmbed()
           .setTitle("ERROR!")
           .setAuthor({
@@ -133,9 +88,51 @@ export const ban: commandInt = {
       }
 
       try {
-        await interaction?.guild?.members.ban(userOption, {
-          reason: reasonOption,
-          days: numberOption,
+        const buttons = new MessageActionRow().addComponents(
+          new MessageButton()
+            .setCustomId("order")
+            .setLabel("Order")
+            .setStyle("DANGER")
+            .setEmoji("967707022655127642"),
+          new MessageButton()
+            .setCustomId("support")
+            .setLabel("Support")
+            .setStyle("DANGER")
+            .setEmoji("967707003705237524"),
+          new MessageButton()
+            .setCustomId("application")
+            .setLabel("Application")
+            .setStyle("DANGER")
+            .setEmoji("967707003562647552")
+        );
+
+        const ticketEmbed = new MessageEmbed()
+          .setTitle("Tickets 📩")
+          .setColor(colors.white)
+          .setDescription("Create a ticket!")
+          .setImage(
+            "https://cdn.discordapp.com/attachments/775774648720687144/967706670274863135/Example_Banner2.png"
+          )
+          .addField(
+            "<:cart:967707022655127642> | Order",
+            "Create this type of ticket if you want to order something from us."
+          )
+          .addField(
+            "<:gear:967707003705237524> | Support",
+            "Create this type of ticket if you need to access our support team."
+          )
+          .addField(
+            "<:application:967707003562647552> | Application",
+            "Create this type of ticket if you want to apply for a position at Pyreworks."
+          )
+          .setAuthor({
+            name: "© Pyreworks",
+            iconURL: interaction.client.user?.displayAvatarURL(),
+          });
+
+        await ticketsChannel.send({
+          embeds: [ticketEmbed],
+          components: [buttons],
         });
       } catch (err) {
         const errorEmbed = new MessageEmbed()
@@ -145,9 +142,7 @@ export const ban: commandInt = {
             iconURL: user.displayAvatarURL(),
           })
           .setColor(colors.black)
-          .setDescription(
-            "Couldn't ban the user, most likely they has higher role hierarchy."
-          )
+          .setDescription("Couldn't send the tickets embed.")
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
@@ -155,14 +150,14 @@ export const ban: commandInt = {
         await interaction.editReply({
           embeds: [errorEmbed],
         });
+        errorHandler("ticketsetup | Sending tickets embed", err);
         return;
       }
 
       logHandler.log(
         "warn",
-        `A user with the tag ${userOption.tag} (${userOption.id}) has been banned by ${user.tag} (${user.id}) for the reason "${reasonOption}" and their messages were deleted for ${numberOption} days.`
+        `A user with the tag ${user.tag} (${user.id}) tried to set up tickets.`
       );
-
       const successEmbed = new MessageEmbed()
         .setTitle("SUCCESS!")
         .setAuthor({
@@ -170,11 +165,7 @@ export const ban: commandInt = {
           iconURL: user.displayAvatarURL(),
         })
         .setColor(colors.orange)
-        .setDescription("Successfully banned the user.")
-        .addField("User", `${userOption.username}#${userOption.discriminator}`)
-        .addField("ID", userOption.id)
-        .addField("Reason", reasonOption)
-        .addField("Days of deleted messages", `${numberOption} Days`)
+        .setDescription("Successfully set up tickets.")
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),
@@ -184,7 +175,7 @@ export const ban: commandInt = {
         embeds: [successEmbed],
       });
     } catch (err) {
-      errorHandler("ban command", err);
+      errorHandler("ticketsetup command", err);
     }
   },
 };
