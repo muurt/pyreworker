@@ -13,7 +13,7 @@
   "author": "PYREWORKS | Murt Awh",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/builders": "^0.14.0",
+    "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.5.0-dev.1651147752-679dcda",
     "@prisma/client": "^3.13.0",
     "discord-api-types": "^0.33.0",
