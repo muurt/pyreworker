@@ -24,7 +24,7 @@ export const supportTicketsNotify = async (
     .toString()
     .replace("© Pyreworks | ", "");
   const managementChannel =
-    interaction.client.channels.cache.get("968148352573272154");
+    interaction.client.channels.cache.get("840145878610083881");
   const notifiedEmbed = new MessageEmbed()
     .setTitle("SUCCESS!")
     .setAuthor({
@@ -118,8 +118,10 @@ export const supportTicketsClaim = async (
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   if (!ticketID) {
+    console.log("error 1")
     return;
   }
+  console.log("no error mate")
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =
@@ -256,7 +258,7 @@ export const supportTicketsHandle = async (
             let ticketCategory: string;
             let ticketDescription: Message<boolean> | undefined;
             const supportChannel =
-              interaction.client.channels.cache.get("967773917685104741");
+              interaction.client.channels.cache.get("840145878610083881");
             if (!supportChannel || supportChannel.type !== "GUILD_TEXT") {
               return;
             }
