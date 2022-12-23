@@ -118,10 +118,10 @@ export const supportTicketsClaim = async (
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   if (!ticketID) {
-    console.log("error 1")
+    console.log("error 1");
     return;
   }
-  console.log("no error mate")
+  console.log("no error mate");
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =

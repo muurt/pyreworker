@@ -17,14 +17,13 @@ export const feedback = async (
       "INSULT",
       "THREAT",
       "IDENTITY_ATTACK",
-      "FLIRTATION",
     ];
     const analyzedText = await analyzeText(text, attributeArray);
     if (analyzedText) {
-      const normalThreshold = 80;
-      const highThreshold = 90;
-      const experimentalThreshold = 92;
-      const veryHighThreshold = 94;
+      const normalThreshold = 70;
+      const highThreshold = 80;
+      const experimentalThreshold = 85;
+      const veryHighThreshold = 90;
       let username: string;
       let tag: string;
       let usravatar;
@@ -95,6 +94,6 @@ export const feedback = async (
       return;
     }
   } catch (err) {
-    errorHandler("onMessageCreate event", err);
+    errorHandler("perspectiveFeedback module", err);
   }
 };

@@ -54,14 +54,7 @@ export async function analyzeText(
   attributes?: PerspectiveAttribute[]
 ): Promise<PerspectiveResponseData> {
   if (!attributes) {
-    attributes = [
-      "PROFANITY",
-      "SPAM",
-      "SEVERE_TOXICITY",
-      "INSULT",
-      "THREAT",
-      "IDENTITY_ATTACK",
-    ]; // DEFAULT ATTRIBUTES
+    attributes = ["PROFANITY", "SPAM", "SEVERE_TOXICITY", "INSULT", "THREAT"]; // DEFAULT ATTRIBUTES
   }
   const client = await google.discoverAPI(
     "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1"
@@ -70,6 +63,7 @@ export async function analyzeText(
     attributes.map((attribute) => [attribute, {}])
   );
   const cleanedText = text
+    .toLowerCase()
     .replaceAll(/\b(?:fuck(?:ing)?|shi+t)\b/g, "")
     .trim()
     .replaceAll("$", "s")
