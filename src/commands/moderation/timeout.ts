@@ -225,10 +225,15 @@ export const timeout: commandInt = {
         })
         .setColor(colors.orange)
         .setDescription("Successfully timed out the user.")
-        .addField("User", `${userOption.username}#${userOption.discriminator}`)
-        .addField("ID", userOption.id)
-        .addField("Reason", reasonOption)
-        .addField("Duration", durationText)
+        .addFields(
+          {
+            name: "User",
+            value: `${userOption.username}#${userOption.discriminator}`,
+          },
+          { name: "ID", value: userOption.id },
+          { name: "Reason", value: reasonOption },
+          { name: "Duration", value: durationText }
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

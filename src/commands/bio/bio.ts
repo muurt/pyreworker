@@ -107,7 +107,7 @@ export const bio: commandInt = {
         })
         .setColor(colors.orange)
         .setDescription("You've successfully created your bio.")
-        .addField("Bio", newBioData.description)
+        .addFields({ name: "Bio", value: newBioData.description })
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

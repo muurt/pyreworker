@@ -131,9 +131,14 @@ export const kick: commandInt = {
         })
         .setColor(colors.orange)
         .setDescription("Successfully kicked the user.")
-        .addField("User", `${userOption.username}#${userOption.discriminator}`)
-        .addField("ID", userOption.id)
-        .addField("Reason", reasonOption)
+        .addFields(
+          {
+            name: "User",
+            value: `${userOption.username}#${userOption.discriminator}`,
+          },
+          { name: "ID", value: userOption.id },
+          { name: "Reason", value: reasonOption }
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

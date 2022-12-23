@@ -43,7 +43,10 @@ export const help: commandInt = {
         commandData.forEach((command) => {
           const commandName = command.name;
           const commandDescription = command.description;
-          helpEmbed.addField(`**${commandName}**`, commandDescription);
+          helpEmbed.addFields({
+            name: `**${commandName}**`,
+            value: commandDescription,
+          });
         });
 
         helpEmbed
@@ -75,13 +78,16 @@ export const help: commandInt = {
             })
             .setColor(colors.orange)
             .setDescription(description)
-            .addField("Usage", usage)
+            .addFields({ name: "Usage", value: usage })
             .setFooter({
               text: "© Pyreworks",
               iconURL: interaction.client.user?.displayAvatarURL(),
             });
           if (permissions !== undefined) {
-            dataEmbed.addField("Permissions", permissions.toString());
+            dataEmbed.addFields({
+              name: "Permissions",
+              value: permissions.toString(),
+            });
           }
           interaction.editReply({ embeds: [dataEmbed] });
         }

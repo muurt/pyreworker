@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   ButtonInteraction,
   MessageActionRow,
@@ -45,8 +46,10 @@ export const supportTicketsNotify = async (
     })
     .setColor(colors.white)
     .setDescription("Ticket needs escalation.")
-    .addField("Ticket Channel", `<#${ticketID}>`)
-    .addField("Escalator", `<@${interaction.user.id}>`)
+    .addFields(
+      { name: "Ticket Channel", value: `<#${ticketID}>` },
+      { name: "Escalator", value: `<@${interaction.user.id}>` }
+    )
     .setFooter({
       text: "© Pyreworks",
       iconURL: interaction.client.user?.displayAvatarURL(),
@@ -112,16 +115,16 @@ export const supportTicketsClaim = async (
       `A support representative has claimed your ticket and is ready to assist you!`
     )
     .setColor(colors.white)
-    .addField("Support Representative", `<@${interaction.user.id}>`)
+    .addFields({ name: "Support Representative", value: `<@${interaction.user.id}>` })
     .setFooter({
       text: "© Pyreworks",
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   if (!ticketID) {
-    console.log("error 1")
+    console.log("error 1");
     return;
   }
-  console.log("no error mate")
+  console.log("no error mate");
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =
@@ -365,12 +368,12 @@ export const supportTicketsHandle = async (
                           .edit({
                             embeds: [
                               finishedEmbed
-                                .addField("Category", ticketCategory)
-                                .addField(
-                                  "Description",
-                                  ticketDescription
+                                .addFields({ name: "Category", value: ticketCategory },
+                                {
+                                  name: "Description",
+                                  value: ticketDescription
                                     ? ticketDescription.toString()
-                                    : "No description provided." // won't reach
+                                    : "No description provided." } // won't reach
                                 ),
                             ],
                           })
@@ -379,12 +382,12 @@ export const supportTicketsHandle = async (
                               await supportChannel.send({
                                 embeds: [
                                   supportEmbed
-                                    .addField("Category", ticketCategory)
-                                    .addField(
-                                      "Description",
-                                      ticketDescription
-                                        ? ticketDescription.toString()
-                                        : "No description provided" // won't reach
+                                  .addFields({ name: "Category", value: ticketCategory },
+                                  {
+                                    name: "Description",
+                                    value: ticketDescription
+                                      ? ticketDescription.toString()
+                                      : "No description provided" } // won't reach
                                     ),
                                 ],
                                 components: [claimButtons],

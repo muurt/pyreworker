@@ -23,31 +23,31 @@ export const ban: commandInt = {
         .addChoices(
           {
             name: "1 Day",
-            value: 1,
+            value: 86400,
           },
           {
             name: "2 Days",
-            value: 2,
+            value: 172800,
           },
           {
             name: "3 Days",
-            value: 3,
+            value: 259200,
           },
           {
             name: "4 Days",
-            value: 4,
+            value: 345600,
           },
           {
             name: "5 Days",
-            value: 5,
+            value: 432000,
           },
           {
             name: "6 Days",
-            value: 6,
+            value: 518400,
           },
           {
             name: "7 Days",
-            value: 7,
+            value: 604800,
           }
         )
     )
@@ -135,7 +135,7 @@ export const ban: commandInt = {
       try {
         await interaction?.guild?.members.ban(userOption, {
           reason: reasonOption,
-          days: numberOption,
+          deleteMessageSeconds: numberOption,
         });
       } catch (err) {
         const errorEmbed = new MessageEmbed()
@@ -171,10 +171,15 @@ export const ban: commandInt = {
         })
         .setColor(colors.orange)
         .setDescription("Successfully banned the user.")
-        .addField("User", `${userOption.username}#${userOption.discriminator}`)
-        .addField("ID", userOption.id)
-        .addField("Reason", reasonOption)
-        .addField("Days of deleted messages", `${numberOption} Days`)
+        .addFields(
+          {
+            name: "User",
+            value: `${userOption.username}#${userOption.discriminator}`,
+          },
+          { name: "ID", value: `${userOption.id}` },
+          { name: "Reason", value: reasonOption },
+          { name: "Days of deleted messages", value: `${numberOption} Days` }
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

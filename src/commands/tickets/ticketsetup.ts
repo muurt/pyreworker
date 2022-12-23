@@ -35,7 +35,7 @@ export const ticketsetup: commandInt = {
           })
           .setColor(colors.black)
           .setDescription("Tickets channel doesn't exist (or ID is wrong).")
-          .addField("Channel ID", "840144613477580822")
+          .addFields({ name: "Channel ID", value: "840144613477580822" })
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
@@ -55,7 +55,7 @@ export const ticketsetup: commandInt = {
           })
           .setColor(colors.black)
           .setDescription("Tickets channel isn't a text channel.")
-          .addField("Channel ID", "840144613477580822")
+          .addFields({ name: "Channel ID", value: "840144613477580822" })
           .setFooter({
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
@@ -113,17 +113,22 @@ export const ticketsetup: commandInt = {
           .setImage(
             "https://cdn.discordapp.com/attachments/775774648720687144/967706670274863135/Example_Banner2.png"
           )
-          .addField(
-            "<:cart:967707022655127642> | Order",
-            "Create this type of ticket if you want to order something from us."
-          )
-          .addField(
-            "<:gear:967707003705237524> | Support",
-            "Create this type of ticket if you need to access our support team."
-          )
-          .addField(
-            "<:application:967707003562647552> | Application",
-            "Create this type of ticket if you want to apply for a position at Pyreworks."
+          .addFields(
+            {
+              name: "<:cart:967707022655127642> | Order",
+              value:
+                "Create this type of ticket if you want to order something from us.",
+            },
+            {
+              name: "<:gear:967707003705237524> | Support",
+              value:
+                "Create this type of ticket if you need to access our support team.",
+            },
+            {
+              name: "<:application:967707003562647552> | Application",
+              value:
+                "Create this type of ticket if you want to apply for a position at Pyreworks.",
+            }
           )
           .setAuthor({
             name: "© Pyreworks",

@@ -120,7 +120,7 @@ export const unban: commandInt = {
         })
         .setColor(colors.orange)
         .setDescription("Successfully unbanned the user.")
-        .addField("ID", userOption)
+        .addFields({ name: "ID", value: userOption })
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

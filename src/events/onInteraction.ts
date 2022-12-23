@@ -89,10 +89,11 @@ export const confirm = async (
     .catch(async () => {
       await buttonInteraction.reply({
         embeds: [
-          replyEmbed.addField(
-            "DM's",
-            "You don't have your dms open, hence the confirmation must take place here"
-          ),
+          replyEmbed.addFields({
+            name: "DM's",
+            value:
+              "You don't have your dms open, hence the confirmation must take place here",
+          }),
         ],
         components: [confirmationButtons],
         ephemeral: true,
@@ -206,7 +207,7 @@ export const onInteraction = async (
         case "support-ticket-claim":
           supportTicketsClaim(interaction);
           break;
-        case "support-ticket-notifym":
+        case "support-ticket-notify":
           supportTicketsNotify(interaction);
           break;
         default:
