@@ -100,7 +100,7 @@ export const supportTicketsClaim = async (
       iconURL: user.displayAvatarURL(),
     })
     .setColor(colors.orange)
-    .setDescription("You've successfully claimed your ticket!")
+    .setDescription("You've successfully claimed the ticket!")
     .setFooter({
       text: "© Pyreworks",
       iconURL: interaction.client.user?.displayAvatarURL(),
@@ -152,7 +152,7 @@ export const supportTicketsClaim = async (
   await interaction
     .editReply({
       embeds: [
-        claimedEmbed.addField("Ticket channel", `<#${ticketChannel.id}>`),
+        claimedEmbed.addFields({ name: "Ticket channel", value: `<#${ticketChannel.id}>` }),
       ],
     })
     .then(() => {
@@ -167,7 +167,23 @@ export const supportTicketsClaim = async (
 
 export const supportTicketsHandle = async (
   interaction: ButtonInteraction
-): Promise<void> => {
+  ): Promise<void> => {
+    // sam was here too ;)
+    const buttonReply = new MessageEmbed()
+    .setTitle("Info")
+    .setColor(colors.white)
+    .setDescription("Please confirm in your DM's to create your ticket. \nIf you did not receive a DM, please check your privacy settings and enable DM's from server members and try again.")
+    .setFooter({
+      text: "© Pyreworks",
+      iconURL: interaction.client.user?.displayAvatarURL(),
+    });
+    await interaction.deferReply({
+      ephemeral: true,
+    });
+    interaction.followUp({ 
+      embeds: [buttonReply], 
+      ephemeral: true 
+    });
   try {
     const { user } = interaction;
     const ticketsCategory = "966925310337642496";
@@ -223,7 +239,7 @@ export const supportTicketsHandle = async (
 
     await interaction.guild?.channels
       .create(
-        `support-${interaction.user.username.substring(0, 3)}${Math.floor(
+        `spt-${interaction.user.username.substring(0, 3)}${Math.floor(
           Math.random() * 10000
         )
           .toString()

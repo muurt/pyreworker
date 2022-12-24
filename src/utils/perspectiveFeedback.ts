@@ -80,7 +80,10 @@ export const feedback = async (
           analyzedText["attributeScores"][attribute]["summaryScore"]["value"];
         const percentage = Math.round(value * 100);
         if (percentage > usedThreshold) {
-          warnEmbed.addField(attribute, `${percentage}%`);
+          warnEmbed.addFields({
+            name: attribute,
+            value: `${percentage}%`,
+          });
           flagged = true;
         }
       });

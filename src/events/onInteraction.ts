@@ -14,6 +14,16 @@ import {
   supportTicketsClaim,
   supportTicketsNotify,
 } from "../modules/supportTicketsHandle";
+import {
+  orderTicketsHandle,
+  orderTicketsClaim,
+  orderTicketsNotify,
+} from "../modules/orderTicketsHandle";
+import {
+  applicationTicketsHandle,
+  applicationTicketsClaim,
+  applicationTicketsNotify,
+} from "../modules/applicationTicketsHandle";
 
 export const delay = async (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -61,7 +71,7 @@ export const confirm = async (
       iconURL: interactionUser.displayAvatarURL(),
     })
     .setColor(colors.white)
-    .setDescription("Ticket canceled as there was no reply.")
+    .setDescription("Ticket cancelled as there was no reply.")
     .setFooter({
       text: "© Pyreworks",
       iconURL: buttonInteraction.client.user?.displayAvatarURL(),
@@ -87,17 +97,7 @@ export const confirm = async (
       components: [confirmationButtons],
     })
     .catch(async () => {
-      await buttonInteraction.reply({
-        embeds: [
-          replyEmbed.addFields({
-            name: "DM's",
-            value:
-              "You don't have your dms open, hence the confirmation must take place here",
-          }),
-        ],
-        components: [confirmationButtons],
-        ephemeral: true,
-      });
+      await console.log("DMs are closed. Gotta defer mate."); // ;)
       dmsOpen = false;
     });
 
@@ -112,7 +112,9 @@ export const confirm = async (
         switch (i.customId) {
           case "conf-deny":
             await dmMessage.edit({
-              embeds: [cancelEmbed.setDescription("You canceled your ticket.")],
+              embeds: [
+                cancelEmbed.setDescription("You cancelled your ticket."),
+              ],
               components: [],
             });
             break;
@@ -145,7 +147,9 @@ export const confirm = async (
         switch (i.customId) {
           case "conf-deny":
             await buttonInteraction.editReply({
-              embeds: [cancelEmbed.setDescription("You canceled your ticket.")],
+              embeds: [
+                cancelEmbed.setDescription("You cancelled your ticket."),
+              ],
               components: [],
             });
             return false;
@@ -184,31 +188,40 @@ export const onInteraction = async (
         }
       }
     }
+    // ticket buttons.
     if (interaction.isButton()) {
-      const { user } = interaction;
       switch (interaction.customId) {
-        case "support":
+        case "support": {
           supportTicketsHandle(interaction);
           break;
+        }
         case "order": {
-          const confirmation = await confirm(interaction, user);
-          if (!confirmation) {
-            return;
-          }
+          orderTicketsHandle(interaction);
           break;
         }
         case "application": {
-          const confirmation = await confirm(interaction, user);
-          if (!confirmation) {
-            return;
-          }
+          applicationTicketsHandle(interaction);
           break;
         }
+        // ticket claim.
         case "support-ticket-claim":
           supportTicketsClaim(interaction);
           break;
+        case "order-ticket-claim":
+          orderTicketsClaim(interaction);
+          break;
+        case "application-ticket-claim":
+          applicationTicketsClaim(interaction);
+          break;
+        // ticket notify.
         case "support-ticket-notify":
           supportTicketsNotify(interaction);
+          break;
+        case "order-ticket-notify":
+          orderTicketsNotify(interaction);
+          break;
+        case "application-ticket-notify":
+          applicationTicketsNotify(interaction);
           break;
         default:
           return;
