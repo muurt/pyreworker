@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   ButtonInteraction,
   MessageActionRow,
@@ -115,20 +114,21 @@ export const supportTicketsClaim = async (
       `A support representative has claimed your ticket and is ready to assist you!`
     )
     .setColor(colors.white)
-    .addFields({ name: "Support Representative", value: `<@${interaction.user.id}>` })
+    .addFields({
+      name: "Support Representative",
+      value: `<@${interaction.user.id}>`,
+    })
     .setFooter({
       text: "© Pyreworks",
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   if (!ticketID) {
-    console.log("error 1");
     return;
   }
-  console.log("no error mate");
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =
-    interaction.client.channels.cache.get("967773917685104741");
+    interaction.client.channels.cache.get("840145878610083881");
   if (
     !ticketChannel ||
     ticketChannel.type !== "GUILD_TEXT" ||
@@ -152,7 +152,10 @@ export const supportTicketsClaim = async (
   await interaction
     .editReply({
       embeds: [
-        claimedEmbed.addFields({ name: "Ticket channel", value: `<#${ticketChannel.id}>` }),
+        claimedEmbed.addFields({
+          name: "Ticket channel",
+          value: `<#${ticketChannel.id}>`,
+        }),
       ],
     })
     .then(() => {
@@ -167,23 +170,7 @@ export const supportTicketsClaim = async (
 
 export const supportTicketsHandle = async (
   interaction: ButtonInteraction
-  ): Promise<void> => {
-    // sam was here too ;)
-    const buttonReply = new MessageEmbed()
-    .setTitle("Info")
-    .setColor(colors.white)
-    .setDescription("Please confirm in your DM's to create your ticket. \nIf you did not receive a DM, please check your privacy settings and enable DM's from server members and try again.")
-    .setFooter({
-      text: "© Pyreworks",
-      iconURL: interaction.client.user?.displayAvatarURL(),
-    });
-    await interaction.deferReply({
-      ephemeral: true,
-    });
-    interaction.followUp({ 
-      embeds: [buttonReply], 
-      ephemeral: true 
-    });
+): Promise<void> => {
   try {
     const { user } = interaction;
     const ticketsCategory = "966925310337642496";
@@ -383,28 +370,30 @@ export const supportTicketsHandle = async (
                         await ticketMessage
                           .edit({
                             embeds: [
-                              finishedEmbed
-                                .addFields({ name: "Category", value: ticketCategory },
+                              finishedEmbed.addFields(
+                                { name: "Category", value: ticketCategory },
                                 {
                                   name: "Description",
                                   value: ticketDescription
                                     ? ticketDescription.toString()
-                                    : "No description provided." } // won't reach
-                                ),
+                                    : "No description provided.",
+                                } // won't reach
+                              ),
                             ],
                           })
                           .then(
                             async () =>
                               await supportChannel.send({
                                 embeds: [
-                                  supportEmbed
-                                  .addFields({ name: "Category", value: ticketCategory },
-                                  {
-                                    name: "Description",
-                                    value: ticketDescription
-                                      ? ticketDescription.toString()
-                                      : "No description provided" } // won't reach
-                                    ),
+                                  supportEmbed.addFields(
+                                    { name: "Category", value: ticketCategory },
+                                    {
+                                      name: "Description",
+                                      value: ticketDescription
+                                        ? ticketDescription.toString()
+                                        : "No description provided",
+                                    } // won't reach
+                                  ),
                                 ],
                                 components: [claimButtons],
                               })

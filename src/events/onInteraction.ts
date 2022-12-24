@@ -97,7 +97,17 @@ export const confirm = async (
       components: [confirmationButtons],
     })
     .catch(async () => {
-      await console.log("DMs are closed. Gotta defer mate."); // ;)
+      await buttonInteraction.reply({
+        embeds: [
+          replyEmbed.addFields({
+            name: "DM's",
+            value:
+              "You don't have your dms open, hence the confirmation must take place here",
+          }),
+        ],
+        components: [confirmationButtons],
+        ephemeral: true,
+      });
       dmsOpen = false;
     });
 
@@ -191,18 +201,15 @@ export const onInteraction = async (
     // ticket buttons.
     if (interaction.isButton()) {
       switch (interaction.customId) {
-        case "support": {
+        case "support":
           supportTicketsHandle(interaction);
           break;
-        }
-        case "order": {
+        case "order":
           orderTicketsHandle(interaction);
           break;
-        }
-        case "application": {
+        case "application":
           applicationTicketsHandle(interaction);
           break;
-        }
         // ticket claim.
         case "support-ticket-claim":
           supportTicketsClaim(interaction);
@@ -214,13 +221,13 @@ export const onInteraction = async (
           applicationTicketsClaim(interaction);
           break;
         // ticket notify.
-        case "support-ticket-notify":
+        case "support-ticket-notifym":
           supportTicketsNotify(interaction);
           break;
-        case "order-ticket-notify":
+        case "order-ticket-notifym":
           orderTicketsNotify(interaction);
           break;
-        case "application-ticket-notify":
+        case "application-ticket-notifym":
           applicationTicketsNotify(interaction);
           break;
         default:

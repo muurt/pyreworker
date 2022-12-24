@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   ButtonInteraction,
   MessageActionRow,
@@ -115,7 +114,10 @@ export const orderTicketsClaim = async (
       `A commission manager has claimed your order and is ready to assist you!`
     )
     .setColor(colors.white)
-    .addFields({ name: "Commission Manager", value: `<@${interaction.user.id}>` })
+    .addFields({
+      name: "Commission Manager",
+      value: `<@${interaction.user.id}>`,
+    })
     .setFooter({
       text: "© Pyreworks",
       iconURL: interaction.client.user?.displayAvatarURL(),
@@ -128,7 +130,7 @@ export const orderTicketsClaim = async (
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =
-    interaction.client.channels.cache.get("967773917685104741");
+    interaction.client.channels.cache.get("840145878610083881");
   if (
     !ticketChannel ||
     ticketChannel.type !== "GUILD_TEXT" ||
@@ -152,7 +154,10 @@ export const orderTicketsClaim = async (
   await interaction
     .editReply({
       embeds: [
-        claimedEmbed.addFields({ name: "Ticket channel", value: `<#${ticketChannel.id}>` }),
+        claimedEmbed.addFields({
+          name: "Ticket channel",
+          value: `<#${ticketChannel.id}>`,
+        }),
       ],
     })
     .then(() => {
@@ -167,23 +172,7 @@ export const orderTicketsClaim = async (
 
 export const orderTicketsHandle = async (
   interaction: ButtonInteraction
-  ): Promise<void> => {
-    // sam was here as well.
-    const buttonReply = new MessageEmbed()
-    .setTitle("Info")
-    .setColor(colors.white)
-    .setDescription("Please confirm in your DM's to create your ticket. \nIf you did not receive a DM, please check your privacy settings and enable DM's from server members and try again.")
-    .setFooter({
-      text: "© Pyreworks",
-      iconURL: interaction.client.user?.displayAvatarURL(),
-    });
-    await interaction.deferReply({
-      ephemeral: true,
-    });
-    interaction.followUp({ 
-      embeds: [buttonReply], 
-      ephemeral: true 
-    });
+): Promise<void> => {
   try {
     const { user } = interaction;
     const ticketsCategory = "966925310337642496";
@@ -207,7 +196,7 @@ export const orderTicketsHandle = async (
         .addOptions([
           {
             label: "Prebuilts",
-            description: "Order from our Prebuilt Catalog.",
+            description: "Order from our Prebuilt catalog.",
             value: "prebuilt-bot-order",
           },
           {
@@ -260,12 +249,26 @@ export const orderTicketsHandle = async (
           .then((m) => {
             const ticketMessage = m;
             let ticketCategory: string;
-            let ticketDescription: Message<boolean> | undefined;
+            let ticketDescription: Message<boolean> | undefined | string;
             const orderChannel =
               interaction.client.channels.cache.get("840145878610083881");
             if (!orderChannel || orderChannel.type !== "GUILD_TEXT") {
               return;
             }
+            const postponedEmbed = new MessageEmbed()
+              .setTitle("WARN!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.gray)
+              .setDescription(
+                "Please note that custom orders are currently postponed, this ticket will go on as usual but this order will be on hold."
+              )
+              .setFooter({
+                text: "© Pyreworks",
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
             const noSelectEmbed = new MessageEmbed()
               .setTitle("WARN!")
               .setAuthor({
@@ -294,6 +297,18 @@ export const orderTicketsHandle = async (
                 text: "© Pyreworks",
                 iconURL: interaction.client.user?.displayAvatarURL(),
               });
+            const prebuiltTypeEmbed = new MessageEmbed()
+              .setTitle("QUESTION!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.white)
+              .setDescription("What type of prebuilt do you need?")
+              .setFooter({
+                text: "© Pyreworks",
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
             const finishedEmbed = new MessageEmbed()
               .setTitle("SUCCESS!")
               .setAuthor({
@@ -308,7 +323,7 @@ export const orderTicketsHandle = async (
                 text: "© Pyreworks",
                 iconURL: interaction.client.user?.displayAvatarURL(),
               });
-            const supportEmbed = new MessageEmbed()
+            const orderEmbed = new MessageEmbed()
               .setTitle("NEW TICKET!")
               .setAuthor({
                 name: `${user.username}#${user.discriminator}`,
@@ -332,6 +347,42 @@ export const orderTicketsHandle = async (
                 .setStyle("DANGER")
                 .setEmoji("968144163986104341")
             );
+            const prebuiltSelectMenu = new MessageActionRow().addComponents(
+              new MessageSelectMenu()
+                .setCustomId("prebuilt-type")
+                .setPlaceholder("Select the type of the prebuilt.")
+                .addOptions([
+                  {
+                    label: "All purpose",
+                    description:
+                      "An all purpose discord bot, featuring moderation - economy and much more!",
+                    value: "all-purpose",
+                  },
+                  {
+                    label: "Music",
+                    description:
+                      "A music bot, with luyrics - bass booster and slash commands!",
+                    value: "music",
+                  },
+                  {
+                    label: "Suggestions",
+                    description: "A suggestions bot with many great features!",
+                    value: "suggestions",
+                  },
+                  {
+                    label: "Reactroles",
+                    description:
+                      "A high performance reactroles bot with many features and modes!",
+                    value: "reactroles",
+                  },
+                  {
+                    label: "Tickets",
+                    description:
+                      "A ticket bot with high performance, transcripts and huge customizability!",
+                    value: "tickets",
+                  },
+                ])
+            );
 
             const collectorFilter = (i: SelectMenuInteraction) => {
               i.deferUpdate();
@@ -346,50 +397,140 @@ export const orderTicketsHandle = async (
               })
               .then(async (i) => {
                 ticketCategory = i.values[0];
+                if (i.values[0] === "custom-bot-order") {
+                  await ticketMessage
+                    .edit({
+                      embeds: [postponedEmbed],
+                      components: [],
+                    })
+                    .then(async (i) => {
+                      await delay(10000);
+                    });
+                  await ticketMessage
+                    .edit({
+                      embeds: [descriptionEmbed],
+                      components: [],
+                    })
+                    .then(() => {
+                      const descriptionFilter = (message: Message) => {
+                        return message.author.id === user.id;
+                      };
+                      ticketMessage.channel
+                        .awaitMessages({
+                          filter: descriptionFilter,
+                          max: 1,
+                          time: 600000,
+                          errors: ["time"],
+                        })
+                        .then(async (des) => {
+                          ticketDescription = des.first();
+                          await des.first()?.delete();
+                          await ticketMessage
+                            .edit({
+                              embeds: [
+                                finishedEmbed.addFields(
+                                  { name: "Category", value: ticketCategory },
+                                  {
+                                    name: "Description",
+                                    value: ticketDescription
+                                      ? ticketDescription.toString()
+                                      : "No description provided.",
+                                  } // won't reach
+                                ),
+                              ],
+                            })
+                            .then(
+                              async () =>
+                                await orderChannel.send({
+                                  embeds: [
+                                    orderEmbed.addFields(
+                                      {
+                                        name: "Category",
+                                        value: ticketCategory,
+                                      },
+                                      {
+                                        name: "Description",
+                                        value: ticketDescription
+                                          ? ticketDescription.toString()
+                                          : "No description provided",
+                                      } // won't reach
+                                    ),
+                                  ],
+                                  components: [claimButtons],
+                                })
+                            );
+                        })
+                        .catch(async () => {
+                          await ticketMessage.edit({
+                            embeds: [
+                              noSelectEmbed.setDescription(
+                                "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 1 minute"
+                              ),
+                            ],
+                          });
+                          await delay(30000);
+                          await ticketMessage.edit({
+                            embeds: [
+                              noSelectEmbed.setDescription(
+                                "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 30 seconds"
+                              ),
+                            ],
+                          });
+                        });
+                    })
+                    .catch((err) =>
+                      errorHandler(err, "editing ticket message")
+                    );
+                  return;
+                }
                 ticketMessage
                   .edit({
-                    embeds: [descriptionEmbed],
-                    components: [],
+                    embeds: [prebuiltTypeEmbed],
+                    components: [prebuiltSelectMenu],
                   })
                   .then(() => {
-                    const descriptionFilter = (message: Message) => {
-                      return message.author.id === user.id;
+                    const collectorFilter = (i: SelectMenuInteraction) => {
+                      i.deferUpdate();
+                      return (
+                        i.user.id === user.id && i.customId === "prebuilt-type"
+                      );
                     };
-                    ticketMessage.channel
-                      .awaitMessages({
-                        filter: descriptionFilter,
-                        max: 1,
-                        time: 600000,
-                        errors: ["time"],
+
+                    m.channel
+                      .awaitMessageComponent({
+                        componentType: "SELECT_MENU",
+                        filter: collectorFilter,
+                        time: 30000,
                       })
                       .then(async (des) => {
-                        ticketDescription = des.first();
-                        await des.first()?.delete();
+                        ticketDescription = des.values[0];
                         await ticketMessage
                           .edit({
                             embeds: [
-                              finishedEmbed
-                                .addFields({ name: "Category", value: ticketCategory },
+                              finishedEmbed.addFields(
+                                { name: "Category", value: ticketCategory },
                                 {
-                                  name: "Description",
+                                  name: "Prebuilt type",
                                   value: ticketDescription
                                     ? ticketDescription.toString()
-                                    : "No description provided." } // won't reach
-                                ),
+                                    : "No description provided.",
+                                } // won't reach
+                              ),
                             ],
                           })
                           .then(
                             async () =>
                               await orderChannel.send({
                                 embeds: [
-                                  supportEmbed
-                                  .addFields({ name: "Category", value: ticketCategory },
-                                  {
-                                    name: "Description",
-                                    value: ticketDescription
-                                      ? ticketDescription.toString()
-                                      : "No description provided" } // won't reach
-                                    ),
+                                  orderEmbed.addFields(
+                                    { name: "Category", value: ticketCategory },
+                                    {
+                                      name: "Prebuilt type",
+                                      value: ticketDescription
+                                        ? ticketDescription.toString()
+                                        : "No description provided",
+                                    } // won't reach
+                                  ),
                                 ],
                                 components: [claimButtons],
                               })
