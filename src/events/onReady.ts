@@ -4,6 +4,12 @@ import { REST } from "@discordjs/rest";
 import { APIApplicationCommandOption, Routes } from "discord-api-types/v9";
 import { commandList } from "../commands/_commandList";
 import { Client } from "discord.js";
+
+/**
+ * Handles the "ready" event for the bot.
+ * @param {Client} botInstance - The bot instance.
+ * @returns {Promise<void>} - A promise that resolves when the function finishes executing.
+ */
 export const onReady = async (botInstance: Client): Promise<void> => {
   try {
     const restClient = new REST({ version: "9" }).setToken(
@@ -17,7 +23,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       options?: APIApplicationCommandOption[];
     }[] = [];
 
-    commandList.forEach((command) =>
+    for (const command of commandList) {
       commandData.push(
         command.data.toJSON() as {
           name: string;
@@ -25,15 +31,13 @@ export const onReady = async (botInstance: Client): Promise<void> => {
           type?: number;
           options?: APIApplicationCommandOption[];
         }
-      )
+      );
+    }
+    const commandsRoute = Routes.applicationGuildCommands(
+      botInstance.user?.id || "Missing token",
+      process.env.guildId as string
     );
-    await restClient.put(
-      Routes.applicationGuildCommands(
-        botInstance.user?.id || "Missing token",
-        process.env.guildId as string
-      ),
-      { body: commandData }
-    );
+    await restClient.put(commandsRoute, { body: commandData });
 
     botInstance.user?.setStatus("dnd");
     botInstance.user?.setActivity(

@@ -1,13 +1,16 @@
 import { logHandler } from "./logHandler";
 
+const missingBotTokenError = "Missing environment variable | botToken";
+const missingMongoUriError = "Missing environment variable | mongoUri";
+
 export const validateEnv = (): void => {
   if (!process.env.botToken) {
-    logHandler.log("warn", "Missing environment variable | botToken");
+    logHandler.log("warn", missingBotTokenError);
     process.exit(1);
   }
 
   if (!process.env.mongoUri) {
-    logHandler.log("warn", "Missing environment variable | mongoUri");
+    logHandler.log("warn", missingMongoUriError);
     process.exit(1);
   }
 };

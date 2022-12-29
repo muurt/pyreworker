@@ -517,6 +517,7 @@ export const orderTicketsHandle = async (
                                 } // won't reach
                               ),
                             ],
+                            components: [],
                           })
                           .then(
                             async () =>

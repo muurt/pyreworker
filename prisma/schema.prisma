@@ -7,14 +7,16 @@ datasource db {
   url      = env("mongoUri")
 }
 
-/// Used for saving info about bio's / user descriptions
-/// This is mostly likely getting removed after alpha
+/// Used for saving info about user descriptions
+/// This model is likely to be removed after alpha.
 model Bio {
-  /// MongoDB ID configuration
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  /// MongoDB ID, configured as the primary key
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
   /// Discord ID of the user, must be unique 
-  /// as it's used to identify which user this bio belongs to
-  discordId    String  @unique
-  /// The bio/description of the user
-  description  String
+  /// as it's used to identify the user this bio belongs to
+  discordId String @unique
+
+  /// The user's description
+  description String
 }
