@@ -10,13 +10,17 @@ import { Prisma } from "@prisma/client";
  */
 export const createBioData = async (
   id: string,
-  description: string
+  description: string // ,
+  // strDepartment: string,
+  // strStaff: string
 ): Promise<Prisma.BioCreateInput | undefined> => {
   try {
     const newBioData = await prismaClient.bio.create({
       data: {
         discordId: id,
         description: description,
+        // department: strDepartment,
+        // staff: strStaff,
       },
     });
 

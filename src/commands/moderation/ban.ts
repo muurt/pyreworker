@@ -146,7 +146,7 @@ export const ban: commandInt = {
           })
           .setColor(colors.black)
           .setDescription(
-            "Couldn't ban the user, most likely they has higher role hierarchy."
+            "Couldn't ban the user, they most likely have a higher role hierarchy."
           )
           .setFooter({
             text: "© Pyreworks",

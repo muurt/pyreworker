@@ -200,7 +200,7 @@ export const timeout: commandInt = {
           })
           .setColor(colors.black)
           .setDescription(
-            "Couldn't timeout the user, most likely they has higher role hierarchy."
+            "Couldn't timeout the user, they most likely have a higher role hierarchy."
           )
           .setFooter({
             text: "© Pyreworks",

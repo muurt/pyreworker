@@ -208,11 +208,6 @@ export const supportTicketsHandle = async (
             value: "qna-support",
           },
           {
-            label: "Bot related",
-            description: "Bot related questions.",
-            value: "bot-support",
-          },
-          {
             label: "Else",
             description: "Something else.",
             value: "else-support",

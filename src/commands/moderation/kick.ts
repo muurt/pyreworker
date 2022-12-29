@@ -106,7 +106,7 @@ export const kick: commandInt = {
           })
           .setColor(colors.black)
           .setDescription(
-            "Couldn't kick the user, most likely they has higher role hierarchy."
+            "Couldn't kick the user, they most likely have a higher role hierarchy."
           )
           .setFooter({
             text: "© Pyreworks",

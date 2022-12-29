@@ -41,8 +41,8 @@ export const onReady = async (botInstance: Client): Promise<void> => {
 
     botInstance.user?.setStatus("dnd");
     botInstance.user?.setActivity(
-      `Alpha stage 3 | ${process.env.npm_package_version}`,
-      { type: "COMPETING" }
+      `Pyreworks | Beta ${process.env.npm_package_version}`,
+      { type: "WATCHING" }
     );
 
     logHandler.log("info", "Connection with Discord established!");
