@@ -1,7 +1,7 @@
 {
   "name": "pyreworker",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "The PYREWORKS worker bot.",
   "main": "./out/index.js",
   "scripts": {

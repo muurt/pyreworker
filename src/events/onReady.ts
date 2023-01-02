@@ -39,11 +39,42 @@ export const onReady = async (botInstance: Client): Promise<void> => {
     );
     await restClient.put(commandsRoute, { body: commandData });
 
-    botInstance.user?.setStatus("dnd");
-    botInstance.user?.setActivity(
-      `Pyreworks | Beta ${process.env.npm_package_version}`,
-      { type: "WATCHING" }
-    );
+    const statusArray = [
+      {
+        name: "with your feelings.",
+        type: "PLAYING",
+      },
+      {
+        name: "Pyreworks",
+        type: "WATCHING",
+      },
+      {
+        name: "your commands.",
+        type: "LISTENING",
+      },
+      {
+        name: "with navi lol.",
+        type: "COMPETING",
+      },
+      {
+        name: "PRODUCTION BETA",
+        type: "COMPETING",
+      },
+    ] as const;
+
+    setInterval(() => {
+      const randomStatus =
+        statusArray[Math.floor(Math.random() * statusArray.length)];
+      botInstance.user?.setPresence({
+        activities: [
+          {
+            name: randomStatus.name,
+            type: randomStatus.type,
+          },
+        ],
+        status: "online",
+      });
+    }, 60000);
 
     logHandler.log("info", "Connection with Discord established!");
   } catch (err) {
