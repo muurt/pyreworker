@@ -91,6 +91,11 @@ export const confirm = async (
     });
 
   let dmsOpen = true;
+  const channelMessage = await buttonInteraction.reply({
+    content: "Please check your DM's for confirmation.",
+    components: [],
+    ephemeral: true,
+  });
   const dmMessage = await buttonInteraction.user
     .send({
       embeds: [replyEmbed],
