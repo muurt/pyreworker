@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
 import { commandInt } from "../../interfaces/commandInt";
@@ -13,7 +14,7 @@ export const viewbio: commandInt = {
       option
         .setName("user")
         .setDescription("The user you want to view their bio.")
-        .setRequired(false)
+        .setRequired(true)
     ) as SlashCommandBuilder,
   name: "viewbio",
   description: "View your (or someone else) bio.",
@@ -23,6 +24,60 @@ export const viewbio: commandInt = {
       await interaction.deferReply();
       const { user } = interaction;
       const userOption = interaction.options.getUser("user");
+      const successEmbed = new MessageEmbed();
+      const targetId = userOption?.id;
+      const targetUser = interaction.guild?.members.cache.get(<string>targetId);
+      // Roles to check for.
+      const departmentRoles = [
+        "Web Development",
+        "GFX Design",
+        "Setups & Configs",
+        "Ingame Builds",
+        "Bot Development",
+        "Animation",
+        "Writing",
+        "Music Production",
+      ];
+      const staffRoles = [
+        "Team HR",
+        "Team Marketing",
+        "Team Administration",
+        "Team Development",
+        "Team Commissions",
+        "Team Support",
+      ];
+      let targetStaffRoles = [] as Array<string>;
+      let targetDepartmentRoles = [] as Array<string>;
+      let targetStaff: string | undefined;
+      let targetDepartment: string | undefined;
+
+      // Check if the user has any staff roles.
+      staffRoles.forEach((role) => {
+        if (targetUser?.roles.cache.find((r) => r.name === role)) {
+          targetStaffRoles.push(" " + role);
+          if (targetStaffRoles.length > 0) {
+            targetStaff = "This user is a part of the following staff teams...";
+          }
+        }
+      });
+      if (targetStaff === undefined) {
+        targetStaff = "This user is not a part of any staff team.";
+      }
+
+      // Check if the user has any department roles.
+      departmentRoles.forEach((role) => {
+        if (targetUser?.roles.cache.find((r) => r.name === role)) {
+          targetDepartmentRoles.push(" " + role);
+          if (targetDepartmentRoles.length > 0) {
+            targetDepartment =
+              "This user is a part of the following departments...";
+          }
+        }
+      });
+      if (targetDepartment === undefined) {
+        targetDepartment = "This user is not a part of any department.";
+      }
+
       let targetData;
       if (userOption) {
         targetData = await getBioData(userOption.id);
@@ -51,7 +106,7 @@ export const viewbio: commandInt = {
         return;
       }
 
-      const successEmbed = new MessageEmbed()
+      successEmbed
         .setAuthor({
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
@@ -63,7 +118,38 @@ export const viewbio: commandInt = {
             targetData.description
           }`
         )
-
+        .addFields(
+          {
+            name: "Bio ID",
+            value: `${targetData.id}`,
+          },
+          {
+            name: "Member Since...",
+            value: `${targetUser?.joinedAt}`,
+          },
+          // {
+          //   name: "Contact Info",
+          //   value: `${targetData.contact}`,
+          // },
+          {
+            name: "Staff Member?",
+            value: `${targetStaff}` || "This user is not a staff member.",
+          },
+          {
+            name: "Staff Team(s)",
+            value: `${targetStaffRoles}` || "None",
+          },
+          {
+            name: "Has Department?",
+            value:
+              `${targetDepartment}` ||
+              "this user is not a part of any department.",
+          },
+          {
+            name: "Department(s)",
+            value: `${targetDepartmentRoles}` || "None",
+          }
+        )
         .setTimestamp()
         .setFooter({
           text: "© Pyreworks",

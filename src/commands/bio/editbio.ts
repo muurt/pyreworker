@@ -11,8 +11,24 @@ export const editbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("editbio")
     .setDescription("Edit your bio.")
-    .addStringOption((option) =>
-      option.setName("bio").setDescription("The new bio.").setRequired(true)
+    .addStringOption(
+      (option) =>
+        option.setName("bio").setDescription("The new bio.").setRequired(true)
+      // .addStringOption((option) =>
+      //   option
+      //     .setName("email")
+      //     .setDescription("Your email address.")
+      //     .setRequired(true),
+      // .addStringOption((option) =>
+      //   option
+      //     .setName("portfolio")
+      //     .setDescription("Your portfolio url.")
+      //     .setRequired(true),
+      // .addStringOption((option) =>
+      //   option
+      //     .setName("other links")
+      //     .setDescription("Any other links you want to share.")
+      //     .setRequired(true)
     ) as SlashCommandBuilder,
   name: "editbio",
   description: "Edit your bio.",

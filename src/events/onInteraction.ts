@@ -91,6 +91,7 @@ export const confirm = async (
     });
 
   let dmsOpen = true;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const channelMessage = await buttonInteraction.reply({
     content: "Please check your DM's for confirmation.",
     components: [],

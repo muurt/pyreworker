@@ -395,6 +395,7 @@ export const orderTicketsHandle = async (
                 filter: collectorFilter,
                 time: 30000,
               })
+              // There used to be an "i" here in the async ()... idk what that "i" is but prettier and ts says its useless and it needs to go.
               .then(async (i) => {
                 ticketCategory = i.values[0];
                 if (i.values[0] === "custom-bot-order") {
@@ -403,7 +404,7 @@ export const orderTicketsHandle = async (
                       embeds: [postponedEmbed],
                       components: [],
                     })
-                    .then(async (i) => {
+                    .then(async () => {
                       await delay(10000);
                     });
                   await ticketMessage
