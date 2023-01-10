@@ -11,24 +11,20 @@ export const editbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("editbio")
     .setDescription("Edit your bio.")
-    .addStringOption(
-      (option) =>
-        option.setName("bio").setDescription("The new bio.").setRequired(true)
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("email")
-      //     .setDescription("Your email address.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("portfolio")
-      //     .setDescription("Your portfolio url.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("other links")
-      //     .setDescription("Any other links you want to share.")
-      //     .setRequired(true)
+    .addStringOption((option) =>
+      option.setName("bio").setDescription("The new bio.").setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("email")
+        .setDescription("Your email address.")
+        .setRequired(false)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("portfolio")
+        .setDescription("Your portfolio url.")
+        .setRequired(false)
     ) as SlashCommandBuilder,
   name: "editbio",
   description: "Edit your bio.",
@@ -38,6 +34,10 @@ export const editbio: commandInt = {
       await interaction.deferReply();
       const { user } = interaction;
       const bioOption = interaction.options.getString("bio");
+      const emailOption = <string>interaction.options.getString("email");
+      const portfolioOption = <string>(
+        interaction.options.getString("portfolio")
+      );
 
       if (!bioOption) {
         const noArgumentsEmbed = new MessageEmbed()
@@ -87,7 +87,7 @@ export const editbio: commandInt = {
           });
           return;
         }
-        updateBioData(user.id, bioOption);
+        updateBioData(user.id, bioOption, emailOption, portfolioOption);
       });
 
       const successEmbed = new MessageEmbed()
@@ -97,7 +97,9 @@ export const editbio: commandInt = {
           iconURL: user.displayAvatarURL(),
         })
         .setColor(colors.orange)
-        .setDescription("You've successfully updated your bio.")
+        .setDescription(
+          "You've successfully updated your bio. To view it, simply use `/viewbio`."
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

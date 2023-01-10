@@ -12,27 +12,23 @@ export const bio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("bio")
     .setDescription("Create your bio.")
-    .addStringOption(
-      (option) =>
-        option
-          .setName("bio")
-          .setDescription("A brief introduction about yourself.")
-          .setRequired(true)
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("email")
-      //     .setDescription("Your email address.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("portfolio")
-      //     .setDescription("Your portfolio url.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("other links")
-      //     .setDescription("Any other links you want to share.")
-      //     .setRequired(true)
+    .addStringOption((option) =>
+      option
+        .setName("bio")
+        .setDescription("A brief introduction about yourself.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("email")
+        .setDescription("Your email address.")
+        .setRequired(false)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("portfolio")
+        .setDescription("Your portfolio url.")
+        .setRequired(false)
     ) as SlashCommandBuilder,
   name: "bio",
   description: "Create your bio.",
@@ -42,6 +38,10 @@ export const bio: commandInt = {
       await interaction.deferReply();
       const { user } = interaction;
       const bioOption = interaction.options.getString("bio");
+      const emailOption = <string>interaction.options.getString("email");
+      const portfolioOption = <string>(
+        interaction.options.getString("portfolio")
+      );
       if (!bioOption) {
         const noArgumentsEmbed = new MessageEmbed()
           .setTitle("ERROR!")
@@ -92,7 +92,12 @@ export const bio: commandInt = {
         return;
       }
 
-      const newBioData = await createBioData(user.id, bioOption);
+      const newBioData = await createBioData(
+        user.id,
+        bioOption,
+        emailOption,
+        portfolioOption
+      );
 
       if (!newBioData) {
         const cannotCreateEmbed = new MessageEmbed()
@@ -122,8 +127,9 @@ export const bio: commandInt = {
           iconURL: user.displayAvatarURL(),
         })
         .setColor(colors.orange)
-        .setDescription("You've successfully created your bio.")
-        .addFields({ name: "Bio", value: newBioData.description })
+        .setDescription(
+          "You've successfully created your bio. To view your bio, simply use `/viewbio`."
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

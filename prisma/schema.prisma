@@ -19,4 +19,10 @@ model Bio {
 
   /// The user's description
   description String
+
+  /// The user's email
+  email: emailInput != null ? emailInput : undefined,
+
+  /// The user's portfolio
+  portfolio String @unique
 }

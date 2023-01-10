@@ -127,10 +127,16 @@ export const viewbio: commandInt = {
             name: "Member Since...",
             value: `${targetUser?.joinedAt}`,
           },
-          // {
-          //   name: "Contact Info",
-          //   value: `${targetData.contact}`,
-          // },
+          {
+            name: "Email ID",
+            value: `${targetData.email}` || `This user doesn't have an email.`,
+          },
+          {
+            name: "Portfolio",
+            value:
+              `A portfolio for this user exists. \n[Click Here](${targetData.portfolio})` ||
+              `No portfolio exists for this user.`,
+          },
           {
             name: "Staff Member?",
             value: `${targetStaff}` || "This user is not a staff member.",
