@@ -13,13 +13,15 @@ This bot uses **MongoDB** and **Prisma** for the database functions.
 
 # Running
 
-NOTE: If you're on windows, change the "prebuild" script in package.json to
+NOTE: If you're on windows and if you get an error that says **"The system cannot find the file specified."**,
+change the **"prebuild"** script in package.json to
 
 ```
     "prebuild": "rmdir /s /q out",
 ```
+(Make this change **ONLY** if **npm run build** doesn't work)
 
-To run this you need to rename "**sample.env**" to "**.env**" and add the corresponding tokens.
+To run this you need to rename "**.env.example**" to "**.env**" and add the corresponding tokens.
 You need to have Node.js installed, and then you need to run in order;
 
 ```bash
@@ -51,10 +53,10 @@ To get a better view of comments, please use "**[Better Comments](https://market
 
 # Links
 
-Our official ➞ [Discord](https://discord.gg/RuzEMyjRuR)
+➞ [Official Discord](https://discord.gg/RuzEMyjRuR)
 
-Music Bot ➞ [PyreMusic](https://github.com/bigblackfootman/pyremusic)
+➞ [PyreMusic](https://github.com/bigblackfootman/pyremusic)
 
-Branding Archive ➞ [PyreBranding](https://github.com/bigblackfootman/pyreworks-branding)
+➞ [PyreBranding](https://github.com/bigblackfootman/pyreworks-branding)
 
 **Pyreworks**

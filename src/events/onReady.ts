@@ -53,7 +53,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
         type: "LISTENING",
       },
       {
-        name: "with navi lol.",
+        name: "the cyberspace.",
         type: "COMPETING",
       },
       {

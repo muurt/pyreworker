@@ -97,7 +97,9 @@ export const editbio: commandInt = {
           iconURL: user.displayAvatarURL(),
         })
         .setColor(colors.orange)
-        .setDescription("You've successfully updated your bio.")
+        .setDescription(
+          "You've successfully updated your bio. To view it, use `/bio`."
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),

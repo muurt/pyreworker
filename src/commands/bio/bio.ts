@@ -122,8 +122,9 @@ export const bio: commandInt = {
           iconURL: user.displayAvatarURL(),
         })
         .setColor(colors.orange)
-        .setDescription("You've successfully created your bio.")
-        .addFields({ name: "Bio", value: newBioData.description })
+        .setDescription(
+          "You've successfully created your bio. To view it use `/viewbio`."
+        )
         .setFooter({
           text: "© Pyreworks",
           iconURL: interaction.client.user?.displayAvatarURL(),
