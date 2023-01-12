@@ -128,8 +128,11 @@ export const viewbio: commandInt = {
             value: `${targetUser?.joinedAt}`,
           },
           // {
-          //   name: "Contact Info",
+          //   name: "Email",
           //   value: `${targetData.contact}`,
+          // },
+          // {
+          //   name: "Portfolio",
           // },
           {
             name: "Staff Member?",
