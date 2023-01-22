@@ -2,7 +2,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
 import { commandInt } from "../../interfaces/commandInt";
-import { getBioData } from "../../modules/getBioData";
+import { getBioData } from "../../database/getBioData";
 import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 

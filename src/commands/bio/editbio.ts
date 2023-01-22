@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
 import { commandInt } from "../../interfaces/commandInt";
 import { errorHandler } from "../../utils/errorHandler";
-import { getBioData } from "../../modules/getBioData";
-import { updateBioData } from "../../modules/updateBioData";
+import { getBioData } from "../../database/getBioData";
+import { updateBioData } from "../../database/updateBioData";
 import { colors } from "../../config/colors";
 import { feedback } from "../../utils/perspectiveFeedback";
 

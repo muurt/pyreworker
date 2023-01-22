@@ -20,33 +20,23 @@ model Bio {
   description String
 }
 
-/// Used for saving info about referral codes
-model Referral {
+/// Used for saving info about referral codes. (EXPERIMENTAL)
+
+model ReferralCode {
   /// MongoDB ID, configured as the primary key
   id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  /// Discord ID of the user, must be unique 
-  /// as it's used to identify the user this referral belongs to
-  discordId String @unique
+  /// Referral Partner's id
+  partner String
 
   /// The user's referral code
-  code String
-  
-  /// The services this code is applicable to
-  services String[]
+  code String @unique
 
-  /// The date this referral code was created
-  createdAt DateTime @default(now())
-
-  /// The description
-
+  /// The description of the referral code
   description String
 
-  /// The partner name
-  partnerName String
+  /// Discount rate for the referral code
+  discount Int
 
-  /// The discount percentage
-  discountPercentage Int
+  /// Services to which the referral code applies to
+  services String
 }
-
-// The above model is highly experimental and is only deployed for foundation.
