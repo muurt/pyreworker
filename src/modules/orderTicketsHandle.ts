@@ -11,6 +11,9 @@ import {
 import { confirm, delay } from "../events/onInteraction";
 import { errorHandler } from "../utils/errorHandler";
 import { colors } from "../config/colors";
+import { getRefData } from "./getRefData";
+import { updateRefData } from "./updateRefData";
+import { Prisma } from "@prisma/client";
 
 export const orderTicketsNotify = async (
   interaction: ButtonInteraction
@@ -123,10 +126,8 @@ export const orderTicketsClaim = async (
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   if (!ticketID) {
-    console.log("error 1");
     return;
   }
-  console.log("no error mate");
 
   const ticketChannel = interaction.client.channels.cache.get(ticketID);
   const ticketsChannel =
@@ -335,6 +336,69 @@ export const orderTicketsHandle = async (
                 text: `© Pyreworks | ${ticketChannel.id}`,
                 iconURL: interaction.client.user?.displayAvatarURL(),
               });
+            const codeEmbed = new MessageEmbed()
+              .setTitle("QUESTION!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.white)
+              .setDescription(
+                `Do you have any discount/partner code you want to use?`
+              )
+              .setFooter({
+                text: `© Pyreworks | ${ticketChannel.id}`,
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
+            const codeInputEmbed = new MessageEmbed()
+              .setTitle("QUESTION!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.white)
+              .setDescription(`Please write the code.`)
+              .setFooter({
+                text: `© Pyreworks | ${ticketChannel.id}`,
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
+            const codeTrueEmbed = new MessageEmbed()
+              .setTitle("SUCCESS!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.orange)
+              .setDescription(`The code has been applied.`)
+              .setFooter({
+                text: `© Pyreworks | ${ticketChannel.id}`,
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
+            const codeFalseEmbed = new MessageEmbed()
+              .setTitle("ERROR!")
+              .setAuthor({
+                name: `${user.username}#${user.discriminator}`,
+                iconURL: user.displayAvatarURL(),
+              })
+              .setColor(colors.gray)
+              .setDescription(`That code doesn't exist in the database, sorry.`)
+              .setFooter({
+                text: `© Pyreworks | ${ticketChannel.id}`,
+                iconURL: interaction.client.user?.displayAvatarURL(),
+              });
+            let discounted = 0;
+            let discountCode: string;
+            let targetRefData: Prisma.ReferralWhereInput | undefined;
+            const codeButtons = new MessageActionRow().addComponents(
+              new MessageButton()
+                .setCustomId("discount-code-yes")
+                .setLabel("Yes")
+                .setStyle("SUCCESS"),
+              new MessageButton()
+                .setCustomId("discount-code-no")
+                .setLabel("No")
+                .setStyle("DANGER")
+            );
             const claimButtons = new MessageActionRow().addComponents(
               new MessageButton()
                 .setCustomId("order-ticket-claim")
@@ -398,7 +462,125 @@ export const orderTicketsHandle = async (
               // There used to be an "i" here in the async ()... idk what that "i" is but prettier and ts says its useless and it needs to go.
               .then(async (i) => {
                 ticketCategory = i.values[0];
+                const codeButtonFilter = (i: ButtonInteraction) => {
+                  i.deferUpdate();
+                  return (
+                    (i.user.id === user.id &&
+                      i.customId === "discount-code-yes") ||
+                    (i.user.id === user.id && i.customId === "discount-code-no")
+                  );
+                };
+                await ticketMessage
+                  .edit({
+                    embeds: [codeEmbed],
+                    components: [codeButtons],
+                  })
+                  .then(async (m) => {
+                    await m.channel
+                      .awaitMessageComponent({
+                        componentType: "BUTTON",
+                        filter: codeButtonFilter,
+                        time: 30000,
+                      })
+                      .then(async (i) => {
+                        let discount;
+                        switch (i.customId) {
+                          case "discount-code-yes":
+                            discount = true;
+                            break;
+                          default:
+                            break;
+                        }
+                        if (!discount) {
+                          return;
+                        }
+                        await ticketMessage
+                          .edit({
+                            embeds: [codeInputEmbed],
+                            components: [],
+                          })
+                          .then(async () => {
+                            const codeFilter = (message: Message) => {
+                              return message.author.id === user.id;
+                            };
+                            await ticketMessage.channel
+                              .awaitMessages({
+                                filter: codeFilter,
+                                max: 1,
+                                time: 600000,
+                                errors: ["time"],
+                              })
+                              .then(async (m) => {
+                                if (!m) return;
+                                const code = m
+                                  .first()
+                                  ?.toString()
+                                  .toLowerCase();
+                                if (!code) return;
+                                await m.first()?.delete();
+                                targetRefData = await getRefData(code);
+                                if (!targetRefData) {
+                                  await ticketMessage.edit({
+                                    embeds: [codeFalseEmbed],
+                                    components: [],
+                                  });
+                                  await delay(5000);
+                                  return;
+                                }
+                                discounted = Number(targetRefData.discount);
+                                discountCode = code;
+                                await ticketMessage.edit({
+                                  embeds: [codeTrueEmbed],
+                                  components: [],
+                                });
+                                await delay(5000);
+                              })
+                              .catch(async () => {
+                                await ticketMessage.edit({
+                                  embeds: [
+                                    noSelectEmbed.setDescription(
+                                      "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 1 minute"
+                                    ),
+                                  ],
+                                  components: [],
+                                });
+                                await delay(30000);
+                                await ticketMessage.edit({
+                                  embeds: [
+                                    noSelectEmbed.setDescription(
+                                      "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 30 seconds"
+                                    ),
+                                  ],
+                                  components: [],
+                                });
+                              });
+                          });
+                      })
+                      .catch(async () => {
+                        await ticketMessage.edit({
+                          embeds: [
+                            noSelectEmbed.setDescription(
+                              "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 1 minute"
+                            ),
+                          ],
+                          components: [],
+                        });
+                        await delay(30000);
+                        await ticketMessage.edit({
+                          embeds: [
+                            noSelectEmbed.setDescription(
+                              "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 30 seconds"
+                            ),
+                          ],
+                          components: [],
+                        });
+                      });
+                  });
+
                 if (i.values[0] === "custom-bot-order") {
+                  if (discounted > 0 && targetRefData) {
+                    updateRefData(discountCode, Number(targetRefData.tab));
+                  }
                   await ticketMessage
                     .edit({
                       embeds: [postponedEmbed],
@@ -436,7 +618,14 @@ export const orderTicketsHandle = async (
                                     value: ticketDescription
                                       ? ticketDescription.toString()
                                       : "No description provided.",
-                                  } // won't reach
+                                  },
+                                  {
+                                    name: "Discount",
+                                    value:
+                                      discounted > 0
+                                        ? `${discounted.toString()} | ${discountCode}`
+                                        : "No discount.",
+                                  }
                                 ),
                               ],
                             })
@@ -454,7 +643,14 @@ export const orderTicketsHandle = async (
                                         value: ticketDescription
                                           ? ticketDescription.toString()
                                           : "No description provided",
-                                      } // won't reach
+                                      },
+                                      {
+                                        name: "Discount",
+                                        value:
+                                          discounted > 0
+                                            ? `${discounted.toString()} | ${discountCode}`
+                                            : "No discount.",
+                                      }
                                     ),
                                   ],
                                   components: [claimButtons],
@@ -468,6 +664,7 @@ export const orderTicketsHandle = async (
                                 "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 1 minute"
                               ),
                             ],
+                            components: [],
                           });
                           await delay(30000);
                           await ticketMessage.edit({
@@ -476,6 +673,7 @@ export const orderTicketsHandle = async (
                                 "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 30 seconds"
                               ),
                             ],
+                            components: [],
                           });
                         });
                     })
@@ -505,6 +703,52 @@ export const orderTicketsHandle = async (
                       })
                       .then(async (des) => {
                         ticketDescription = des.values[0];
+                        if (discounted > 0 && targetRefData) {
+                          const round = (num: number): number => {
+                            return Math.round(num * 100) / 100;
+                          };
+                          const calculateDiscount = async (
+                            price: number
+                          ): Promise<boolean> => {
+                            const discount = round((discounted / 100) * price);
+                            const valueAfterDiscount = round(price - discount);
+                            discounted = valueAfterDiscount;
+                            const addedValue = round(
+                              (20 / 100) * valueAfterDiscount
+                            );
+                            try {
+                              await updateRefData(
+                                discountCode,
+                                Number(targetRefData?.tab) + addedValue
+                              );
+                            } catch {
+                              return false;
+                            }
+                            console.log(
+                              `discount: ${discount}\nvalafterdisc: ${valueAfterDiscount}\ndiscounted: ${discounted}\naddedval: ${addedValue}`
+                            );
+                            return true;
+                          };
+                          switch (des.values[0]) {
+                            case "music": // 7.99
+                              await calculateDiscount(7.99);
+                              break;
+                            case "all-purpose": // 9.99
+                              await calculateDiscount(9.99);
+                              break;
+                            case "suggestions": // 3.69
+                              await calculateDiscount(3.69);
+                              break;
+                            case "tickets": // 3.99
+                              await calculateDiscount(3.99);
+                              break;
+                            case "reactroles": // 4.69
+                              await calculateDiscount(4.69);
+                              break;
+                            default:
+                              break;
+                          }
+                        }
                         await ticketMessage
                           .edit({
                             embeds: [
@@ -515,7 +759,14 @@ export const orderTicketsHandle = async (
                                   value: ticketDescription
                                     ? ticketDescription.toString()
                                     : "No description provided.",
-                                } // won't reach
+                                },
+                                {
+                                  name: "Discount",
+                                  value:
+                                    discounted > 0
+                                      ? `${discounted.toString()} (**Price after**) | ${discountCode}`
+                                      : "No discount.",
+                                }
                               ),
                             ],
                             components: [],
@@ -531,7 +782,14 @@ export const orderTicketsHandle = async (
                                       value: ticketDescription
                                         ? ticketDescription.toString()
                                         : "No description provided",
-                                    } // won't reach
+                                    },
+                                    {
+                                      name: "Discount",
+                                      value:
+                                        discounted > 0
+                                          ? `${discounted.toString()} (**Price after**) | ${discountCode}`
+                                          : "No discount.",
+                                    }
                                   ),
                                 ],
                                 components: [claimButtons],
@@ -545,6 +803,7 @@ export const orderTicketsHandle = async (
                               "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 1 minute"
                             ),
                           ],
+                          components: [],
                         });
                         await delay(30000);
                         await ticketMessage.edit({
@@ -553,6 +812,7 @@ export const orderTicketsHandle = async (
                               "You didn't write anything.\nTicket creation has been canceled and this channel will be deleted in 30 seconds"
                             ),
                           ],
+                          components: [],
                         });
                       });
                   })
@@ -569,6 +829,7 @@ export const orderTicketsHandle = async (
                       "You didn't select anything.\nTicket creation was canceled and this channel will be deleted in 30 seconds."
                     ),
                   ],
+                  components: [],
                 });
                 await delay(30000);
                 await ticketChannel.delete();

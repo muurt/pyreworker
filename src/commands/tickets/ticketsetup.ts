@@ -108,10 +108,10 @@ export const ticketsetup: commandInt = {
 
         const ticketEmbed = new MessageEmbed()
           .setTitle("Tickets 📩")
-          .setColor(colors.white)
+          .setColor(colors.orange)
           .setDescription("Create a ticket!")
           .setImage(
-            "https://cdn.discordapp.com/attachments/775774648720687144/967706670274863135/Example_Banner2.png"
+            "https://cdn.discordapp.com/attachments/775774648720687144/1069660436066209922/Example_Banner.png"
           )
           .addFields(
             {

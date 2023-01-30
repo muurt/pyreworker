@@ -23,7 +23,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       options?: APIApplicationCommandOption[];
     }[] = [];
 
-    for (const command of commandList) {
+    commandList.forEach((command) =>
       commandData.push(
         command.data.toJSON() as {
           name: string;
@@ -31,13 +31,15 @@ export const onReady = async (botInstance: Client): Promise<void> => {
           type?: number;
           options?: APIApplicationCommandOption[];
         }
-      );
-    }
-    const commandsRoute = Routes.applicationGuildCommands(
-      botInstance.user?.id || "Missing token",
-      process.env.guildId as string
+      )
     );
-    await restClient.put(commandsRoute, { body: commandData });
+    await restClient.put(
+      Routes.applicationGuildCommands(
+        botInstance.user?.id || "Missing token",
+        process.env.guildId as string
+      ),
+      { body: commandData }
+    );
 
     const statusArray = [
       {

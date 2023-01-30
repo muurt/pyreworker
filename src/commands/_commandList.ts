@@ -8,6 +8,8 @@ import { unban } from "./moderation/unban";
 import { kick } from "./moderation/kick";
 import { timeout } from "./moderation/timeout";
 import { ticketsetup } from "./tickets/ticketsetup";
+import { createCode } from "./partner/createCode";
+import { viewCode } from "./partner/viewCode";
 
 export const commandList: commandInt[] = [
   ticketsetup,
@@ -19,4 +21,6 @@ export const commandList: commandInt[] = [
   bio,
   help,
   viewbio,
+  createCode,
+  viewCode,
 ];
