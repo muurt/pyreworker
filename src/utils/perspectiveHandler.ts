@@ -54,7 +54,14 @@ export async function analyzeText(
   attributes?: PerspectiveAttribute[]
 ): Promise<PerspectiveResponseData> {
   if (!attributes) {
-    attributes = ["PROFANITY", "SPAM", "SEVERE_TOXICITY", "INSULT", "THREAT"]; // DEFAULT ATTRIBUTES
+    // ! SPAM attribute disabled for production deployment because of the inaccuracy of flagging code.
+    // TODO: Implement a hotfix to the spam attribute.
+    attributes = [
+      "PROFANITY" /* "SPAM" */,
+      "SEVERE_TOXICITY",
+      "INSULT",
+      "THREAT",
+    ]; // DEFAULT ATTRIBUTES
   }
   const client = await google.discoverAPI(
     "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1"
