@@ -14,7 +14,6 @@ export const feedback = async (
 
     const attributeArray: PerspectiveAttribute[] = [
       "PROFANITY",
-      "SPAM",
       "SEVERE_TOXICITY",
       "INSULT",
       "THREAT",

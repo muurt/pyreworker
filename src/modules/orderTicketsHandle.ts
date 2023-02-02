@@ -733,7 +733,7 @@ export const orderTicketsHandle = async (
                                 discountCode,
                                 Number(targetRefData?.tab) + addedValue
                               );
-                            } caztch {
+                            } catch {
                               return false;
                             }
                             console.log(
