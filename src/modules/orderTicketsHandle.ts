@@ -26,8 +26,9 @@ export const orderTicketsNotify = async (
   const ticketID = interaction.message.embeds[0].footer?.text
     .toString()
     .replace("© Pyreworks | ", "");
-  const managementChannel =
-    interaction.client.channels.cache.get("840145878610083881");
+  const managementChannel = await interaction.client.channels.cache.get(
+    "840145878610083881"
+  );
   const notifiedEmbed = new MessageEmbed()
     .setTitle("SUCCESS!")
     .setAuthor({
@@ -41,12 +42,12 @@ export const orderTicketsNotify = async (
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   const notificationEmbed = new MessageEmbed()
-    .setTitle("INFO!")
+    .setTitle("WARN!")
     .setAuthor({
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.white)
+    .setColor(colors.gray)
     .setDescription("Ticket needs escalation.")
     .addFields(
       { name: "Ticket Channel", value: `<#${ticketID}>` },
@@ -65,7 +66,7 @@ export const orderTicketsNotify = async (
     return;
   }
 
-  const ticketChannel = interaction.client.channels.cache.get(ticketID);
+  const ticketChannel = await interaction.client.channels.cache.get(ticketID);
 
   if (!ticketChannel || ticketChannel.type !== "GUILD_TEXT") {
     return;
@@ -81,7 +82,7 @@ export const orderTicketsNotify = async (
     .then(() =>
       managementChannel
         .send({ content: "<@&840977614806319135>" })
-        .then((m) => m.delete())
+        .then(async (m) => await m.delete())
     );
 };
 
@@ -129,9 +130,10 @@ export const orderTicketsClaim = async (
     return;
   }
 
-  const ticketChannel = interaction.client.channels.cache.get(ticketID);
-  const ticketsChannel =
-    interaction.client.channels.cache.get("840145878610083881");
+  const ticketChannel = await interaction.client.channels.cache.get(ticketID);
+  const ticketsChannel = await interaction.client.channels.cache.get(
+    "840145878610083881"
+  );
   if (
     !ticketChannel ||
     ticketChannel.type !== "GUILD_TEXT" ||
@@ -149,7 +151,7 @@ export const orderTicketsClaim = async (
 
   await ticketsChannel.messages
     .fetch(interaction.message.id)
-    .then(async (msg) => msg.delete())
+    .then(async (msg) => await msg.delete())
     .catch((err) => errorHandler(err, "deleting a message"));
 
   await interaction
@@ -161,11 +163,11 @@ export const orderTicketsClaim = async (
         }),
       ],
     })
-    .then(() => {
-      ticketChannel
+    .then(async () => {
+      await ticketChannel
         .send({ content: `<@${ticketUser}>` })
-        .then((msg) => msg.delete());
-      ticketChannel.send({
+        .then(async (msg) => await msg.delete());
+      await ticketChannel.send({
         embeds: [notificationEmbed],
       });
     });
@@ -202,7 +204,7 @@ export const orderTicketsHandle = async (
           },
           {
             label: "Custom",
-            description: "Order a custom discord bot.",
+            description: "Order a custom commission.",
             value: "custom-bot-order",
           },
         ])
@@ -240,19 +242,20 @@ export const orderTicketsHandle = async (
           .send({
             content: `<@${user.id}>`,
           })
-          .then((m) => m.delete())
+          .then(async (m) => await m.delete())
           .catch((err) => errorHandler(err, "deleting a message"));
         await ticketChannel
           .send({
             embeds: [typeEmbed],
             components: [typeSelectMenu],
           })
-          .then((m) => {
+          .then(async (m) => {
             const ticketMessage = m;
             let ticketCategory: string;
             let ticketDescription: Message<boolean> | undefined | string;
-            const orderChannel =
-              interaction.client.channels.cache.get("840145878610083881");
+            const orderChannel = await interaction.client.channels.cache.get(
+              "840145878610083881"
+            );
             if (!orderChannel || orderChannel.type !== "GUILD_TEXT") {
               return;
             }
@@ -330,7 +333,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.orange)
               .setDescription(`<@${user.id}> has ordered.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -380,7 +383,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.black)
               .setDescription(`That code doesn't exist in the database, sorry.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -425,7 +428,7 @@ export const orderTicketsHandle = async (
                   {
                     label: "Music",
                     description:
-                      "A music bot, with luyrics - bass booster and slash commands!",
+                      "A music bot, with lyrics - bass booster and slash commands!",
                     value: "music",
                   },
                   {
@@ -448,12 +451,12 @@ export const orderTicketsHandle = async (
                 ])
             );
 
-            const collectorFilter = (i: SelectMenuInteraction) => {
-              i.deferUpdate();
+            const collectorFilter = async (i: SelectMenuInteraction) => {
+              await i.deferUpdate();
               return i.user.id === user.id && i.customId === "order-type";
             };
 
-            m.channel
+            await m.channel
               .awaitMessageComponent({
                 componentType: "SELECT_MENU",
                 filter: collectorFilter,
@@ -462,8 +465,8 @@ export const orderTicketsHandle = async (
               // There used to be an "i" here in the async ()... idk what that "i" is but prettier and ts says its useless and it needs to go.
               .then(async (i) => {
                 ticketCategory = i.values[0];
-                const codeButtonFilter = (i: ButtonInteraction) => {
-                  i.deferUpdate();
+                const codeButtonFilter = async (i: ButtonInteraction) => {
+                  await i.deferUpdate();
                   return (
                     (i.user.id === user.id &&
                       i.customId === "discount-code-yes") ||
@@ -511,12 +514,16 @@ export const orderTicketsHandle = async (
                                 errors: ["time"],
                               })
                               .then(async (m) => {
-                                if (!m) return;
+                                if (!m) {
+                                  return;
+                                }
                                 const code = m
                                   .first()
                                   ?.toString()
                                   .toLowerCase();
-                                if (!code) return;
+                                if (!code) {
+                                  return;
+                                }
                                 await m.first()?.delete();
                                 targetRefData = await getRefData(code);
                                 if (!targetRefData) {
@@ -579,7 +586,10 @@ export const orderTicketsHandle = async (
 
                 if (i.values[0] === "custom-bot-order") {
                   if (discounted > 0 && targetRefData) {
-                    updateRefData(discountCode, Number(targetRefData.tab));
+                    await updateRefData(
+                      discountCode,
+                      Number(targetRefData.tab)
+                    );
                   }
                   await ticketMessage
                     .edit({
@@ -594,11 +604,11 @@ export const orderTicketsHandle = async (
                       embeds: [descriptionEmbed],
                       components: [],
                     })
-                    .then(() => {
+                    .then(async () => {
                       const descriptionFilter = (message: Message) => {
                         return message.author.id === user.id;
                       };
-                      ticketMessage.channel
+                      await ticketMessage.channel
                         .awaitMessages({
                           filter: descriptionFilter,
                           max: 1,
@@ -682,20 +692,22 @@ export const orderTicketsHandle = async (
                     );
                   return;
                 }
-                ticketMessage
+                await ticketMessage
                   .edit({
                     embeds: [prebuiltTypeEmbed],
                     components: [prebuiltSelectMenu],
                   })
-                  .then(() => {
-                    const collectorFilter = (i: SelectMenuInteraction) => {
-                      i.deferUpdate();
+                  .then(async () => {
+                    const collectorFilter = async (
+                      i: SelectMenuInteraction
+                    ) => {
+                      await i.deferUpdate();
                       return (
                         i.user.id === user.id && i.customId === "prebuilt-type"
                       );
                     };
 
-                    m.channel
+                    await m.channel
                       .awaitMessageComponent({
                         componentType: "SELECT_MENU",
                         filter: collectorFilter,
@@ -721,7 +733,7 @@ export const orderTicketsHandle = async (
                                 discountCode,
                                 Number(targetRefData?.tab) + addedValue
                               );
-                            } catch {
+                            } caztch {
                               return false;
                             }
                             console.log(

@@ -7,6 +7,8 @@ import { createRefData } from "../../modules/createRefData";
 import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 
+// * Create a partner code.
+
 export const createCode: commandInt = {
   data: new SlashCommandBuilder()
     .setName("createcode")
@@ -29,7 +31,7 @@ export const createCode: commandInt = {
         .setDescription("The % of discount.")
         .setRequired(true)
     ) as SlashCommandBuilder,
-  name: "createCode",
+  name: "createcode",
   description: "Create a partner code.",
   usage: "/code <code> <partner> ",
   run: async (interaction) => {

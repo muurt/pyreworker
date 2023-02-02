@@ -19,16 +19,24 @@ const main = async () => {
   await client.login(process.env.botToken as string);
 };
 
+// * Deploy commands and set status.
+
 const onReadyHandler = async (client: Client) => {
   await onReady(client);
 };
+
+// * Handle interactions (Including buttons, slash commands, context menus, ETC).
 
 const onInteractionHandler = async (interaction: Interaction) => {
   await onInteraction(interaction);
 };
 
+// * Start the automod.
+
 const onMessageCreateHandler = async (message: Message) => {
   await onMessageCreate(message);
 };
+
+// * Initialises the bot and connect to the database.
 
 main();

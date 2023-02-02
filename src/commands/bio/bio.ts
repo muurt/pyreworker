@@ -8,6 +8,9 @@ import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 import { feedback } from "../../utils/perspectiveFeedback";
 
+// * Create your profile.
+// TODO: Scrap this and turn it into a profile feature.
+
 export const bio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("bio")

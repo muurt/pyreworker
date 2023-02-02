@@ -5,6 +5,8 @@ import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 import { commandList } from "../_commandList";
 
+// * Modular help menu.
+
 export const help: commandInt = {
   data: new SlashCommandBuilder()
     .setName("help")
@@ -66,7 +68,7 @@ export const help: commandInt = {
         .toLowerCase()
         .replace(/(,|;|\s)\s*/g, "");
       let exists = false;
-      commandData.forEach((command) => {
+      commandData.forEach(async (command) => {
         if (command.name.toLowerCase() === optionFormatted) {
           exists = true;
           const { name, description, permissions, usage } = command;
@@ -83,13 +85,13 @@ export const help: commandInt = {
               text: "© Pyreworks",
               iconURL: interaction.client.user?.displayAvatarURL(),
             });
-          if (permissions !== undefined) {
+          if (permissions) {
             dataEmbed.addFields({
               name: "Permissions",
               value: permissions.toString(),
             });
           }
-          interaction.editReply({ embeds: [dataEmbed] });
+          await interaction.editReply({ embeds: [dataEmbed] });
         }
       });
       if (!exists) {
@@ -105,7 +107,7 @@ export const help: commandInt = {
             text: "© Pyreworks",
             iconURL: interaction.client.user?.displayAvatarURL(),
           });
-        interaction.editReply({ embeds: [doesntExistEmbed] });
+        await interaction.editReply({ embeds: [doesntExistEmbed] });
       }
     } catch (err) {
       errorHandler("help command", err);

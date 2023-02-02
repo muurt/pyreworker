@@ -69,8 +69,11 @@ export async function analyzeText(
   const requestedAttributes = Object.fromEntries(
     attributes.map((attribute) => [attribute, {}])
   );
+
+  // * Implements a hotfix for text like ($uck my f0cking d!ck) => (Suck my fucking dick);
+  // * Implements a hotfix for common swear words like (fuck, shit).
+
   const cleanedText = text
-    .toLowerCase()
     .replaceAll(/\b(?:fuck(?:ing)?|shi+t)\b/g, "")
     .trim()
     .replaceAll("$", "s")
@@ -89,6 +92,8 @@ export async function analyzeText(
   };
 
   const comments = client.comments as any;
+
+  // * Makes a request to the Perspective Api
 
   return new Promise((resolve, reject) => {
     comments.analyze(

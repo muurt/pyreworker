@@ -1,5 +1,7 @@
 import { IntentsString } from "discord.js";
 
+// * All possible intents.
+
 export const intentOptions: IntentsString[] = [
   "GUILDS",
   "GUILD_MEMBERS",

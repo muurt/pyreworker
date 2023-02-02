@@ -5,6 +5,8 @@ import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 import { logHandler } from "../../utils/logHandler";
 
+// * The unban command.
+
 export const unban: commandInt = {
   data: new SlashCommandBuilder()
     .setName("unban")

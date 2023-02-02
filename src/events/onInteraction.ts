@@ -34,8 +34,8 @@ export const confirm = async (
   interactionUser: User
 ): Promise<boolean> => {
   let value = false;
-  const collectorFilter = (i: ButtonInteraction) => {
-    i.deferUpdate();
+  const collectorFilter = async (i: ButtonInteraction) => {
+    await i.deferUpdate();
     return i.user.id === interactionUser.id;
   };
   const confirmationButtons = new MessageActionRow().addComponents(
@@ -49,7 +49,7 @@ export const confirm = async (
       .setLabel("No")
   );
   const replyEmbed = new MessageEmbed()
-    .setTitle("Confirmation")
+    .setTitle("QUESTION!")
     .setAuthor({
       name: `${interactionUser.username}#${interactionUser.discriminator}`,
       iconURL: interactionUser.displayAvatarURL(),
@@ -65,12 +65,12 @@ export const confirm = async (
       iconURL: buttonInteraction.client.user?.displayAvatarURL(),
     });
   const cancelEmbed = new MessageEmbed()
-    .setTitle("INFO!")
+    .setTitle("WARN!")
     .setAuthor({
       name: `${interactionUser.username}#${interactionUser.discriminator}`,
       iconURL: interactionUser.displayAvatarURL(),
     })
-    .setColor(colors.white)
+    .setColor(colors.gray)
     .setDescription("Ticket cancelled as there was no reply.")
     .setFooter({
       text: "© Pyreworks",
@@ -181,8 +181,8 @@ export const confirm = async (
             return;
         }
       })
-      .catch(() => {
-        buttonInteraction.editReply({
+      .catch(async () => {
+        await buttonInteraction.editReply({
           embeds: [cancelEmbed],
           components: [],
         });
@@ -208,33 +208,33 @@ export const onInteraction = async (
     if (interaction.isButton()) {
       switch (interaction.customId) {
         case "support":
-          supportTicketsHandle(interaction);
+          await supportTicketsHandle(interaction);
           break;
         case "order":
-          orderTicketsHandle(interaction);
+          await orderTicketsHandle(interaction);
           break;
         case "application":
-          applicationTicketsHandle(interaction);
+          await applicationTicketsHandle(interaction);
           break;
         // ticket claim.
         case "support-ticket-claim":
-          supportTicketsClaim(interaction);
+          await supportTicketsClaim(interaction);
           break;
         case "order-ticket-claim":
-          orderTicketsClaim(interaction);
+          await orderTicketsClaim(interaction);
           break;
         case "application-ticket-claim":
-          applicationTicketsClaim(interaction);
+          await applicationTicketsClaim(interaction);
           break;
         // ticket notify.
         case "support-ticket-notifym":
-          supportTicketsNotify(interaction);
+          await supportTicketsNotify(interaction);
           break;
         case "order-ticket-notifym":
-          orderTicketsNotify(interaction);
+          await orderTicketsNotify(interaction);
           break;
         case "application-ticket-notifym":
-          applicationTicketsNotify(interaction);
+          await applicationTicketsNotify(interaction);
           break;
         default:
           return;

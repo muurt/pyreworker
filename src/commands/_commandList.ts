@@ -11,6 +11,9 @@ import { ticketsetup } from "./tickets/ticketsetup";
 import { createCode } from "./partner/createCode";
 import { viewCode } from "./partner/viewCode";
 
+// * Command list to be deployed.
+// TODO: Find a more efficient way to do this, perhaps directory looping.
+
 export const commandList: commandInt[] = [
   ticketsetup,
   timeout,

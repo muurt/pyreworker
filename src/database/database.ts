@@ -4,6 +4,8 @@ import { logHandler } from "../utils/logHandler";
 
 const $prismaClient = new PrismaClient();
 
+// * Creates the database connection using PRISMA.
+
 export const connectDatabase = async (): Promise<void> => {
   try {
     await $prismaClient.$connect();

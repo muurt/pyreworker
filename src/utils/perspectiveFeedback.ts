@@ -10,6 +10,8 @@ export const feedback = async (
   text: string
 ): Promise<MessageEmbed | void> => {
   try {
+    // * Checks the JSON request for flagged attributes and moderates them.
+
     const attributeArray: PerspectiveAttribute[] = [
       "PROFANITY",
       "SPAM",
@@ -90,7 +92,7 @@ export const feedback = async (
       if (flagged) {
         logHandler.log(
           "warn",
-          `A user with the tag ${username}#${tag} triggered the Automod with the message "${text}".`
+          `A user with the tag ${username}#${tag} triggered the automod with the message "${text}".`
         );
         return warnEmbed;
       }

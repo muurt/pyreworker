@@ -3,6 +3,8 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { feedback } from "../utils/perspectiveFeedback";
 import { colors } from "../config/colors";
 
+// * Handles some of the automod functionality.
+
 export const onMessageCreate = async (message: Message): Promise<void> => {
   try {
     if (
@@ -16,7 +18,7 @@ export const onMessageCreate = async (message: Message): Promise<void> => {
     let analyzation = await feedback(message, message.toString());
     if (analyzation) {
       const userInfo = new MessageEmbed()
-        .setTitle("WARNING!")
+        .setTitle("WARN!")
         .setAuthor({
           name: message.author.tag,
           iconURL: message.author.displayAvatarURL(),

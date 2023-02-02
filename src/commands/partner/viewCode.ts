@@ -6,6 +6,9 @@ import { getRefData } from "../../modules/getRefData";
 import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 
+// * View information about a partner code.
+// TODO: Transfer info to DM's, Fix permissions.
+
 export const viewCode: commandInt = {
   data: new SlashCommandBuilder()
     .setName("viewcode")
@@ -54,7 +57,7 @@ export const viewCode: commandInt = {
         return;
       }
 
-      const partnerProfile = interaction.client.users.cache.get(
+      const partnerProfile = await interaction.client.users.cache.get(
         targetData.partnerDiscordId
           ? targetData.partnerDiscordId.toString()
           : "doesn't reach"

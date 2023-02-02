@@ -38,12 +38,12 @@ export const supportTicketsNotify = async (
       iconURL: interaction.client.user?.displayAvatarURL(),
     });
   const notificationEmbed = new MessageEmbed()
-    .setTitle("INFO!")
+    .setTitle("WARN!")
     .setAuthor({
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.white)
+    .setColor(colors.gray)
     .setDescription("Ticket needs escalation.")
     .addFields(
       { name: "Ticket Channel", value: `<#${ticketID}>` },
@@ -62,7 +62,7 @@ export const supportTicketsNotify = async (
     return;
   }
 
-  const ticketChannel = interaction.client.channels.cache.get(ticketID);
+  const ticketChannel = await interaction.client.channels.cache.get(ticketID);
 
   if (!ticketChannel || ticketChannel.type !== "GUILD_TEXT") {
     return;
@@ -75,10 +75,11 @@ export const supportTicketsNotify = async (
     .send({
       embeds: [notificationEmbed],
     })
-    .then(() =>
-      managementChannel
-        .send({ content: "<@&840977614806319135>" })
-        .then((m) => m.delete())
+    .then(
+      async () =>
+        await managementChannel
+          .send({ content: "<@&840977614806319135>" })
+          .then(async (m) => await m.delete())
     );
 };
 
@@ -126,9 +127,10 @@ export const supportTicketsClaim = async (
     return;
   }
 
-  const ticketChannel = interaction.client.channels.cache.get(ticketID);
-  const ticketsChannel =
-    interaction.client.channels.cache.get("840145878610083881");
+  const ticketChannel = await interaction.client.channels.cache.get(ticketID);
+  const ticketsChannel = await interaction.client.channels.cache.get(
+    "840145878610083881"
+  );
   if (
     !ticketChannel ||
     ticketChannel.type !== "GUILD_TEXT" ||
@@ -146,7 +148,7 @@ export const supportTicketsClaim = async (
 
   await ticketsChannel.messages
     .fetch(interaction.message.id)
-    .then(async (msg) => msg.delete())
+    .then(async (msg) => await msg.delete())
     .catch((err) => errorHandler(err, "deleting a message"));
 
   await interaction
@@ -158,11 +160,11 @@ export const supportTicketsClaim = async (
         }),
       ],
     })
-    .then(() => {
-      ticketChannel
+    .then(async () => {
+      await ticketChannel
         .send({ content: `<@${ticketUser}>` })
-        .then((msg) => msg.delete());
-      ticketChannel.send({
+        .then(async (msg) => await msg.delete());
+      await ticketChannel.send({
         embeds: [notificationEmbed],
       });
     });
@@ -247,19 +249,20 @@ export const supportTicketsHandle = async (
           .send({
             content: `<@${user.id}>`,
           })
-          .then((m) => m.delete())
+          .then(async (m) => await m.delete())
           .catch((err) => errorHandler(err, "deleting a message"));
         await ticketChannel
           .send({
             embeds: [typeEmbed],
             components: [typeSelectMenu],
           })
-          .then((m) => {
+          .then(async (m) => {
             const ticketMessage = m;
             let ticketCategory: string;
             let ticketDescription: Message<boolean> | undefined;
-            const supportChannel =
-              interaction.client.channels.cache.get("840145878610083881");
+            const supportChannel = await interaction.client.channels.cache.get(
+              "840145878610083881"
+            );
             if (!supportChannel || supportChannel.type !== "GUILD_TEXT") {
               return;
             }
@@ -311,7 +314,7 @@ export const supportTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.orange)
               .setDescription(`<@${user.id}> created a support ticket.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -330,12 +333,12 @@ export const supportTicketsHandle = async (
                 .setEmoji("968144163986104341")
             );
 
-            const collectorFilter = (i: SelectMenuInteraction) => {
-              i.deferUpdate();
+            const collectorFilter = async (i: SelectMenuInteraction) => {
+              await i.deferUpdate();
               return i.user.id === user.id && i.customId === "support-type";
             };
 
-            m.channel
+            await m.channel
               .awaitMessageComponent({
                 componentType: "SELECT_MENU",
                 filter: collectorFilter,
@@ -343,16 +346,16 @@ export const supportTicketsHandle = async (
               })
               .then(async (i) => {
                 ticketCategory = i.values[0];
-                ticketMessage
+                await ticketMessage
                   .edit({
                     embeds: [descriptionEmbed],
                     components: [],
                   })
-                  .then(() => {
+                  .then(async () => {
                     const descriptionFilter = (message: Message) => {
                       return message.author.id === user.id;
                     };
-                    ticketMessage.channel
+                    await ticketMessage.channel
                       .awaitMessages({
                         filter: descriptionFilter,
                         max: 1,

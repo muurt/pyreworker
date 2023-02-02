@@ -1,6 +1,6 @@
 export enum colors {
-  gray = "#444444",
-  black = "#171717",
-  white = "#EDEDED",
-  orange = "#FF4C29",
+  gray = "#444444", // * WARN
+  black = "#171717", // * ERROR
+  white = "#EDEDED", // * INFO
+  orange = "#FF4C29", // * SUCCESS
 }

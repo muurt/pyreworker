@@ -10,6 +10,8 @@ import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 import { logHandler } from "../../utils/logHandler";
 
+// * The command for setting up tickets.
+
 export const ticketsetup: commandInt = {
   data: new SlashCommandBuilder()
     .setName("ticketsetup")

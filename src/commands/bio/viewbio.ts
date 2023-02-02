@@ -6,6 +6,9 @@ import { getBioData } from "../../modules/getBioData";
 import { errorHandler } from "../../utils/errorHandler";
 import { colors } from "../../config/colors";
 
+// * View information about a user.
+// TODO: Scrap this and turn it into a profile feature.
+
 export const viewbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("viewbio")
@@ -26,7 +29,9 @@ export const viewbio: commandInt = {
       const userOption = interaction.options.getUser("user");
       const successEmbed = new MessageEmbed();
       const targetId = userOption?.id;
-      const targetUser = interaction.guild?.members.cache.get(<string>targetId);
+      const targetUser = await interaction.guild?.members.cache.get(
+        <string>targetId
+      );
       // Roles to check for.
       const departmentRoles = [
         "Web Development",

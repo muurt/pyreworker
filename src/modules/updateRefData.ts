@@ -2,6 +2,15 @@ import { errorHandler } from "../utils/errorHandler";
 import { prismaClient } from "../database/database";
 import { Prisma } from "@prisma/client";
 
+/**
+ * @function
+ * @description Updates referral data in the database.
+ * @param {string} code - The referral code.
+ * @param {number} tab - The tab number.
+ * @returns {Promise<Prisma.ReferralUpdateInput | undefined>} - The updated referral data.
+ * @throws {Error} - If there is an issue with updating the referral data.
+ */
+
 export const updateRefData = async (
   code: string,
   tab: number

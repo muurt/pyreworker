@@ -7,6 +7,9 @@ import { updateBioData } from "../../modules/updateBioData";
 import { colors } from "../../config/colors";
 import { feedback } from "../../utils/perspectiveFeedback";
 
+// * Edit your information.
+// TODO: Scrap this and turn it into a profile feature.
+
 export const editbio: commandInt = {
   data: new SlashCommandBuilder()
     .setName("editbio")
@@ -14,21 +17,21 @@ export const editbio: commandInt = {
     .addStringOption(
       (option) =>
         option.setName("bio").setDescription("The new bio.").setRequired(true)
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("email")
-      //     .setDescription("Your email address.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("portfolio")
-      //     .setDescription("Your portfolio url.")
-      //     .setRequired(true),
-      // .addStringOption((option) =>
-      //   option
-      //     .setName("other links")
-      //     .setDescription("Any other links you want to share.")
-      //     .setRequired(true)
+      //// .addStringOption((option) =>
+      ////   option
+      ////     .setName("email")
+      ////     .setDescription("Your email address.")
+      ////     .setRequired(true),
+      //// .addStringOption((option) =>
+      ////   option
+      ////     .setName("portfolio")
+      ////     .setDescription("Your portfolio url.")
+      ////     .setRequired(true),
+      //// .addStringOption((option) =>
+      ////   option
+      ////     .setName("other links")
+      ////     .setDescription("Any other links you want to share.")
+      ////     .setRequired(true)
     ) as SlashCommandBuilder,
   name: "editbio",
   description: "Edit your bio.",

@@ -7,12 +7,16 @@ datasource db {
   url      = env("mongoUri")
 }
 
+// * The module for bio's.
+// TODO: Scrap this and turn it into a profile feature.
+
 model Bio {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   discordId   String @unique
   description String
 }
 
+// * Used for partner codes.
 model Referral {
   id               String @id @default(auto()) @map("_id") @db.ObjectId
   partnerDiscordId String

@@ -6,10 +6,11 @@ import { commandList } from "../commands/_commandList";
 import { Client } from "discord.js";
 
 /**
- * Handles the "ready" event for the bot.
+ * * Handles the "ready" event for the bot.
  * @param {Client} botInstance - The bot instance.
  * @returns {Promise<void>} - A promise that resolves when the function finishes executing.
  */
+
 export const onReady = async (botInstance: Client): Promise<void> => {
   try {
     const restClient = new REST({ version: "9" }).setToken(
@@ -78,7 +79,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       });
     }, 60000);
 
-    logHandler.log("info", "Connection with Discord established!");
+    await logHandler.log("info", "Connection with Discord established!");
   } catch (err) {
     errorHandler("onReady event", err);
   }

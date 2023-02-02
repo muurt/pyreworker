@@ -1,6 +1,8 @@
 import { createLogger, format, transports, config } from "winston";
 const { combine, timestamp, colorize, printf } = format;
 
+// * Creates a logger function using winston.
+
 const logFormat = combine(
   timestamp({
     format: "YYYY-MM-DD HH:mm:ss",

@@ -3,11 +3,14 @@ import { prismaClient } from "../database/database";
 import { Prisma } from "@prisma/client";
 
 /**
- * Creates new bio data for a given Discord user.
- * @param {string} id - The Discord user's ID.
- * @param {string} description - The description for the user's bio.
- * @returns {Promise<Prisma.BioCreateInput | undefined>} - The new bio data.
+ * @function createBioData
+ * @description Creates bio data in the database.
+ * @param {string} id - The Discord ID of the user.
+ * @param {string} description - The description of the user's bio.
+ * @returns {Promise<Prisma.BioCreateInput | undefined>} - The newly created bio data.
+ * @throws {Error} - If there is an issue with creating the bio data.
  */
+
 export const createBioData = async (
   id: string,
   description: string
