@@ -10,6 +10,7 @@ import { timeout } from "./moderation/timeout";
 import { ticketsetup } from "./tickets/ticketsetup";
 import { createCode } from "./partner/createCode";
 import { viewCode } from "./partner/viewCode";
+import { selectrole } from "./selectroles/selectrole";
 
 // * Command list to be deployed.
 // TODO: Find a more efficient way to do this, perhaps directory looping.
@@ -26,4 +27,5 @@ export const commandList: commandInt[] = [
   viewbio,
   createCode,
   viewCode,
+  selectrole,
 ];

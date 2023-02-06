@@ -7,21 +7,36 @@ datasource db {
   url      = env("mongoUri")
 }
 
-// * The module for bio's.
-// TODO: Scrap this and turn it into a profile feature.
-
 model Bio {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  discordId   String @unique
   description String
+  discordId   String @unique
 }
 
-// * Used for partner codes.
+model ReactRole {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
 model Referral {
   id               String @id @default(auto()) @map("_id") @db.ObjectId
-  partnerDiscordId String
   code             String @unique
-  discount         Int
-  sales            Int
+  discount         BigInt
+  partnerDiscordId String
+  sales            BigInt
   tab              Float?
+}
+
+model ReferralCode {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  code        String
+  description String
+  discount    BigInt
+  partner     String @unique
+  services    String
+}
+
+model Test {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  discordId String
+  name      String
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { validateEnv } from "./utils/validateEnv";
 import { Client, Message, Interaction } from "discord.js";
 import { connectDatabase } from "./database/database";
@@ -6,14 +7,17 @@ import { onInteraction } from "./events/onInteraction";
 import { intentOptions } from "./config/intentOptions";
 import { onMessageCreate } from "./events/onMessageCreate";
 
+const client = new Client({ intents: intentOptions });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const main = async () => {
   validateEnv();
 
-  const client = new Client({ intents: intentOptions });
-
   client.on("ready", onReadyHandler);
-  client.on("interactionCreate", onInteractionHandler);
   client.on("messageCreate", onMessageCreateHandler);
+  // Sam was here :)
+  client.on("interactionCreate", async (interaction) => {
+    await onInteractionHandler(interaction);
+  });
 
   await connectDatabase();
   await client.login(process.env.botToken as string);
