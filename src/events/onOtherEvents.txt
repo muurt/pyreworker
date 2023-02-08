@@ -1,0 +1,35 @@
+// full logging system for all events
+
+import { onGuildInviteCreate } from "./events/onGuildInviteCreate";
+
+import { onGuildInviteDelete } from "./events/onGuildInviteDelete";
+
+import { onMessageDelete } from "./events/onMessageDelete";
+
+import { onMessageUpdate } from "./events/onMessageUpdate";
+
+import { onMessageDeleteBulk } from "./events/onMessageDeleteBulk";
+
+import { onMessageReactionAdd } from "./events/onMessageReactionAdd";
+
+import { onMessageReactionRemove } from "./events/onMessageReactionRemove";
+
+import { onMessageReactionRemoveAll } from "./events/onMessageReactionRemoveAll";
+
+import { onStageInstanceCreate } from "./events/onStageInstanceCreate";
+
+import { onStageInstanceUpdate } from "./events/onStageInstanceUpdate";
+
+import { onStageInstanceDelete } from "./events/onStageInstanceDelete";
+
+import { onThreadCreate } from "./events/onThreadCreate";
+
+import { onThreadUpdate } from "./events/onThreadUpdate";
+
+import { onThreadDelete } from "./events/onThreadDelete";
+
+import { onThreadListSync } from "./events/onThreadListSync";
+
+import { onThreadMembersUpdate } from "./events/onThreadMembersUpdate";
+
+import { onThreadMemberUpdate } from "./events/onThreadMemberUpdate";
