@@ -7,12 +7,12 @@ const missingMongoUriError = "Missing environment variable | mongoUri";
 
 export const validateEnv = (): void => {
   if (!process.env.botToken) {
-    logHandler.log("warn", missingBotTokenError);
+    logHandler.info(`warn | ${missingBotTokenError}`);
     process.exit(1);
   }
 
   if (!process.env.mongoUri) {
-    logHandler.log("warn", missingMongoUriError);
+    logHandler.info(`warn | ${missingMongoUriError}`);
     process.exit(1);
   }
 };

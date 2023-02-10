@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageEmbed, TextChannel } from "discord.js";
 import { logHandler } from "../utils/logHandler";
-import { sendLogMessage } from "./sendLogMessage";
+import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 import { feedback } from "../utils/perspectiveFeedback";
+export let analyzationStatus = false;
 
 export const onMessageUpdate = async (
   oldMessage: any,
   newMessage: any
 ): Promise<void> => {
-  logHandler.log("info", `A message has been updated: ${newMessage.content}`);
   if (newMessage.author.bot) {
     return;
   }
@@ -18,6 +18,7 @@ export const onMessageUpdate = async (
   }
   let analyzation = await feedback(newMessage, newMessage.toString());
   if (analyzation) {
+    analyzationStatus = true;
     const userInfo = new MessageEmbed()
       .setTitle("WARN!")
       .setAuthor({
@@ -63,12 +64,19 @@ export const onMessageUpdate = async (
     .setColor(colors.orange)
     .setTitle("Message Updated")
     .setDescription(`A message has been updated.`)
-    .addField("Old Message Content", `| ${oldMessage.content}`, false)
-    .addField("New Message Content", `| ${newMessage.content}`, false)
-    .addField("Message Author", `| ${newMessage.author}`, false)
-    .addField("Message Channel", `| ${newMessage.channel}`, false)
-    .addField("Message ID", `| ${newMessage.id}`, false)
+    .addField("Old Message Content", `\`\`\`${oldMessage.content}\`\`\``, false)
+    .addField("New Message Content", `\`\`\`${newMessage.content}\`\`\``, false)
+    .addField("Message Author", `\`\`\`${newMessage.author}\`\`\``, false)
+    .addField("Message Channel", `\`\`\`${newMessage.channel}\`\`\``, false)
+    .addField("Message ID", `\`\`\`${newMessage.id}\`\`\``, false)
     .setThumbnail(newMessage.author.avatarURL())
     .setTimestamp();
-  await sendLogMessage(newMessage.client, messageEmbed);
+  if (analyzationStatus === false) {
+    logHandler.info(
+      `event | A message has been updated: ${oldMessage.content} -> ${newMessage.content}`
+    );
+    await sendLogMessage(newMessage.client, messageEmbed);
+  } else {
+    await sendLogMessage(newMessage.client, messageEmbed);
+  }
 };

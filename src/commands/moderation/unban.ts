@@ -110,9 +110,8 @@ export const unban: commandInt = {
         return;
       }
 
-      logHandler.log(
-        "warn",
-        `A user with the id ${userOption} has been unbanned by ${user.tag} (${user.id}).`
+      logHandler.info(
+        `warn | A user with the id ${userOption} has been unbanned by ${user.tag} (${user.id}).`
       );
       const successEmbed = new MessageEmbed()
         .setTitle("SUCCESS!")

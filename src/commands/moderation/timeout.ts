@@ -214,9 +214,8 @@ export const timeout: commandInt = {
         return;
       }
 
-      logHandler.log(
-        "warn",
-        `A user with the tag ${userOption.tag} (${userOption.id}) has been timed out by ${user.tag} (${user.id}) for the reason "${reasonOption}" and for ${durationText}.`
+      logHandler.info(
+        `event | A user with the tag ${userOption.tag} (${userOption.id}) has been timed out by ${user.tag} (${user.id}) for the reason "${reasonOption}" and for ${durationText}.`
       );
 
       const successEmbed = new MessageEmbed()
@@ -245,7 +244,7 @@ export const timeout: commandInt = {
         embeds: [successEmbed],
       });
     } catch (err) {
-      errorHandler("kick command", err);
+      errorHandler("timeout command", err);
     }
   },
 };

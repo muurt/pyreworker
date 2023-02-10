@@ -161,7 +161,7 @@ export const ticketsetup: commandInt = {
         return;
       }
 
-      logHandler.log(
+      logHandler.info(
         "warn",
         `A user with the tag ${user.tag} (${user.id}) used the ticketsetup command.`
       );
