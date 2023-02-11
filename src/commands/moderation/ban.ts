@@ -160,9 +160,8 @@ export const ban: commandInt = {
         return;
       }
 
-      logHandler.log(
-        "warn",
-        `A user with the tag ${userOption.tag} (${userOption.id}) has been banned by ${user.tag} (${user.id}) for the reason "${reasonOption}" and their messages were deleted for ${numberOption} days.`
+      logHandler.info(
+        `warn | A user with the tag ${userOption.tag} (${userOption.id}) has been banned by ${user.tag} (${user.id}) for the reason "${reasonOption}" and their messages were deleted for ${numberOption} days.`
       );
 
       const successEmbed = new MessageEmbed()

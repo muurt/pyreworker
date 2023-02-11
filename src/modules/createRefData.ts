@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { errorHandler } from "../utils/errorHandler";
 import { prismaClient } from "../database/database";
 import { Prisma } from "@prisma/client";
+import { logHandler } from "../utils/logHandler";
+import { MessageEmbed } from "discord.js";
+import { sendLogMessage } from "../utils/sendLogMessage";
 
 /**
  * @function createRefData
@@ -13,7 +17,7 @@ import { Prisma } from "@prisma/client";
  */
 
 export const createRefData = async (
-  id: string,
+  id: string | any,
   discount: number,
   code: string
 ): Promise<Prisma.ReferralCreateInput | undefined> => {
@@ -28,6 +32,18 @@ export const createRefData = async (
       },
     });
 
+    logHandler.info(
+      `referral | ${id} has been added to the referral database. Code: ${code}`
+    );
+    const logEmbed = new MessageEmbed()
+      .setTitle("Referral Code Created")
+      .setDescription(`A new referral code has been created.`)
+      .addField("Partner ID", `\`\`\`${id}\`\`\``, false)
+      .addField("Referral Code", `\`\`\`${code}\`\`\``, false)
+      .addField("Discount Percentage", `\`\`\`${discount}\`\`\``, false)
+      .setTimestamp();
+
+    await sendLogMessage(id.client, logEmbed);
     return newRefData;
   } catch (error) {
     errorHandler("createRefData module", error);

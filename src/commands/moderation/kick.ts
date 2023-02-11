@@ -120,9 +120,8 @@ export const kick: commandInt = {
         return;
       }
 
-      logHandler.log(
-        "warn",
-        `A user with the tag ${userOption.tag} (${userOption.id}) has been kicked by ${user.tag} (${user.id}) for the reason "${reasonOption}".`
+      logHandler.info(
+        `warn | A user with the tag ${userOption.tag} (${userOption.id}) has been kicked by ${user.tag} (${user.id}) for the reason "${reasonOption}".`
       );
 
       const successEmbed = new MessageEmbed()

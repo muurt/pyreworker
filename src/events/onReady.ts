@@ -79,7 +79,7 @@ export const onReady = async (botInstance: Client): Promise<void> => {
       });
     }, 60000);
 
-    await logHandler.log("info", "Connection with Discord established!");
+    await logHandler.info("info | Connection with Discord established!");
   } catch (err) {
     errorHandler("onReady event", err);
   }

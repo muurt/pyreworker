@@ -89,9 +89,8 @@ export const feedback = async (
         }
       });
       if (flagged) {
-        logHandler.log(
-          "warn",
-          `A user with the tag ${username}#${tag} triggered the automod with the message "${text}".`
+        logHandler.info(
+          `warn | A user with the tag ${username}#${tag} triggered the automod with the message "${text}".`
         );
         return warnEmbed;
       }

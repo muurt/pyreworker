@@ -9,7 +9,7 @@ const $prismaClient = new PrismaClient();
 export const connectDatabase = async (): Promise<void> => {
   try {
     await $prismaClient.$connect();
-    logHandler.log("info", "Connection with the database established!");
+    logHandler.info("Database | Connection with the database established!");
   } catch (error) {
     errorHandler("database connection", error);
   }
