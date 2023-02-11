@@ -9,10 +9,11 @@ export const onGuildBanAdd = async (member: any): Promise<void> => {
     return;
   }
   const fetchBan = await member.guild.fetchAuditLogs({
-    limit: 1,
+    limit: 3,
     type: "MEMBER_BAN_ADD",
   });
   const banLog = fetchBan.entries.first();
+
   const { executor: banExecutor, target: banTarget } = banLog;
   const banEmbed = new MessageEmbed()
     .setColor(colors.orange)
@@ -22,18 +23,33 @@ export const onGuildBanAdd = async (member: any): Promise<void> => {
     .addField("User ID", `\`\`\`${banTarget.id}\`\`\``, false)
     .addField("User Created At", `\`\`\`${banTarget.createdAt}\`\`\``, false)
     .addField("Banned By", `\`\`\`${banExecutor.tag}\`\`\``, false)
-    .setThumbnail(member.user.avatarURL())
+    .setThumbnail(banExecutor.avatarURL())
     .setTimestamp();
-  if (!banLog) {
-    return;
-  }
-  if (banLog.createdAt < member.joinedAt) {
-    return;
-  }
-  if (banTarget.id === member.id) {
-    logHandler.info(
-      `event | ${banTarget.tag} has been banned by ${banExecutor.tag}. Logged to Central Archives.`
-    );
-    await sendLogMessage(member.client, banEmbed);
-  }
+  const parseErrorEmbed = new MessageEmbed()
+    .setColor(colors.orange)
+    .setTitle("Audit Log Parse Error")
+    .setDescription(`A member has either left the server or has been banned.`)
+    .addField("User Tag", `\`\`\`${member.user.tag}\`\`\``, false)
+    .setTimestamp();
+  setTimeout(async () => {
+    if (banLog) {
+      if (banLog.createdAt > member.joinedAt) {
+        if (banTarget.id === member.id) {
+          logHandler.info(
+            `event | ${banTarget.tag} has been banned by ${banExecutor.tag}. Logged to Central Archives.`
+          );
+          await sendLogMessage(member.client, banEmbed);
+        } else {
+          logHandler.error(
+            `event | ${member.user.tag} has either left the server or has been banned. Audit Log Parse Unsuccessful. Logged to Central Archives.`
+          );
+          await sendLogMessage(member.client, parseErrorEmbed);
+        }
+      } else {
+        return;
+      }
+    } else {
+      return;
+    }
+  }, 1599); // arbitrary timeout value to wait for the auditlog to update in case discord is lagging.
 };

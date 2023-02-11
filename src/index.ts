@@ -6,7 +6,7 @@ import { onReady } from "./events/onReady";
 import { onInteraction } from "./events/onInteraction";
 import { intentOptions } from "./config/intentOptions";
 import { onMessageCreate } from "./events/onMessageCreate";
-import { onMemberCreate } from "./events/onMemberCreate"; // bugged. fires twice.
+import { onMemberCreate } from "./events/onMemberCreate"; // works
 import { onMemberRemove } from "./events/onMemberRemove"; // works
 import { onMemberUpdate } from "./events/onMemberUpdate"; // works
 import { onChannelCreate } from "./events/onChannelCreate"; // works
@@ -25,8 +25,7 @@ import { onThreadCreate } from "./events/onThreadCreate"; // works
 import { onThreadDelete } from "./events/onThreadDelete"; // works
 import { onThreadMembersUpdate } from "./events/onThreadMembersUpdate"; // works
 import { onThreadUpdate } from "./events/onThreadUpdate"; // works
-import { onGuildBanAdd } from "./events/onGuildBanAdd"; // bugged. doesn't work at all.
-
+import { onGuildBanAdd } from "./events/onGuildBanAdd";
 export const client = new Client({ intents: intentOptions });
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const main = async () => {
@@ -44,10 +43,15 @@ const main = async () => {
   client.on("guildMemberAdd", onMemberCreate);
   client.on("guildMemberRemove", onMemberRemove);
   client.on("guildMemberUpdate", onMemberUpdate);
-  client.on("guildBanAdd", onGuildBanAdd);
+  // client.on("guildBanAdd", async (guild: any, user: any) => {
+  //   if (onMemberRemove.kicked === true) {
+  //     return;
+  //   } else {
+  //     await onGuildBanAdd(guild, user);
+  //   }
+  // });
   client.on("guildBanRemove", onGuildBanRemove);
   client.on("guildUpdate", onGuildUpdate);
-  client.on("guildMemberAdd", onMemberCreate);
 
   // Channel events.
   client.on("channelCreate", onChannelCreate);
