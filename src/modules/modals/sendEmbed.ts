@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable prefer-const */
 import {
   APIActionRowComponent,
   APIMessageActionRowComponent,
@@ -8,16 +6,28 @@ import {
   MessageActionRow,
   MessageActionRowComponent,
   MessageActionRowComponentResolvable,
-  MessageButton,
   MessageEmbed,
   MessageSelectMenu,
   MessageSelectOptionData,
 } from "discord.js";
+import { colors } from "../../config/colors";
 
 export const sendModalEmbedEvent = async (interaction) => {
   if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("You don't have the required permission(s).")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
     return interaction.reply({
-      content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   }
@@ -32,10 +42,10 @@ export const sendModalEmbedEvent = async (interaction) => {
   let description = interaction.fields.getTextInputValue("description");
   let color = interaction.fields.getTextInputValue("color");
 
-  let roles:
+  const roles:
     | { label: string; description: string | undefined; value: string }
     | MessageSelectOptionData[] = [];
-  let roleList = interaction.message.embeds[0].fields[0].value;
+  const roleList = interaction.message.embeds[0].fields[0].value;
   let channel: {
     send: (arg0: {
       embeds: MessageEmbed[];
@@ -72,7 +82,7 @@ export const sendModalEmbedEvent = async (interaction) => {
     if (!channel) {
       // No channal was Found
       return interaction.update({
-        content: `❌ - I am unable to find a channel with the name or id of \`${channelNameOrId}\``,
+        content: `Can't find the channel to send the message to.`,
         ephemeral: true,
       });
     }
@@ -116,8 +126,15 @@ export const sendModalEmbedEvent = async (interaction) => {
   // Embed and Select Menu
   const embed = new MessageEmbed()
     .setTitle(title ? title : "Self Assignable Roles")
-    .setFooter({ text: "Pyreworks", iconURL: process.env.icon })
+    .setAuthor({
+      name: `Select Roles`,
+      iconURL: interaction.client.user?.displayAvatarURL(),
+    })
     .setDescription(description)
+    .setFooter({
+      text: "© Pyreworks",
+      iconURL: interaction.client.user?.displayAvatarURL(),
+    })
     .setColor(color);
 
   const menu = new MessageActionRow().addComponents(
@@ -125,38 +142,24 @@ export const sendModalEmbedEvent = async (interaction) => {
       .setCustomId("select-menu-roles")
       .setMinValues(0)
       .setMaxValues(roles.length)
-      .setPlaceholder(`Select some roles`)
+      .setPlaceholder(`Select`)
       .setOptions(roles)
   );
 
-  const buttons = new MessageActionRow().addComponents(
-    new MessageButton()
-      .setCustomId("display-roles")
-      .setLabel("Display Roles")
-      .setStyle("PRIMARY"),
-
-    new MessageButton()
-      .setCustomId("clear-roles")
-      .setLabel("Clear Roles")
-      .setStyle("DANGER")
-  );
-
   let failedToSend = false;
-  await channel
-    .send({ embeds: [embed], components: [menu, buttons] })
-    .catch(() => {
-      failedToSend = true;
-    });
+  await channel.send({ embeds: [embed], components: [menu] }).catch(() => {
+    failedToSend = true;
+  });
 
   if (failedToSend) {
     return interaction.update({
-      content: `❌ - Failed to send message, please check my permissions for <#${channel.id}>.`,
+      content: `Couldn't send the message.`,
       embeds: [],
       components: [],
     });
   } else {
     interaction.update({
-      content: `🎉 - Success! You have successfully created the Select Menu Roles, check it out in <#${channel.id}>`,
+      content: `Everything's done!`,
       embeds: [],
       components: [],
     });

@@ -1,10 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { colors } from "../../config/colors";
 
 export const removeRoleFromMenu = async (interaction) => {
   if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("You don't have the required permission(s).")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
     return interaction.reply({
-      content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   }
@@ -17,8 +29,7 @@ export const removeRoleFromMenu = async (interaction) => {
     .setColor(oldEmbed.color)
     .setFooter(oldEmbed.footer);
 
-  // eslint-disable-next-line prefer-const
-  let roleList: number[] = [];
+  const roleList: number[] = [];
   for (const line of oldRoleList) {
     const roleId = line.split(" - ")[0].replace(/[<@&>]/g, "");
 

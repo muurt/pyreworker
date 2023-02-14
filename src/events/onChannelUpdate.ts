@@ -1,22 +1,50 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import {
+  DMChannel,
+  MessageEmbed,
+  NonThreadGuildBasedChannel,
+} from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
 export const onChannelUpdate = async (
-  oldChannel: any,
-  newChannel: any
+  oldChannel: NonThreadGuildBasedChannel | DMChannel,
+  newChannel: NonThreadGuildBasedChannel | DMChannel
 ): Promise<void> => {
+  if (oldChannel instanceof DMChannel || newChannel instanceof DMChannel) {
+    return;
+  }
   const channelEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Channel Updated")
     .setDescription("A channel has been updated.")
-    .addField("Old Channel Name", `\`\`\`${oldChannel.name}\`\`\``, false)
-    .addField("New Channel Name", `\`\`\`${newChannel.name}\`\`\``, false)
-    .addField("Old Channel Type", `\`\`\`${oldChannel.type}\`\`\``, false)
-    .addField("New Channel Type", `\`\`\`${newChannel.type}\`\`\``, false)
-    .addField("Channel ID", `\`\`\`${oldChannel.id}\`\`\``, false)
+    .addFields([
+      {
+        name: "Old Channel Name",
+        value: `\`\`\`${oldChannel.name}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Channel Name",
+        value: `\`\`\`${newChannel.name}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Channel Type",
+        value: `\`\`\`${oldChannel.type}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Channel Type",
+        value: `\`\`\`${newChannel.type}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Channel ID",
+        value: `\`\`\`${oldChannel.id}\`\`\``,
+        inline: false,
+      },
+    ])
     .setTimestamp();
   logHandler.info(
     `event | #${oldChannel.name} channel has been updated. Logged to Central Archives.`

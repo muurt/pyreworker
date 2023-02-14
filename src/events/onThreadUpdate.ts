@@ -1,55 +1,53 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, ThreadChannel } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
 export const onThreadUpdate = async (
-  oldThread: any,
-  newThread: any
+  oldThread: ThreadChannel,
+  newThread: ThreadChannel
 ): Promise<void> => {
   const threadEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Thread Updated")
     .setDescription(`A thread has been updated.`)
-    .addField("Old Thread Name", `\`\`\`${oldThread.name}\`\`\``, false)
-    .addField("New Thread Name", `\`\`\`${newThread.name}\`\`\``, false)
-    .addField("Thread ID", `\`\`\`${oldThread.id}\`\`\``, false)
-    .addField("Old Thread Type", `\`\`\`${oldThread.type}\`\`\``, false)
-    .addField("New Thread Type", `\`\`\`${newThread.type}\`\`\``, false)
-    .addField("Thread Archived?", `\`\`\`${oldThread.archived}\`\`\``, false)
-    .addField("Thread Locked?", `\`\`\`${oldThread.locked}\`\`\``, false)
-    .addField(
-      "Old Thread Auto Archive Duration",
-      `\`\`\`${oldThread.autoArchiveDuration}\`\`\``,
-      false
+    .addFields(
+      { name: "Old Thread Name", value: `\`\`\`${oldThread.name}\`\`\`` },
+      { name: "New Thread Name", value: `\`\`\`${newThread.name}\`\`\`` },
+      { name: "Thread ID", value: `\`\`\`${oldThread.id}\`\`\`` },
+      { name: "Old Thread Type", value: `\`\`\`${oldThread.type}\`\`\`` },
+      { name: "New Thread Type", value: `\`\`\`${newThread.type}\`\`\`` },
+      { name: "Thread Archived?", value: `\`\`\`${oldThread.archived}\`\`\`` },
+      { name: "Thread Locked?", value: `\`\`\`${oldThread.locked}\`\`\`` },
+      { name: "Thread Archived?", value: `\`\`\`${oldThread.archived}\`\`\`` },
+      { name: "Thread Locked?", value: `\`\`\`${oldThread.locked}\`\`\`` },
+      { name: "Thread Owner ID", value: `\`\`\`${oldThread.ownerId}\`\`\`` },
+
+      {
+        name: "Old Thread Auto Archive Duration",
+        value: `\`\`\`${oldThread.autoArchiveDuration}\`\`\``,
+      },
+      {
+        name: "New Thread Auto Archive Duration",
+        value: `\`\`\`${newThread.autoArchiveDuration}\`\`\``,
+      },
+      {
+        name: "Old Thread Rate Limit Per User",
+        value: `\`\`\`${oldThread.rateLimitPerUser}\`\`\``,
+      },
+      {
+        name: "New Thread Rate Limit Per User",
+        value: `\`\`\`${newThread.rateLimitPerUser}\`\`\``,
+      },
+      {
+        name: "Old Thread Member Count",
+        value: `\`\`\`${oldThread.memberCount}\`\`\``,
+      },
+      {
+        name: "New Thread Member Count",
+        value: `\`\`\`${newThread.memberCount}\`\`\``,
+      }
     )
-    .addField(
-      "New Thread Auto Archive Duration",
-      `\`\`\`${newThread.autoArchiveDuration}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Thread Rate Limit Per User",
-      `\`\`\`${oldThread.rateLimitPerUser}\`\`\``,
-      false
-    )
-    .addField(
-      "New Thread Rate Limit Per User",
-      `\`\`\`${newThread.rateLimitPerUser}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Thread Member Count",
-      `\`\`\`${oldThread.memberCount}\`\`\``,
-      false
-    )
-    .addField(
-      "New Thread Member Count",
-      `\`\`\`${newThread.memberCount}\`\`\``,
-      false
-    )
-    .addField("Thread Owner ID", `\`\`\`${oldThread.ownerID}\`\`\``, false)
     .setTimestamp();
   logHandler.info(
     `event | ${oldThread.name} thread has been updated. Logged to Central Archives.`

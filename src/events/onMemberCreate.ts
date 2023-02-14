@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { GuildMember, MessageEmbed } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
-export const onMemberCreate = async (member: any): Promise<void> => {
+export const onMemberCreate = async (member: GuildMember): Promise<void> => {
   const roles: string[] = [
     "885761807078268948",
     "847060751595601970",
@@ -20,17 +19,39 @@ export const onMemberCreate = async (member: any): Promise<void> => {
     .setColor(colors.orange)
     .setTitle("Member Joined")
     .setDescription(`A member has joined the server.`)
-    .addField("User Tag", `\`\`\`${member.user.tag}\`\`\``, false)
-    .addField("User ID", `\`\`\`${member.user.id}\`\`\``, false)
-    .addField("Account Created", `\`\`\`${member.user.createdAt}\`\`\``, false)
-    .addField("Joined Server", `\`\`\`${member.joinedAt}\`\`\``, false)
-    .addField("Member Count", `\`\`\`${member.guild.memberCount}\`\`\``, false)
-    .addField(
-      "Roles",
-      `\`\`\`${member.roles.cache
-        .map((r: { toString: () => any }) => r.toString())
-        .join("\n")}\`\`\``,
-      false
+    .addFields(
+      {
+        name: "User Tag",
+        value: `\`\`\`${member.user.tag}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "User ID",
+        value: `\`\`\`${member.user.id}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Account Created",
+        value: `\`\`\`${member.user.createdAt}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Joined Server",
+        value: `\`\`\`${member.joinedAt}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Member Count",
+        value: `\`\`\`${member.guild.memberCount}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Roles",
+        value: `\`\`\`${member.roles.cache
+          .map((r: { toString: () => string }) => r.toString())
+          .join("\n")}\`\`\``,
+        inline: false,
+      }
     )
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp();

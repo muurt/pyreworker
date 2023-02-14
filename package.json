@@ -1,7 +1,7 @@
 {
   "name": "pyreworker",
   "private": true,
-  "version": "1.2.0",
+  "version": "2.0.2",
   "description": "The PYREWORKS worker bot.",
   "main": "./out/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "eslint ./src",
     "start": "node -r dotenv/config ./out/index.js"
   },
-  "author": "PYREWORKS | Murt Awh",
+  "author": "The Pyreworks Team",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^0.14.0",

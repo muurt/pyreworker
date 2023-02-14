@@ -1,66 +1,99 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { Guild, MessageEmbed } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
 export const onGuildUpdate = async (
-  oldGuild: any,
-  newGuild: any
+  oldGuild: Guild,
+  newGuild: Guild
 ): Promise<void> => {
   const guildEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Guild Updated")
     .setDescription(`A guild has been updated.`)
-    .addField("Old Guild Name", `\`\`\`${oldGuild.name}\`\`\``, false)
-    .addField("New Guild Name", `\`\`\`${newGuild.name}\`\`\``, false)
-    .addField("Old Guild ID", `\`\`\`${oldGuild.id}\`\`\``, false)
-    .addField("New Guild ID", `\`\`\`${newGuild.id}\`\`\``, false)
-    .addField("Old Guild Owner", `\`\`\`${oldGuild.owner}\`\`\``, false)
-    .addField("New Guild Owner", `\`\`\`${newGuild.owner}\`\`\``, false)
-    .addField("Old Guild Region", `\`\`\`${oldGuild.region}\`\`\``, false)
-    .addField("New Guild Region", `\`\`\`${newGuild.region}\`\`\``, false)
-    .addField(
-      "Old Guild Verification Level",
-      `\`\`\`${oldGuild.verificationLevel}\`\`\``,
-      false
+    .addFields(
+      {
+        name: "Old Guild Name",
+        value: `\`\`\`${oldGuild.name}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Name",
+        value: `\`\`\`${newGuild.name}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild ID",
+        value: `\`\`\`${oldGuild.id}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild ID",
+        value: `\`\`\`${newGuild.id}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Owner",
+        value: `\`\`\`${oldGuild.fetchOwner()}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Owner",
+        value: `\`\`\`${newGuild.fetchOwner()}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Region",
+        value: `\`\`\`${oldGuild.preferredLocale}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Region",
+        value: `\`\`\`${newGuild.preferredLocale}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Verification Level",
+        value: `\`\`\`${oldGuild.verificationLevel}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Verification Level",
+        value: `\`\`\`${newGuild.verificationLevel}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Explicit Content Filter",
+        value: `\`\`\`${oldGuild.explicitContentFilter}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Explicit Content Filter",
+        value: `\`\`\`${newGuild.explicitContentFilter}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Default Message Notifications",
+        value: `\`\`\`${oldGuild.defaultMessageNotifications}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Default Message Notifications",
+        value: `\`\`\`${newGuild.defaultMessageNotifications}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Old Guild Description",
+        value: `\`\`\`${oldGuild.description}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "New Guild Description",
+        value: `\`\`\`${newGuild.description}\`\`\``,
+        inline: false,
+      }
     )
-    .addField(
-      "New Guild Verification Level",
-      `\`\`\`${newGuild.verificationLevel}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Guild Explicit Content Filter",
-      `\`\`\`${oldGuild.explicitContentFilter}\`\`\``,
-      false
-    )
-    .addField(
-      "New Guild Explicit Content Filter",
-      `\`\`\`${newGuild.explicitContentFilter}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Guild Default Message Notifications",
-      `\`\`\`${oldGuild.defaultMessageNotifications}\`\`\``,
-      false
-    )
-    .addField(
-      "New Guild Default Message Notifications",
-      `\`\`\`${newGuild.defaultMessageNotifications}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Guild Description",
-      `\`\`\`${oldGuild.description}\`\`\``,
-      false
-    )
-    .addField(
-      "New Guild Description",
-      `\`\`\`${newGuild.description}\`\`\``,
-      false
-    )
-    .setThumbnail(newGuild.iconURL())
+    .setThumbnail(newGuild.iconURL() || "NULL")
     .setTimestamp();
   logHandler.info(
     `event | Pyreworks Discord has been updated. Logged to Central Archives.`

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ButtonInteraction,
   Interaction,
@@ -26,9 +25,7 @@ import {
   applicationTicketsNotify,
 } from "../modules/applicationTicketsHandle";
 import { addRoleEvent } from "../modules/buttons/addRole";
-import { clearRoleEvent } from "../modules/buttons/clearRole";
 import { confirmSelectionEvent } from "../modules/buttons/confirmSelection";
-import { displayRolesEvent } from "../modules/buttons/displayRoles";
 import { removeRoleEvent } from "../modules/buttons/removeRole";
 import { addRoleModalEvent } from "../modules/modals/addRoleModal";
 import { sendModalEmbedEvent } from "../modules/modals/sendEmbed";
@@ -217,17 +214,11 @@ export const onInteraction = async (
     // ticket buttons.
     if (interaction.isButton()) {
       switch (interaction.customId) {
-        case "display-roles":
-          await displayRolesEvent(interaction);
-          break;
         case "menu-add-role":
           await addRoleEvent(interaction);
           break;
         case "menu-remove-role":
           await removeRoleEvent(interaction);
-          break;
-        case "clear-roles":
-          await clearRoleEvent(interaction);
           break;
         case "menu-confirm-role":
           await confirmSelectionEvent(interaction);

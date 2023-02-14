@@ -1,37 +1,56 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { GuildBan, MessageEmbed } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
-export const onGuildBanRemove = async (member: any): Promise<void> => {
-  const fetchUnban = await member.guild.fetchAuditLogs({
+export const onGuildBanRemove = async (ban: GuildBan): Promise<void> => {
+  const fetchUnban = await ban.guild.fetchAuditLogs({
     limit: 1,
     type: "MEMBER_BAN_REMOVE",
   });
 
   const unbanLog = fetchUnban.entries.first();
+  if (!unbanLog) {
+    return;
+  }
   const { executor: unbanExecutor, target: unbanTarget } = unbanLog;
 
   const unbanEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Member Unbanned")
     .setDescription(`A member has been unbanned.`)
-    .addField("User Tag", `\`\`\`${unbanTarget.tag}\`\`\``, false)
-    .addField("User ID", `\`\`\`${unbanTarget.id}\`\`\``, false)
-    .addField(
-      "User Discriminator",
-      `\`\`\`${unbanTarget.discriminator}\`\`\``,
-      false
+    .addFields(
+      {
+        name: "User Tag",
+        value: `\`\`\`${unbanTarget?.tag}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "User ID",
+        value: `\`\`\`${unbanTarget?.id}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "User Discriminator",
+        value: `\`\`\`${unbanTarget?.discriminator}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "User Created At",
+        value: `\`\`\`${unbanTarget?.createdAt}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Unbanned By",
+        value: `\`\`\`${unbanExecutor?.tag}\`\`\``,
+        inline: false,
+      }
     )
-    .addField("User Created At", `\`\`\`${unbanTarget.createdAt}\`\`\``, false)
-    .setThumbnail(unbanExecutor.avatarURL())
+    .setThumbnail(unbanExecutor?.displayAvatarURL() || "NULL")
     .setTimestamp();
-
-  unbanEmbed.addField("Unbanned By", `\`\`\`${unbanExecutor.tag}\`\`\``, false);
   logHandler.info(
-    `event | ${unbanTarget.tag} has been unbanned by ${unbanExecutor.tag}. Logged to Central Archives.`
+    `event | ${unbanTarget?.tag} has been unbanned by ${unbanExecutor?.tag}. Logged to Central Archives.`
   );
-  await sendLogMessage(member.client, unbanEmbed);
+  await sendLogMessage(ban.client, unbanEmbed);
 };
 // sam was here :)

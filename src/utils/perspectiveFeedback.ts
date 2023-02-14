@@ -1,12 +1,12 @@
 import { errorHandler } from "./errorHandler";
 import { logHandler } from "./logHandler";
-import { Interaction, Message, MessageEmbed } from "discord.js";
+import { Interaction, Message, MessageEmbed, PartialMessage } from "discord.js";
 import { analyzeText } from "./perspectiveHandler";
 import { PerspectiveAttribute } from "../typings/perspective";
 import { colors } from "../config/colors";
 
 export const feedback = async (
-  context: Interaction | Message,
+  context: Interaction | Message | PartialMessage,
   text: string
 ): Promise<MessageEmbed | void> => {
   try {
@@ -40,7 +40,10 @@ export const feedback = async (
         usravatar = context.author.displayAvatarURL();
         clientavatar = context.client.user?.displayAvatarURL();
       } else {
-        return;
+        username = context.author ? context.author.username : "NULL";
+        tag = context.author ? context.author.tag : "NULL";
+        usravatar = context.author?.displayAvatarURL();
+        clientavatar = context.client.user?.displayAvatarURL();
       }
       const warnEmbed = new MessageEmbed()
         .setTitle("WARNING!")

@@ -1,10 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { colors } from "../../config/colors";
 
 export const addRoleModalEvent = async (interaction) => {
   if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("You don't have the required permission(s).")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
     return interaction.reply({
-      content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   }
@@ -22,14 +34,8 @@ export const addRoleModalEvent = async (interaction) => {
   }
 
   if (!role) {
-    role = await interaction.guild.roles.cache.find(
-      (r: { name: unknown }) => r.name === roleNameOrId
-    );
-  }
-
-  if (!role) {
     return interaction.reply({
-      content: `❌ - I am unable to find a role with the name or id of \`${roleNameOrId}\``,
+      content: `Can't find a role with that ID/Name`,
       ephemeral: true,
     });
   }
@@ -47,7 +53,7 @@ export const addRoleModalEvent = async (interaction) => {
       const roleId = line.split(" - ")[0].replace(/[<@&>]/g, "");
       if (role.id === roleId) {
         return interaction.reply({
-          content: `❌ - You cannot add \`${role.name}\` again!`,
+          content: `That role is a duplicate, you can't add it!`,
           ephemeral: true,
         });
       }

@@ -1,37 +1,54 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Modal, MessageActionRow, TextInputComponent } from "discord.js";
+import {
+  Modal,
+  MessageActionRow,
+  TextInputComponent,
+  MessageEmbed,
+} from "discord.js";
+import { colors } from "../../config/colors";
 
 export const confirmSelectionEvent = async (interaction) => {
   if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("You don't have the required permission(s).")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
     return interaction.reply({
-      content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   }
 
   const modal = new Modal()
     .setCustomId("menu-role-channel")
-    .setTitle("One Last Thing")
+    .setTitle("Before we finish")
     .addComponents(
-      new MessageActionRow<any>().addComponents(
+      new MessageActionRow<TextInputComponent>().addComponents(
         new TextInputComponent()
           .setCustomId("channel")
-          .setLabel("What channel must I send the select menu to?")
+          .setLabel("Where should I send the embed now?")
           .setPlaceholder(`#${interaction.channel.name}`)
           .setStyle("SHORT")
           .setRequired(false)
       ),
 
-      new MessageActionRow<any>().addComponents(
+      new MessageActionRow<TextInputComponent>().addComponents(
         new TextInputComponent()
           .setCustomId("title")
-          .setLabel("Add a title to the menu roles message.")
+          .setLabel("Add a title to the embed.")
           .setPlaceholder("Self Assignable Roles")
           .setStyle("SHORT")
           .setRequired(false)
       ),
 
-      new MessageActionRow<any>().addComponents(
+      new MessageActionRow<TextInputComponent>().addComponents(
         new TextInputComponent()
           .setCustomId("description")
           .setLabel("Add a description to the menu roles message")
@@ -42,11 +59,11 @@ export const confirmSelectionEvent = async (interaction) => {
           .setRequired(false)
       ),
 
-      new MessageActionRow<any>().addComponents(
+      new MessageActionRow<TextInputComponent>().addComponents(
         new TextInputComponent()
           .setCustomId("color")
           .setLabel("Set the color of the embed. Must be Hex code.")
-          .setPlaceholder("#ff00ff")
+          .setPlaceholder(colors.orange)
           .setStyle("SHORT")
           .setRequired(false)
       )

@@ -1,32 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Modal,
   MessageActionRow,
   ModalActionRowComponent,
   TextInputComponent,
+  MessageEmbed,
 } from "discord.js";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { colors } from "../../config/colors";
 export const addRoleEvent = async (interaction) => {
   try {
     if (interaction.customId !== "menu-add-role") {
       return;
     } else if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+      const noPermissionsEmbed = new MessageEmbed()
+        .setTitle("ERROR!")
+        .setAuthor({
+          name: `${interaction.user.username}#${interaction.user.discriminator}`,
+          iconURL: interaction.user.displayAvatarURL(),
+        })
+        .setColor(colors.black)
+        .setDescription("You don't have the required permission(s).")
+        .setFooter({
+          text: "© Pyreworks",
+          iconURL: interaction.client.user?.displayAvatarURL(),
+        });
       return interaction.reply({
-        content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+        embeds: [noPermissionsEmbed],
         ephemeral: true,
       });
     } else {
       const modal = new Modal()
         .setCustomId("add-role-to-menu")
-        .setTitle("Add a Role to the Selection Menu")
+        .setTitle("Add a role to the select menu.")
         .addComponents(
           new MessageActionRow<ModalActionRowComponent>().addComponents(
             new TextInputComponent()
               .setCustomId("role")
-              .setLabel("Enter the role's name or the role's id.")
-              // eslint-disable-next-line prettier/prettier, quotes
-              .setPlaceholder('"Some random role" or "123456789012345678"')
+              .setLabel("Enter the role's ID.")
               .setStyle("SHORT")
+              // eslint-disable-next-line prettier/prettier, quotes
+              .setPlaceholder("The ID/Name")
               .setRequired(true)
           ),
 
@@ -34,7 +46,7 @@ export const addRoleEvent = async (interaction) => {
             new TextInputComponent()
               .setCustomId("description")
               .setLabel("Add a description explaining the role.")
-              .setPlaceholder("This role unlocks cool channels")
+              .setPlaceholder("This role's awesome!")
               .setStyle("SHORT")
               .setRequired(false)
           )

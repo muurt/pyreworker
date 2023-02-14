@@ -1,61 +1,60 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, StageInstance } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
 export const onStageInstanceUpdate = async (
-  oldStageInstance: any,
-  newStageInstance: any
+  oldStageInstance: StageInstance | null,
+  newStageInstance: StageInstance
 ): Promise<void> => {
+  if (!oldStageInstance) {
+    return;
+  }
   const stageInstanceEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Stage Instance Updated")
     .setDescription("A stage instance has been updated.")
-    .addField(
-      "Old Stage Instance Name",
-      `\`\`\`${oldStageInstance.name}\`\`\``,
-      false
-    )
-    .addField(
-      "New Stage Instance Name",
-      `\`\`\`${newStageInstance.name}\`\`\``,
-      false
-    )
-    .addField("Stage Instance ID", `\`\`\`${oldStageInstance.id}\`\`\``, false)
-    .addField(
-      "Old Stage Instance Privacy Level",
-      `\`\`\`${oldStageInstance.privacyLevel}\`\`\``,
-      false
-    )
-    .addField(
-      "New Stage Instance Privacy Level",
-      `\`\`\`${newStageInstance.privacyLevel}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Stage Instance Discoverable Disabled",
-      `\`\`\`${oldStageInstance.discoverableDisabled}\`\`\``,
-      false
-    )
-    .addField(
-      "New Stage Instance Discoverable Disabled",
-      `\`\`\`${newStageInstance.discoverableDisabled}\`\`\``,
-      false
-    )
-    .addField(
-      "Old Stage Instance Topic",
-      `\`\`\`${oldStageInstance.topic}\`\`\``,
-      false
-    )
-    .addField(
-      "New Stage Instance Topic",
-      `\`\`\`${newStageInstance.topic}\`\`\``,
-      false
+    .addFields(
+      {
+        name: "Old Stage Instance Name",
+        value: `\`\`\`${oldStageInstance.guildScheduledEvent?.name}\`\`\``,
+      },
+      {
+        name: "New Stage Instance Name",
+        value: `\`\`\`${newStageInstance.guildScheduledEvent?.name}\`\`\``,
+      },
+      {
+        name: "Stage Instance ID",
+        value: `\`\`\`${oldStageInstance.id}\`\`\``,
+      },
+      {
+        name: "Old Stage Instance Privacy Level",
+        value: `\`\`\`${oldStageInstance.privacyLevel}\`\`\``,
+      },
+      {
+        name: "New Stage Instance Privacy Level",
+        value: `\`\`\`${newStageInstance.privacyLevel}\`\`\``,
+      },
+      {
+        name: "Old Stage Instance Discoverable Disabled",
+        value: `\`\`\`${oldStageInstance.discoverableDisabled}\`\`\``,
+      },
+      {
+        name: "New Stage Instance Discoverable Disabled",
+        value: `\`\`\`${newStageInstance.discoverableDisabled}\`\`\``,
+      },
+      {
+        name: "Old Stage Instance Topic",
+        value: `\`\`\`${oldStageInstance.topic}\`\`\``,
+      },
+      {
+        name: "New Stage Instance Topic",
+        value: `\`\`\`${newStageInstance.topic}\`\`\``,
+      }
     )
     .setTimestamp();
   logHandler.info(
-    `event | ${oldStageInstance.name} stage instance has been updated. Logged to Central Archives.`
+    `event | ${oldStageInstance.guildScheduledEvent?.name} stage instance has been updated. Logged to Central Archives.`
   );
   await sendLogMessage(oldStageInstance.client, stageInstanceEmbed);
 };

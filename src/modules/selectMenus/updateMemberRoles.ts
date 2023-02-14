@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageEmbed } from "discord.js";
+import { colors } from "../../config/colors";
 
 export const updateMemberRoles = async (interaction) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const clientRole = interaction.guild.members.cache.get(
-    interaction.client.user.id
-  ).roles.highest;
   const selectedRoleIds = interaction.values;
   const selectMenuRoleIds =
     interaction.message.components[0].components[0].options;
@@ -30,16 +26,16 @@ export const updateMemberRoles = async (interaction) => {
           permissionError = true;
         });
         if (removedRoles === ``) {
-          removedRoles = ` - <@&${role.id}>`;
+          removedRoles = ` • <@&${role.id}>`;
         } else {
-          removedRoles += `\n - <@&${role.id}>`;
+          removedRoles += `\n • <@&${role.id}>`;
         }
       } else {
         // "Add" Role
         if (newRoles === ``) {
-          newRoles = ` - <@&${role.id}>`;
+          newRoles = ` • <@&${role.id}>`;
         } else {
-          newRoles += `\n - <@&${role.id}>`;
+          newRoles += `\n • <@&${role.id}>`;
         }
       }
     } else {
@@ -56,16 +52,16 @@ export const updateMemberRoles = async (interaction) => {
           permissionError = true;
         });
         if (newRoles === ``) {
-          newRoles = ` - <@&${role.id}>`;
+          newRoles = ` • <@&${role.id}>`;
         } else {
-          newRoles += `\n - <@&${role.id}>`;
+          newRoles += `\n • <@&${role.id}>`;
         }
       } else {
         // "Remove" Role
         if (removedRoles === ``) {
-          removedRoles = ` - <@&${role.id}>`;
+          removedRoles = ` • <@&${role.id}>`;
         } else {
-          removedRoles += `\n - <@&${role.id}>`;
+          removedRoles += `\n • <@&${role.id}>`;
         }
       }
     }
@@ -80,24 +76,28 @@ export const updateMemberRoles = async (interaction) => {
     description += `\n\`\`\` ✖ - Removed Roles \`\`\`${removedRoles}`;
   }
 
-  const color = interaction.message.embeds[0].color || process.env.COLOR;
   const embed = new MessageEmbed()
-    .setTitle("🔧 - I have updated your roles!")
+    .setTitle("SUCCESS")
     .setDescription(description)
-    .setColor(color);
+    .setColor(colors.orange);
 
   if (permissionError) {
     // Bot has insufficient permissions
 
-    const noPermEmbed = new MessageEmbed()
-      .setTitle("❌ - Missing Permissions!")
-      .setColor(0xff0000)
-      .setDescription(
-        `Please make sure that I have the \`Manage Roles\` permission and that one of my roles are higher than the role I'm trying to give to you.`
-      );
-
-    interaction.reply({
-      embeds: [noPermEmbed],
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("I don't have the required permissions to do that.")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
+    return interaction.reply({
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   } else {

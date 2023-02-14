@@ -1,18 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable prefer-const */
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import {
+  MessageActionRow,
+  MessageEmbed,
+  MessageSelectMenu,
+  MessageSelectOptionData,
+} from "discord.js";
+import { colors } from "../../config/colors";
 
 export const removeRoleEvent = async (interaction) => {
   if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    const noPermissionsEmbed = new MessageEmbed()
+      .setTitle("ERROR!")
+      .setAuthor({
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setColor(colors.black)
+      .setDescription("You don't have the required permission(s).")
+      .setFooter({
+        text: "© Pyreworks",
+        iconURL: interaction.client.user?.displayAvatarURL(),
+      });
     return interaction.reply({
-      content: `❌ - You do not have the \`MANAGE_ROLES\` permission.`,
+      embeds: [noPermissionsEmbed],
       ephemeral: true,
     });
   }
 
-  let roleList = interaction.message.embeds[0].fields[0].value;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let roles: any[] = [];
+  const roleList = interaction.message.embeds[0].fields[0].value;
+  const roles: MessageSelectOptionData[] = [];
 
   for (const role of roleList.split(`\n`)) {
     const roleId = role.split(" - ")[0].replace(/[<@&>]/g, "");

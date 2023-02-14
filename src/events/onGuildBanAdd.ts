@@ -1,49 +1,68 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MessageEmbed } from "discord.js";
+import { GuildBan, MessageEmbed } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
 
-export const onGuildBanAdd = async (member: any): Promise<void> => {
-  if (member.user.bot) {
+export const onGuildBanAdd = async (ban: GuildBan): Promise<void> => {
+  if (ban.user.bot) {
     return;
   }
-  const fetchBan = await member.guild.fetchAuditLogs({
+  const fetchBan = await ban.guild.fetchAuditLogs({
     limit: 3,
     type: "MEMBER_BAN_ADD",
   });
   const banLog = fetchBan.entries.first();
-
+  if (!banLog) {
+    return;
+  }
   const { executor: banExecutor, target: banTarget } = banLog;
   const banEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Member Banned")
     .setDescription(`A member has been banned.`)
-    .addField("User Tag", `\`\`\`${banTarget.tag}\`\`\``, false)
-    .addField("User ID", `\`\`\`${banTarget.id}\`\`\``, false)
-    .addField("User Created At", `\`\`\`${banTarget.createdAt}\`\`\``, false)
-    .addField("Banned By", `\`\`\`${banExecutor.tag}\`\`\``, false)
-    .setThumbnail(banExecutor.avatarURL())
+    .addFields([
+      {
+        name: "User Tag",
+        value: `\`\`\`${banTarget?.tag}\`\`\``,
+        inline: false,
+      },
+      { name: "User ID", value: `\`\`\`${banTarget?.id}\`\`\``, inline: false },
+      {
+        name: "User Created At",
+        value: `\`\`\`${banTarget?.createdAt}\`\`\``,
+        inline: false,
+      },
+      {
+        name: "Banned By",
+        value: `\`\`\`${banExecutor?.tag}\`\`\``,
+        inline: false,
+      },
+    ])
+    .setThumbnail(banExecutor?.displayAvatarURL() || "NULL")
     .setTimestamp();
   const parseErrorEmbed = new MessageEmbed()
     .setColor(colors.orange)
     .setTitle("Audit Log Parse Error")
     .setDescription(`A member has either left the server or has been banned.`)
-    .addField("User Tag", `\`\`\`${member.user.tag}\`\`\``, false)
+    .addFields({
+      name: "User Tag",
+      value: `\`\`\`${ban.user.tag}\`\`\``,
+      inline: false,
+    })
     .setTimestamp();
   setTimeout(async () => {
-    if (banLog) {
-      if (banLog.createdAt > member.joinedAt) {
-        if (banTarget.id === member.id) {
+    if (banLog && banExecutor && ban.guild.joinedAt && banTarget) {
+      if (banLog.createdAt > ban.guild.joinedAt) {
+        if (banTarget.id === ban.user.id) {
           logHandler.info(
             `event | ${banTarget.tag} has been banned by ${banExecutor.tag}. Logged to Central Archives.`
           );
-          await sendLogMessage(member.client, banEmbed);
+          await sendLogMessage(ban.client, banEmbed);
         } else {
           logHandler.error(
-            `event | ${member.user.tag} has either left the server or has been banned. Audit Log Parse Unsuccessful. Logged to Central Archives.`
+            `event | ${ban.user.tag} has either left the server or has been banned. Audit Log Parse Unsuccessful. Logged to Central Archives.`
           );
-          await sendLogMessage(member.client, parseErrorEmbed);
+          await sendLogMessage(ban.client, parseErrorEmbed);
         }
       } else {
         return;
