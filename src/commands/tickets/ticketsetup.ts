@@ -35,7 +35,7 @@ export const ticketsetup: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("Tickets channel doesn't exist (or ID is wrong).")
           .addFields({ name: "Channel ID", value: "840144613477580822" })
           .setFooter({
@@ -55,7 +55,7 @@ export const ticketsetup: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("Tickets channel isn't a text channel.")
           .addFields({ name: "Channel ID", value: "840144613477580822" })
           .setFooter({
@@ -77,7 +77,7 @@ export const ticketsetup: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("You don't have the required permission(s).")
           .setFooter({
             text: "© Pyreworks",
@@ -110,7 +110,7 @@ export const ticketsetup: commandInt = {
 
         const ticketEmbed = new MessageEmbed()
           .setTitle("Tickets 📩")
-          .setColor(colors.orange)
+          .setColor(colors.success)
           .setDescription("Create a ticket!")
           .setImage(
             "https://cdn.discordapp.com/attachments/775774648720687144/1069660436066209922/Example_Banner.png"
@@ -148,7 +148,7 @@ export const ticketsetup: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("Couldn't send the tickets embed.")
           .setFooter({
             text: "© Pyreworks",
@@ -171,7 +171,7 @@ export const ticketsetup: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription("Successfully set up tickets.")
         .setFooter({
           text: "© Pyreworks",

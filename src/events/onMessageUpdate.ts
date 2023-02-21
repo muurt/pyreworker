@@ -26,7 +26,7 @@ export const onMessageUpdate = async (
           ? newMessage.author.displayAvatarURL()
           : "NULL",
       })
-      .setColor(colors.gray)
+      .setColor(colors.warn)
       .setDescription("A user triggered the AI-moderation.")
       .addFields(
         {
@@ -68,7 +68,7 @@ export const onMessageUpdate = async (
     return;
   }
   const messageEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Message Updated")
     .setDescription(`A message has been updated.`)
     .addFields(

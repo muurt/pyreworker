@@ -17,7 +17,7 @@ export const onGuildBanAdd = async (ban: GuildBan): Promise<void> => {
   }
   const { executor: banExecutor, target: banTarget } = banLog;
   const banEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Banned")
     .setDescription(`A member has been banned.`)
     .addFields([
@@ -41,7 +41,7 @@ export const onGuildBanAdd = async (ban: GuildBan): Promise<void> => {
     .setThumbnail(banExecutor?.displayAvatarURL() || "NULL")
     .setTimestamp();
   const parseErrorEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Audit Log Parse Error")
     .setDescription(`A member has either left the server or has been banned.`)
     .addFields({

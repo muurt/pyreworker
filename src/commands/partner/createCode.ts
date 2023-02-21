@@ -49,7 +49,7 @@ export const createCode: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The message argument is required.")
           .setFooter({
             text: "© Pyreworks",
@@ -70,7 +70,7 @@ export const createCode: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("You don't have the required permission(s).")
           .setFooter({
             text: "© Pyreworks",
@@ -91,7 +91,7 @@ export const createCode: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("This code already exists.")
           .setFooter({
             text: "© Pyreworks",
@@ -116,7 +116,7 @@ export const createCode: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "There is an error with the database entry creation. Please try again later."
           )
@@ -136,7 +136,7 @@ export const createCode: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription("You've successfully created the code.")
         .setFooter({
           text: "© Pyreworks",

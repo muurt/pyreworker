@@ -24,7 +24,7 @@ export const selectrole: commandInt = {
       }
       const embed = new MessageEmbed()
         .setTitle("Menu Select Roles")
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription(
           `Start by adding some roles to the select menu! 
         

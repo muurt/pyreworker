@@ -8,7 +8,7 @@ export const onGuildInviteDelete = async (invite: Invite): Promise<void> => {
     `event | An invite has been deleted: ${invite.url}. Logged to Central Archives.`
   );
   const inviteEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Invite Deleted")
     .setDescription(`An invite has been deleted.`)
     .addFields(

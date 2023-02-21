@@ -49,7 +49,7 @@ export const editbio: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The bio argument is required.")
           .setFooter({
             text: "© Pyreworks",
@@ -77,7 +77,7 @@ export const editbio: commandInt = {
               name: `${user.username}#${user.discriminator}`,
               iconURL: user.displayAvatarURL(),
             })
-            .setColor(colors.black)
+            .setColor(colors.error)
             .setDescription(
               "You don't have a database entry, please create yours using `/bio`."
             )
@@ -99,7 +99,7 @@ export const editbio: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription(
           "You've successfully updated your bio. To view it, use `/bio`."
         )

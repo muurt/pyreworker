@@ -21,7 +21,7 @@ export const onMemberRemove = async (
   const kickExecutor = kickLog?.executor;
   const kickTarget = kickLog?.target;
   const leaveEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Left")
     .setDescription(`A member has left the server. (Not kicked)`)
     .addFields(
@@ -50,7 +50,7 @@ export const onMemberRemove = async (
     .setTimestamp();
 
   const kickEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Kicked")
     .setDescription(`A member has been kicked from the server.`)
     .addFields(

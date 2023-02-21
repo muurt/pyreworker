@@ -14,7 +14,7 @@ export const confirmSelectionEvent = async (interaction) => {
         name: `${interaction.user.username}#${interaction.user.discriminator}`,
         iconURL: interaction.user.displayAvatarURL(),
       })
-      .setColor(colors.black)
+      .setColor(colors.error)
       .setDescription("You don't have the required permission(s).")
       .setFooter({
         text: "© Pyreworks",
@@ -63,7 +63,7 @@ export const confirmSelectionEvent = async (interaction) => {
         new TextInputComponent()
           .setCustomId("color")
           .setLabel("Set the color of the embed. Must be Hex code.")
-          .setPlaceholder(colors.orange)
+          .setPlaceholder(colors.success)
           .setStyle("SHORT")
           .setRequired(false)
       )

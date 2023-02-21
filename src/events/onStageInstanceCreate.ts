@@ -7,7 +7,7 @@ export const onStageInstanceCreate = async (
   stageInstance: StageInstance
 ): Promise<void> => {
   const stageInstanceEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Stage Instance Created")
     .setDescription(`A stage instance has been created.`)
     .addFields(

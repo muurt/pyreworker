@@ -52,7 +52,7 @@ export const bio: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The message argument is required.")
           .setFooter({
             text: "© Pyreworks",
@@ -81,7 +81,7 @@ export const bio: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "You already have a database entry, please update yours using `/editbio`."
           )
@@ -104,7 +104,7 @@ export const bio: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "There is an error with the database entry creation. Please try again later."
           )
@@ -124,7 +124,7 @@ export const bio: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription(
           "You've successfully created your bio. To view it use `/viewbio`."
         )

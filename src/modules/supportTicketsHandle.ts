@@ -31,7 +31,7 @@ export const supportTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully notified management!")
     .setFooter({
       text: "© Pyreworks",
@@ -43,7 +43,7 @@ export const supportTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.gray)
+    .setColor(colors.warn)
     .setDescription("Ticket needs escalation.")
     .addFields(
       { name: "Ticket Channel", value: `<#${ticketID}>` },
@@ -99,7 +99,7 @@ export const supportTicketsClaim = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully claimed the ticket!")
     .setFooter({
       text: "© Pyreworks",
@@ -114,7 +114,7 @@ export const supportTicketsClaim = async (
     .setDescription(
       `A support representative has claimed your ticket and is ready to assist you!`
     )
-    .setColor(colors.white)
+    .setColor(colors.info)
     .addFields({
       name: "Support Representative",
       value: `<@${interaction.user.id}>`,
@@ -183,7 +183,7 @@ export const supportTicketsHandle = async (
         name: `${user.username}#${user.discriminator}`,
         iconURL: user.displayAvatarURL(),
       })
-      .setColor(colors.white)
+      .setColor(colors.info)
       .setDescription("What category do you need support with?")
       .setFooter({
         text: "© Pyreworks",
@@ -272,7 +272,7 @@ export const supportTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "You didn't select anything.\nTicket creation was canceled and this channel will be deleted in 1 min."
               )
@@ -286,7 +286,7 @@ export const supportTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(
                 "Please write a brief description about your issue/question."
               )
@@ -300,7 +300,7 @@ export const supportTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(
                 "You've successfully finished setting up your support ticket.\nYour ticket has been sent to our staff and will look into it as soon as possible."
               )
@@ -314,7 +314,7 @@ export const supportTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(`<@${user.id}> created a support ticket.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,

@@ -51,7 +51,7 @@ export const feedback = async (
           name: `${username}#${tag}`,
           iconURL: usravatar,
         })
-        .setColor(colors.gray)
+        .setColor(colors.warn)
         .setDescription("That message triggered our AI moderation module!")
         .setFooter({
           text: "© Pyreworks | EXPERIMENTAL FEATURE",

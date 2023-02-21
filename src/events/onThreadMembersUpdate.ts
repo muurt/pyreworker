@@ -12,7 +12,7 @@ export const onThreadMembersUpdate = async (
     return;
   }
   const threadEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Thread Members Updated")
     .setDescription(`A thread's members have been updated.`)
     .addFields(

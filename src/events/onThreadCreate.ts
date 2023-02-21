@@ -5,7 +5,7 @@ import { colors } from "../config/colors";
 
 export const onThreadCreate = async (thread: ThreadChannel): Promise<void> => {
   const threadEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Thread Created")
     .setDescription(`A new thread has been created.`)
     .addFields(

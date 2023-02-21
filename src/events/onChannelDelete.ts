@@ -10,7 +10,7 @@ export const onChannelDelete = async (
     return;
   }
   const channelEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Channel Deleted")
     .setDescription(`A channel has been deleted.`)
     .addFields({

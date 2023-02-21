@@ -79,7 +79,7 @@ export const updateMemberRoles = async (interaction) => {
   const embed = new MessageEmbed()
     .setTitle("SUCCESS")
     .setDescription(description)
-    .setColor(colors.orange);
+    .setColor(colors.success);
 
   if (permissionError) {
     // Bot has insufficient permissions
@@ -90,7 +90,7 @@ export const updateMemberRoles = async (interaction) => {
         name: `${interaction.user.username}#${interaction.user.discriminator}`,
         iconURL: interaction.user.displayAvatarURL(),
       })
-      .setColor(colors.black)
+      .setColor(colors.error)
       .setDescription("I don't have the required permissions to do that.")
       .setFooter({
         text: "© Pyreworks",

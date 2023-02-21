@@ -35,7 +35,7 @@ export const orderTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully notified management!")
     .setFooter({
       text: "© Pyreworks",
@@ -47,7 +47,7 @@ export const orderTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.gray)
+    .setColor(colors.warn)
     .setDescription("Ticket needs escalation.")
     .addFields(
       { name: "Ticket Channel", value: `<#${ticketID}>` },
@@ -102,7 +102,7 @@ export const orderTicketsClaim = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully claimed the order!")
     .setFooter({
       text: "© Pyreworks",
@@ -117,7 +117,7 @@ export const orderTicketsClaim = async (
     .setDescription(
       `A commission manager has claimed your order and is ready to assist you!`
     )
-    .setColor(colors.white)
+    .setColor(colors.info)
     .addFields({
       name: "Commission Manager",
       value: `<@${interaction.user.id}>`,
@@ -186,7 +186,7 @@ export const orderTicketsHandle = async (
         name: `${user.username}#${user.discriminator}`,
         iconURL: user.displayAvatarURL(),
       })
-      .setColor(colors.white)
+      .setColor(colors.info)
       .setDescription("What would you like to order?")
       .setFooter({
         text: "© Pyreworks",
@@ -265,7 +265,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "Please note that custom orders are currently postponed, this ticket will go on as usual but this order will be on hold."
               )
@@ -279,7 +279,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "You didn't select anything.\nTicket creation was canceled and this channel will be deleted in 1 min."
               )
@@ -293,7 +293,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(
                 "Please write a brief description about your requirements and budget."
               )
@@ -307,7 +307,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("What type of prebuilt do you need?")
               .setFooter({
                 text: "© Pyreworks",
@@ -319,7 +319,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(
                 "You've successfully finished setting up your order.\nYour ticket has been sent to our staff and will look into it as soon as possible."
               )
@@ -333,7 +333,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(`<@${user.id}> has ordered.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -345,7 +345,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(
                 `Do you have any discount/partner code you want to use?`
               )
@@ -359,7 +359,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(`Please write the code.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -371,7 +371,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(`The code has been applied.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,
@@ -383,7 +383,7 @@ export const orderTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.black)
+              .setColor(colors.error)
               .setDescription(`That code doesn't exist in the database, sorry.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,

@@ -101,7 +101,7 @@ export const timeout: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The bot doesn't have permissions to kick.")
           .setFooter({
             text: "© Pyreworks",
@@ -120,7 +120,7 @@ export const timeout: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The message argument is required.")
           .setFooter({
             text: "© Pyreworks",
@@ -178,7 +178,7 @@ export const timeout: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("You don't have the required permission(s).")
           .setFooter({
             text: "© Pyreworks",
@@ -200,7 +200,7 @@ export const timeout: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "Couldn't timeout the user, they most likely have a higher role hierarchy."
           )
@@ -224,7 +224,7 @@ export const timeout: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription("Successfully timed out the user.")
         .addFields(
           {

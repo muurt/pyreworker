@@ -8,7 +8,7 @@ export const onGuildInviteCreate = async (invite: Invite): Promise<void> => {
     `event | A new invite has been created: ${invite.url}. Logged to Central Archives.`
   );
   const inviteEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Invite Created")
     .setDescription(`A new invite has been created.`)
     .addFields(

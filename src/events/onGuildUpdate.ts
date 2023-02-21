@@ -8,7 +8,7 @@ export const onGuildUpdate = async (
   newGuild: Guild
 ): Promise<void> => {
   const guildEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Guild Updated")
     .setDescription(`A guild has been updated.`)
     .addFields(

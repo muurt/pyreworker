@@ -37,7 +37,7 @@ export const unban: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The bot doesn't have permissions to unban.")
           .setFooter({
             text: "© Pyreworks",
@@ -56,7 +56,7 @@ export const unban: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("The message argument is required.")
           .setFooter({
             text: "© Pyreworks",
@@ -77,7 +77,7 @@ export const unban: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("You don't have the required permission(s).")
           .setFooter({
             text: "© Pyreworks",
@@ -98,7 +98,7 @@ export const unban: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription("Couldn't unban the user.")
           .setFooter({
             text: "© Pyreworks",
@@ -119,7 +119,7 @@ export const unban: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setDescription("Successfully unbanned the user.")
         .addFields({ name: "ID", value: userOption })
         .setFooter({

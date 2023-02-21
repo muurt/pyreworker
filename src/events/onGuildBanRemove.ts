@@ -16,7 +16,7 @@ export const onGuildBanRemove = async (ban: GuildBan): Promise<void> => {
   const { executor: unbanExecutor, target: unbanTarget } = unbanLog;
 
   const unbanEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Unbanned")
     .setDescription(`A member has been unbanned.`)
     .addFields(

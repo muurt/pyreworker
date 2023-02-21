@@ -5,7 +5,7 @@ import { colors } from "../config/colors";
 
 export const onThreadDelete = async (thread: ThreadChannel): Promise<void> => {
   const threadEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Thread Deleted")
     .setDescription(`A thread has been deleted.`)
     .addFields({ name: "Thread Name", value: `\`\`\`${thread.name}\`\`\`` })

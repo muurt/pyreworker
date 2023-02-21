@@ -43,7 +43,7 @@ export const viewCode: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "There was an error with the database lookup (most likely the code doesn't exist)."
           )
@@ -68,7 +68,7 @@ export const viewCode: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setTitle("SUCCESS")
         .setDescription(
           `This is all the information about the code (**${targetData.code}**)`

@@ -8,7 +8,7 @@ export const onMessageDelete = async (
   message: Message | PartialMessage
 ): Promise<void> => {
   const messageEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Message Deleted")
     .setDescription(`A message has been deleted.`)
     .addFields(

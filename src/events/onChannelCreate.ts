@@ -5,7 +5,7 @@ import { colors } from "../config/colors";
 
 export const onChannelCreate = async (channel: GuildChannel): Promise<void> => {
   const channelEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Channel Created")
     .setDescription(`A channel has been created.`)
     .addFields([

@@ -97,7 +97,7 @@ export const viewbio: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(
             "There was an error with the database lookup (most likely the user doesn't have a database entry)."
           )
@@ -116,7 +116,7 @@ export const viewbio: commandInt = {
           name: `${user.username}#${user.discriminator}`,
           iconURL: user.displayAvatarURL(),
         })
-        .setColor(colors.orange)
+        .setColor(colors.success)
         .setTitle("SUCCESS")
         .setDescription(
           `**${userOption ? userOption.username : user.username}'s bio** \n${

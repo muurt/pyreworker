@@ -20,7 +20,7 @@ export const sendModalEmbedEvent = async (interaction) => {
         name: `${interaction.user.username}#${interaction.user.discriminator}`,
         iconURL: interaction.user.displayAvatarURL(),
       })
-      .setColor(colors.black)
+      .setColor(colors.error)
       .setDescription("You don't have the required permission(s).")
       .setFooter({
         text: "© Pyreworks",

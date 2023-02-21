@@ -7,7 +7,7 @@ export const onStageInstanceDelete = async (
   stageEvent: StageInstance
 ): Promise<void> => {
   const stageEventEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Stage Instance Deleted")
     .setDescription(`A stage instance has been deleted.`)
     .addFields(

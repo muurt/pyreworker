@@ -11,7 +11,7 @@ export const onStageInstanceUpdate = async (
     return;
   }
   const stageInstanceEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Stage Instance Updated")
     .setDescription("A stage instance has been updated.")
     .addFields(

@@ -8,7 +8,7 @@ export const onThreadUpdate = async (
   newThread: ThreadChannel
 ): Promise<void> => {
   const threadEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Thread Updated")
     .setDescription(`A thread has been updated.`)
     .addFields(

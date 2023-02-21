@@ -15,7 +15,7 @@ export const onChannelUpdate = async (
     return;
   }
   const channelEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Channel Updated")
     .setDescription("A channel has been updated.")
     .addFields([

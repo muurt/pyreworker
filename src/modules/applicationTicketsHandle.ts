@@ -32,7 +32,7 @@ export const applicationTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully notified management!")
     .setFooter({
       text: "© Pyreworks",
@@ -44,7 +44,7 @@ export const applicationTicketsNotify = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.white)
+    .setColor(colors.info)
     .setDescription("Ticket needs escalation.")
     .addFields(
       { name: "Ticket Channel", value: `<#${ticketID}>` },
@@ -99,7 +99,7 @@ export const applicationTicketsClaim = async (
       name: `${user.username}#${user.discriminator}`,
       iconURL: user.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("You've successfully claimed the application!")
     .setFooter({
       text: "© Pyreworks",
@@ -112,7 +112,7 @@ export const applicationTicketsClaim = async (
       iconURL: user.displayAvatarURL(),
     })
     .setDescription(`A management staff has claimed your application!`)
-    .setColor(colors.white)
+    .setColor(colors.info)
     .addFields({ name: "Management Staff", value: `<@${interaction.user.id}>` })
     .setFooter({
       text: "© Pyreworks",
@@ -177,7 +177,7 @@ export const applicationTicketsHandle = async (
         name: `${user.username}#${user.discriminator}`,
         iconURL: user.displayAvatarURL(),
       })
-      .setColor(colors.white)
+      .setColor(colors.info)
       .setDescription("How old are you?")
       .setFooter({
         text: "© Pyreworks",
@@ -262,7 +262,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "You didn't select anything.\nTicket creation was canceled and this channel will be deleted in 1 min."
               )
@@ -276,7 +276,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "Sorry, you are under the age limit.\nThis ticket will be deleted and you will be reported to Discord staff."
               )
@@ -290,7 +290,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(
                 "Please write a brief introduction about yourself."
               )
@@ -305,7 +305,7 @@ export const applicationTicketsHandle = async (
                 iconURL: user.displayAvatarURL(),
               })
               .setDescription("Do you have a portfolio?")
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setFooter({
                 text: "© Pyreworks",
                 iconURL: interaction.client.user?.displayAvatarURL(),
@@ -319,7 +319,7 @@ export const applicationTicketsHandle = async (
               .setDescription(
                 "Sorry, but you need a portfolio to apply.\nThis ticket will be deleted soon."
               )
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setFooter({
                 text: "© Pyreworks",
                 iconURL: interaction.client.user?.displayAvatarURL(),
@@ -330,7 +330,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("Please attach your portfolio link below.")
               .setFooter({
                 text: "© Pyreworks",
@@ -342,7 +342,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("How much time are you willing to allocate?")
               .setFooter({
                 text: "© Pyreworks",
@@ -354,7 +354,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.gray)
+              .setColor(colors.warn)
               .setDescription(
                 "Sorry, we require at least 4 hours of free time.\nThis ticket will be soon deleted."
               )
@@ -368,7 +368,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("Why should we hire you?")
               .setFooter({
                 text: "© Pyreworks",
@@ -380,7 +380,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("What do you think of Pyreworks?")
               .setFooter({
                 text: "© Pyreworks",
@@ -392,7 +392,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("What are your notable past experience?")
               .setFooter({
                 text: "© Pyreworks",
@@ -404,7 +404,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription("Did you miss anything?")
               .setFooter({
                 text: "© Pyreworks",
@@ -416,7 +416,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.orange)
+              .setColor(colors.success)
               .setDescription(
                 "You've successfully finished setting up your Application.\nYour ticket has been sent to our staff and we will look into it as soon as possible."
               )
@@ -430,7 +430,7 @@ export const applicationTicketsHandle = async (
                 name: `${user.username}#${user.discriminator}`,
                 iconURL: user.displayAvatarURL(),
               })
-              .setColor(colors.white)
+              .setColor(colors.info)
               .setDescription(`<@${user.id}> created an application.`)
               .setFooter({
                 text: `© Pyreworks | ${ticketChannel.id}`,

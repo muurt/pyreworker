@@ -61,7 +61,7 @@ export const confirm = async (
       name: `${interactionUser.username}#${interactionUser.discriminator}`,
       iconURL: interactionUser.displayAvatarURL(),
     })
-    .setColor(colors.white)
+    .setColor(colors.info)
     .setDescription(
       `Are you sure you want to create ${
         buttonInteraction.customId === "support" ? "a" : "an"
@@ -77,7 +77,7 @@ export const confirm = async (
       name: `${interactionUser.username}#${interactionUser.discriminator}`,
       iconURL: interactionUser.displayAvatarURL(),
     })
-    .setColor(colors.gray)
+    .setColor(colors.warn)
     .setDescription("Ticket cancelled as there was no reply.")
     .setFooter({
       text: "© Pyreworks",
@@ -90,7 +90,7 @@ export const confirm = async (
       name: `${interactionUser.username}#${interactionUser.discriminator}`,
       iconURL: interactionUser.displayAvatarURL(),
     })
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setDescription("Your ticket is being created!")
     .setFooter({
       text: "© Pyreworks",

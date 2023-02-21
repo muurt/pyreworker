@@ -13,7 +13,7 @@ export const onMemberUpdate = async (
   newMember: GuildMember
 ): Promise<void> => {
   const updateEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Updated")
     .setDescription(`A member has updated their profile.`)
     .addFields(

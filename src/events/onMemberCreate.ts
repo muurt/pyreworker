@@ -16,7 +16,7 @@ export const onMemberCreate = async (member: GuildMember): Promise<void> => {
   await member.roles.add(roles);
 
   const joinEmbed = new MessageEmbed()
-    .setColor(colors.orange)
+    .setColor(colors.success)
     .setTitle("Member Joined")
     .setDescription(`A member has joined the server.`)
     .addFields(

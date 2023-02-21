@@ -23,7 +23,7 @@ export const onMessageCreate = async (message: Message): Promise<void> => {
           name: message.author.tag,
           iconURL: message.author.displayAvatarURL(),
         })
-        .setColor(colors.gray)
+        .setColor(colors.warn)
         .setDescription("A user triggered the AI-moderation.")
         .addFields(
           {

@@ -52,7 +52,7 @@ export const help: commandInt = {
         });
 
         helpEmbed
-          .setColor(colors.orange)
+          .setColor(colors.success)
           .setAuthor({
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
@@ -78,7 +78,7 @@ export const help: commandInt = {
               name: `${user.username}#${user.discriminator}`,
               iconURL: user.displayAvatarURL(),
             })
-            .setColor(colors.orange)
+            .setColor(colors.success)
             .setDescription(description)
             .addFields({ name: "Usage", value: usage })
             .setFooter({
@@ -101,7 +101,7 @@ export const help: commandInt = {
             name: `${user.username}#${user.discriminator}`,
             iconURL: user.displayAvatarURL(),
           })
-          .setColor(colors.black)
+          .setColor(colors.error)
           .setDescription(`That command (${optionFormatted}) doesn't exist!.`)
           .setFooter({
             text: "© Pyreworks",
