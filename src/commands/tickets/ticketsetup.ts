@@ -95,17 +95,17 @@ export const ticketsetup: commandInt = {
             .setCustomId("order")
             .setLabel("Order")
             .setStyle("DANGER")
-            .setEmoji("967707022655127642"),
+            .setEmoji("1078062508469911562"),
           new MessageButton()
             .setCustomId("support")
             .setLabel("Support")
             .setStyle("DANGER")
-            .setEmoji("967707003705237524"),
+            .setEmoji("1078062512630681640"),
           new MessageButton()
             .setCustomId("application")
             .setLabel("Application")
             .setStyle("DANGER")
-            .setEmoji("967707003562647552")
+            .setEmoji("1078062510013427834")
         );
 
         const ticketEmbed = new MessageEmbed()
@@ -113,21 +113,21 @@ export const ticketsetup: commandInt = {
           .setColor(colors.success)
           .setDescription("Create a ticket!")
           .setImage(
-            "https://cdn.discordapp.com/attachments/775774648720687144/1069660436066209922/Example_Banner.png"
+            "https://i.ibb.co/cy9hGZM/Slide-16-9-6.png"
           )
           .addFields(
             {
-              name: "<:cart:967707022655127642> | Order",
+              name: "<:a_cart:1078062508469911562> | Order",
               value:
                 "Create this type of ticket if you want to order something from us.",
             },
             {
-              name: "<:gear:967707003705237524> | Support",
+              name: "<:a_pyregear:1078062512630681640> | Support",
               value:
                 "Create this type of ticket if you need to access our support team.",
             },
             {
-              name: "<:application:967707003562647552> | Application",
+              name: "<:a_application:1078062510013427834> | Application",
               value:
                 "Create this type of ticket if you want to apply for a position at Pyreworks.",
             }
