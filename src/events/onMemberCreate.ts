@@ -2,6 +2,7 @@ import { GuildMember, MessageEmbed } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { sendLogMessage } from "../utils/sendLogMessage";
 import { colors } from "../config/colors";
+import { sendJoinLeaveMessage } from "../utils/sendJoinLeaveMessage";
 
 export const onMemberCreate = async (member: GuildMember): Promise<void> => {
   const roles: string[] = [
@@ -14,6 +15,15 @@ export const onMemberCreate = async (member: GuildMember): Promise<void> => {
     "841331860293550120",
   ];
   await member.roles.add(roles);
+
+  const publicJoinEmbed = new MessageEmbed()
+    .setColor(colors.success)
+    .setTitle(`New Member!`)
+    .setDescription(`Welcome to Pyreworks, ${member.user}!`)
+    .addField("Member Count", `\`\`\`${member.guild.memberCount}\`\`\``, false)
+    .setThumbnail(member.user.displayAvatarURL())
+    .setTimestamp()
+    .setFooter(`© Pyreworks`, member.client.user?.displayAvatarURL());
 
   const joinEmbed = new MessageEmbed()
     .setColor(colors.success)
@@ -59,4 +69,5 @@ export const onMemberCreate = async (member: GuildMember): Promise<void> => {
     `event | ${member.user.tag} has joined the server. Automatically granted the Community role.`
   );
   await sendLogMessage(member.client, joinEmbed);
+  await sendJoinLeaveMessage(member.client, publicJoinEmbed); // unlike the leave event, this worked pretty smooth with the existing function.
 };

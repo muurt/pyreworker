@@ -11,6 +11,7 @@ import { ticketsetup } from "./tickets/ticketsetup";
 import { createCode } from "./partner/createCode";
 import { viewCode } from "./partner/viewCode";
 import { selectrole } from "./selectroles/selectrole";
+import { review } from "./review/review";
 
 // * Command list to be deployed.
 // TODO: Find a more efficient way to do this, perhaps directory looping.
@@ -28,4 +29,5 @@ export const commandList: commandInt[] = [
   createCode,
   viewCode,
   selectrole,
+  review, // sam was here :)
 ];

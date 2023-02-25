@@ -6,7 +6,7 @@ import { onInteraction } from "./events/onInteraction";
 import { intentOptions } from "./config/intentOptions";
 import { onMessageCreate } from "./events/onMessageCreate";
 import { onMemberCreate } from "./events/onMemberCreate";
-import { onMemberRemove } from "./events/onMemberRemove";
+import { onMemberLeave, onMemberRemove } from "./events/onMemberRemove";
 import { onMemberUpdate } from "./events/onMemberUpdate";
 import { onChannelCreate } from "./events/onChannelCreate";
 import { onChannelDelete } from "./events/onChannelDelete";
@@ -44,6 +44,7 @@ const main = async () => {
   // * Guild events.
   client.on("guildMemberAdd", onMemberCreate);
   client.on("guildMemberRemove", onMemberRemove);
+  client.on("guildMemberRemove", onMemberLeave); // for public logs.
   client.on("guildMemberUpdate", onMemberUpdate);
   client.on("guildBanAdd", onGuildBanAdd);
   client.on("guildBanRemove", onGuildBanRemove);

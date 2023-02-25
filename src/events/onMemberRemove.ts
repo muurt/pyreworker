@@ -2,6 +2,8 @@ import { GuildMember, MessageEmbed, PartialGuildMember } from "discord.js";
 import { logHandler } from "../utils/logHandler";
 import { colors } from "../config/colors";
 import { sendLogMessage } from "../utils/sendLogMessage";
+import { sendJoinLeaveMessage } from "../utils/sendJoinLeaveMessage";
+
 export const onMemberRemove = async (
   member: GuildMember | PartialGuildMember
 ): Promise<void> => {
@@ -20,6 +22,7 @@ export const onMemberRemove = async (
   const kickLog = fetchKick.entries.first();
   const kickExecutor = kickLog?.executor;
   const kickTarget = kickLog?.target;
+
   const leaveEmbed = new MessageEmbed()
     .setColor(colors.success)
     .setTitle("Member Left")
@@ -100,3 +103,22 @@ export const onMemberRemove = async (
     }
   }, 1599); // arbitrary timeout value to wait for the auditlog to update in case discord is lagging.
 };
+
+export const onMemberLeave = async (
+  member: GuildMember | PartialGuildMember
+): Promise<void> => {
+  if (member.user.bot) {
+    return;
+  }
+  const publicLeaveEmbed = new MessageEmbed()
+    .setColor(colors.success)
+    .setTitle(`Member left.`)
+    .setDescription(`${member.user} may have left or been moderated.`)
+    .addField("Member Count", `\`\`\`${member.guild.memberCount}\`\`\``, false)
+    .setThumbnail(member.user.displayAvatarURL())
+    .setTimestamp()
+    .setFooter(`© Pyreworks`, member.client.user?.displayAvatarURL());
+
+  await sendJoinLeaveMessage(member.client, publicLeaveEmbed);
+};
+// second function to handle the join/leave log message. tried making it work inside the other function above but it didn't work.
