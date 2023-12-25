@@ -2,8 +2,6 @@
 
 **Pyreworks** center bot, running the Auto-Mod, handling tickets and even more.
 
-- This version is private, however; code snippets will be modified to be used in future commissions, this is only allowed for "**Pyreworks**" employees.
-
 # Dependencies
 
 This bot uses **MongoDB** and **Prisma** for the database functions.  
@@ -55,13 +53,3 @@ When committing changes mention the simplified form of what you've done in the c
 # Comments
 
 To get a better view of comments, please use "**[Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)**".
-
-# Links
-
-➞ [Official Discord](https://discord.gg/RuzEMyjRuR)
-
-➞ [PyreMusic](https://github.com/bigblackfootman/pyremusic)
-
-➞ [PyreBranding](https://github.com/bigblackfootman/pyreworks-branding)
-
-**Pyreworks**
